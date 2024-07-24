@@ -1,0 +1,33 @@
+class Solution {
+public:
+    //using sorting approach
+    int findDuplicate(vector<int>& nums) {
+    int n=nums.size();
+    int ans1=0;
+    sort(nums.begin(),nums.end());
+    for(int i=1;i<n;i++)
+    {
+        if(nums[i]==nums[i-1])
+        {
+            ans1=nums[i];
+            break;
+        }
+    }
+     
+    return ans1;
+}
+        
+    
+};
+class Solution {
+public:
+    //using positioning method
+    int findDuplicate(vector<int>& nums) {
+        
+        while(nums[0]!=nums[nums[0]])
+        {
+            swap(nums[0],nums[nums[0]]);
+        }
+        return nums[0];
+    }
+};

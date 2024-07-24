@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        
+        //using map
+    //     unordered_map<int,int>table;
+    //     for(int i=0;i<nums.size();i++)
+    //     {
+    //         int num=nums[i];
+    //         table[num]=table[num]+1;
+    //     }
+    //     int ans=-1;
+
+    //     unordered_map<int,int>::iterator it;
+    //     for(it=table.begin();it!=table.end();it++)
+    //     {
+    //         int key=it->first;
+    //         int value=it->second;
+    //         cout<<key<<" "<<value<<" "<<endl;
+    //         if(value==1)
+    //     {
+    //         ans= key;
+    //     }
+    //     }
+       
+    //    return ans;
+    // }
+    //using xor approach
+    int n=nums.size();
+    int ans=0;
+    for(int i=0;i<n;i++)
+    {
+      ans=ans^nums[i];
+    }
+    return ans;
+    }
+};

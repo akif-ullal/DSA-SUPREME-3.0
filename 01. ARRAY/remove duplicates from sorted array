@@ -1,0 +1,49 @@
+class Solution {
+public:
+   
+    //two pointer approach in notes
+
+    int removeDuplicates(vector<int>& nums) {
+
+        int i=1;
+        int j=0;
+        while(i<nums.size())
+        {
+            if(nums[i]==nums[j])
+            {
+                i++;
+            }else if(nums[i]!=nums[j])
+            {
+                j++;
+                nums[j]=nums[i];
+                i++;
+            }
+        }
+        return j+1;
+        
+    }
+};
+    //using set approach
+    int removeDuplicates(vector<int>& nums) {
+        // Create an unordered_set to store unique elements
+        unordered_set<int> unique_elements;
+        
+        // Iterate through the vector and insert elements into the set
+        for (int num : nums) {
+            unique_elements.insert(num);
+        }
+        
+        // Clear the original vector and push the unique elements into it
+        nums.clear();
+        for (int num : unique_elements) {
+            nums.push_back(num);
+        }
+        
+        // Sort the vector to maintain the original sorted order of unique elements
+        sort(nums.begin(), nums.end());
+        
+        // Return the size of the new vector
+        return nums.size();
+    }
+};
+

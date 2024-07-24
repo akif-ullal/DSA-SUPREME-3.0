@@ -1,0 +1,27 @@
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        vector<int> temp(nums.size());
+
+        for(int i=0;i<nums.size();i++)
+        {
+            temp[(i+k)%nums.size()]=nums[i];
+        }
+        nums=temp;
+    }
+};
+
+//we can also solve with stl
+class Solution {
+public:
+    void rotate(std::vector<int>& nums, int k) {
+        int n = nums.size();
+        k = k % n;  // Handle cases where k is greater than n
+        
+        // If k is 0, no need to rotate
+        if (k == 0) return;
+
+        // Rotate the vector to the right by k positions
+        std::rotate(nums.begin(), nums.begin() + n - k, nums.end());
+    }
+};
