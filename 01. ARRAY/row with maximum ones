@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<int> rowAndMaximumOnes(vector<vector<int>>& mat) {
+    
+    int n=mat.size();
+    int m=mat[0].size();
+    int count=0;
+    int maxi=-1;
+    int g=-1;
+    vector<int>ans;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            count=count+mat[i][j];
+        }
+        if(count>maxi)
+        {
+            maxi=count;
+            int rowindex=i;
+            cout<<maxi<<endl;
+            g=max(g,rowindex); 
+             cout<<g; 
+        }
+        count=0;
+    }  
+     ans.push_back(g);
+     ans.push_back(maxi);
+        
+   return ans;
+    }
+};
