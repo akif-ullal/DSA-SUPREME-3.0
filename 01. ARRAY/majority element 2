@@ -1,0 +1,119 @@
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+
+        //using two pointer approach
+        // vector<int>ans;
+        // int n=nums.size();
+        // int count =0;
+        // for(int i=0;i<n;i++)
+        // {
+        //      count =0;
+            
+        //     if(ans.size()==0 || ans[0]!=nums[i])
+        //     {
+        //         for(int j=0;j<n;j++)
+        //         {
+        //             if(nums[i]==nums[j])
+        //             {
+        //                 count++;
+        //             }
+        //         }
+        //         if(count>n/3)
+        //         {
+        //             ans.push_back(nums[i]);
+        //         }
+                
+        //     }
+        //     if(ans.size()==2)
+        //         {
+        //             break;
+        //         }
+        // }
+
+        // return ans;
+
+    //using map approach
+    //    unordered_map<int,int> map;
+    //     int n=nums.size();
+    //     vector<int>ans;
+    //     int maxi=(n/3)+1;
+    //     for(int i=0;i<n;i++)
+    //     {
+    //         int num=nums[i];
+    //         map[num]=map[num]+1;
+    //         if(map[num]==maxi)
+    //         {
+    //             ans.push_back(num);
+    //         }
+            
+    //     }
+        //another way to find ans in map
+        // for(auto it:map)
+        // {
+        //     int key=it.first;
+        //     int value=it.second;
+        //     cout<<"key is: "<<key<<" "<<"value is: "<<value<<endl;
+        //     if(value>n/3)
+        //     {
+        //         ans.push_back(key);
+        //     }
+        // }
+
+
+       //using mooresvoting approach
+       int n=nums.size();
+       int count1=0;
+       int count2=0;
+       int ele1=0;
+       int ele2=-1;
+       for(int i=0;i<n;i++)
+       {
+        if(count1==0 && ele2!=nums[i])
+        {
+            count1=1;
+            ele1=nums[i];
+        }
+        else if(count2==0 && ele1!=nums[i])
+        {
+            count2=1;
+            ele2=nums[i];
+        }
+        else if(ele1==nums[i])
+        {
+            count1++;
+        }
+        else if(ele2==nums[i])
+        {
+            count2++;
+        }
+        else{
+            count1--;
+            count2--;
+        }
+       }
+       count1=0;
+       count2=0;
+       for(int i=0;i<n;i++)
+       {
+        if(nums[i]==ele1)
+        {
+            count1++;
+        }
+        if(nums[i]==ele2)
+        {
+            count2++;
+        }
+       }
+       vector<int>ans;
+       if(count1>n/3)
+       {
+        ans.push_back(ele1);
+       }
+       if(count2>n/3)
+       {
+        ans.push_back(ele2);
+       }
+       return ans;
+    }
+};
