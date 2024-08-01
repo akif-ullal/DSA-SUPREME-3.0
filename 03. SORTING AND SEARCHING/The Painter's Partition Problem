@@ -1,0 +1,51 @@
+bool possiblesolution(int arr[],int n,int m,long long int sol)
+    {
+        long long int timesum=0;
+        int count=1;
+       for(int i=0;i<n;i++)
+       {
+           if(arr[i]>sol)
+           {
+               return false;
+           }
+           if(timesum+arr[i]>sol)
+           {
+               count++;
+               
+               timesum=arr[i];
+               if(count>m)
+               {
+                   return false;
+               }
+           }
+           else 
+           {
+               timesum=timesum+arr[i];
+           }
+       }
+       return true;
+    }
+    long long minTime(int arr[], int n, int m)
+    {
+        // code here
+        // return minimum time
+       long long int s =0;
+        long long int e=accumulate(arr,arr+n,0LL);
+        long long int ans=-1;
+      
+        while(s<=e)
+        {
+            long long int mid=s+(e-s)/2;
+            if(possiblesolution(arr,n,m,mid))
+            {
+                ans=mid;
+                e=mid-1;
+            }
+            else{
+                s=mid+1;
+            }
+        }
+        return ans;
+        
+    }
+};
