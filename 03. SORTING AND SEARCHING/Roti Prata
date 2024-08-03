@@ -1,0 +1,77 @@
+#include <iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int possiblesolution(vector<int>cookrank,int np,int mid)
+{
+  int pcount=0;
+  for(int i=0;i<cookrank.size();i++)
+  {
+    int r=cookrank[i];
+    int j=1;
+    int timetaken=0;
+    while(true)
+    {
+      if(timetaken+j*r<=mid)
+      {
+        ++pcount;
+        timetaken+=j*r;
+        ++j;
+      }
+      else{
+        break;
+      }
+    }
+  }
+  if(pcount>=np)
+    {
+      return true;
+    }else{
+      return false;
+    }
+}
+
+int minimumtimetaken(vector<int>cookrank,int np)
+{
+  int s=0;
+  int heighestrank=*max_element(cookrank.begin(),cookrank.end());
+  int e=heighestrank*(np*(np+1))/2;
+  int ans=-1;
+  while(s<=e)
+  {
+    int mid=s+(e-s)/2;
+    if(possiblesolution(cookrank,np,mid))
+    {
+      ans=mid;
+      e=mid-1;
+    }
+    else{
+      s=mid+1;
+    }
+  }
+  return ans;
+}
+
+int main() {
+  int t;
+  cin>>t;
+  
+  while(t--)
+  {
+    int np,nr;
+    cin>>np;
+    cin>>nr;
+    vector<int>cookrank;
+    while(nr--)
+    {
+      int r;
+      cin>>r;
+     cookrank.push_back(r);
+    }
+     cout<<minimumtimetaken(cookrank,np)<<endl;
+  }
+ 
+  
+  return 0;
+}
