@@ -41,7 +41,7 @@ using namespace std;
 //     }
 //     return ans;
 // }
-
+//using binarysearch
 double sqrt(int x)
 {
     double s=0;
