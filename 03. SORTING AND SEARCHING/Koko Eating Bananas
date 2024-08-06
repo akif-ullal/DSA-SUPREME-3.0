@@ -1,0 +1,40 @@
+class Solution {
+public:
+bool possiblesolution(vector<int>& piles, int h,int k)
+{
+    long long int hourcount=0;
+   for(int i=0;i<piles.size();i++)
+   {
+        hourcount+=ceil(piles[i]/(double)k);
+   }
+   if(hourcount<=h)
+   {
+    return true;
+   }
+   return false;
+}
+    int minEatingSpeed(vector<int>& piles, int h) {
+      if(piles.size()>h)
+      {
+        return -1;
+      }
+      
+
+        int s=1;
+        int e=*max_element(piles.begin(),piles.end());
+        int ans=-1;
+        while(s<=e)
+        {
+            int mid=s+(e-s)/2;
+            if(possiblesolution(piles,h,mid))
+            {
+                ans=mid;
+                e=mid-1;
+            }
+            else{
+                s=mid+1;
+            }
+        }
+        return ans;
+    }
+};
