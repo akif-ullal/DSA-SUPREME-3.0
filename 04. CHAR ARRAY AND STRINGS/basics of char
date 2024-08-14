@@ -1,0 +1,112 @@
+#include <iostream>
+using namespace std;
+int findlength(char arr[],int n)
+{
+    int count=0;
+    for(int i=0;i<n;i++)
+    {
+        if(arr[i]=='\0')
+        {
+            break;
+        }
+        else{
+            count++;
+        }
+    }
+    return count;
+}
+// void replace(char arr[],int n)
+// {
+//     int m=findlength(arr,n);
+//     for(int i=0;i<m;i++)
+//     {
+//         if(arr[i]=='@')
+//         {
+//             arr[i]=' ';
+//         }
+//     }
+//     cout<<arr<<endl;
+// }
+
+// void uppertolower(char arr[],int n)
+// {
+//     int m=findlength(arr,n);
+//     char ch;
+//     for(int i=0;i<m;i++)
+//     {
+//         ch=arr[i];
+//         if(ch>='A' && ch<='Z')
+//         {
+//             ch=ch-'A'+'a';
+            
+//         }
+//         arr[i]=ch;
+
+//     }
+   
+// }
+
+// void reverse(char arr[],int n)
+// {
+//     int m=findlength(arr,n);
+//     for(int i=0,j=m-1;i<=j;i++,j--)
+//     {
+//         swap(arr[i],arr[j]);
+        
+//     }
+//     cout<<arr<<endl;
+// }
+
+bool palindrome(char arr[],int n)
+{
+    int m=findlength(arr,n);
+    int i=0;
+    int j=m-1;
+    while(i<=j)
+    {
+        if(arr[i]==arr[j])
+        {
+            i++;
+            j--;
+        }else{
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+//basics things
+// char arr[100];
+// cin>>arr;
+// cout<<arr[0]<<endl;
+// cout<<(int)arr[5]<<endl;//type casting
+
+//finding length
+//   char arr[100];
+//   //cin>>arr;
+//   cin.getline(arr,100,'\t');
+//   cout<<findlength(arr,100)<<endl;
+//   return 0;
+
+//replaceing @->" "
+// char arr[100];
+// cin>>arr;
+// replace(arr,100);
+
+//convert to uppercase
+// char arr[100];
+// cin>>arr;
+// uppertolower(arr,100);
+// cout<<arr<<endl;
+
+// reverse the charcter
+// char arr[100];
+// cin>>arr;
+// reverse(arr,100);
+
+char arr[100];
+cin>>arr;
+bool ans=palindrome(arr,100);
+cout<<ans<<endl;
+}
