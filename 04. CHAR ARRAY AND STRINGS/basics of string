@@ -1,0 +1,52 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+    string arr;
+    arr.push_back('a');
+    arr.push_back('k');
+    arr.push_back('i');
+    arr.push_back('f');
+   
+    //getline(cin,arr,'\t');
+    //cout<<arr.size()<<endl;
+    
+    //append
+    // string a1="hello";
+    // string a2="akif";
+    // string ans=a1+" "+a2;
+    // cout<<ans<<endl;
+
+    //iterator
+    // string::iterator it=arr.begin();
+    // while(it!=arr.end())
+    // {
+    //     cout<<*it<<endl;
+    //     it++;
+    // }
+   
+// find front and back
+//    cout<<arr.front()<<endl;
+//    cout<<arr.back()<<endl;
+
+//indexing in string
+// cout<<arr[0]<<endl;
+// cout<<arr.at(3)<<endl;
+
+//compare two string
+// string a1="hello";
+// string a2="hello";
+// int result=a1.compare(a2);
+// cout<<result<<endl;
+
+//find word in string
+// string akif=" my name is akif";
+// int ans=akif.find("myo");
+// cout<<ans<<endl;
+
+string akif="my name is akif";
+string ans=akif.substr(0,5);
+cout<<ans<<endl;
+
+
+}
