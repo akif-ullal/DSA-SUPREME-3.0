@@ -1,7 +1,7 @@
 class Solution {
 public:
 
-    int FindOddPalindrome(string s,int start,int end)
+    int FindPalindrome(string s,int start,int end)
     {
         int count=0;
         while(start>=0 && end<s.size() && s[start]==s[end])
@@ -18,9 +18,9 @@ public:
         {
             int i=center;
             int j=center;
-            int ansoddcount=FindOddPalindrome(s,i,j);
+            int ansoddcount=FindPalindrome(s,i,j);
         
-            int ansevencount=FindOddPalindrome(s,i,j+1);
+            int ansevencount=FindPalindrome(s,i,j+1);
             totalcount+=ansoddcount+ansevencount;
 
         }
