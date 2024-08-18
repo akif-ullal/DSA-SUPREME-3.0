@@ -1,0 +1,67 @@
+class Solution {
+public:
+//brute force
+// bool CheckLastTwoElementOfk_1IsSame(string ans,char &newchar,int k)
+// {
+//     int it=ans.size()-1;
+//     for(int i=0;i<k;i++)
+//     {
+//         if(newchar!=ans[it])
+//         return false;
+//         it--;
+//     }
+//     return true;
+// }
+//     string removeDuplicates(string s, int k) {
+//         string ans;
+//         for(int i=0;i<s.size();i++)
+//         {
+//          char &newchar=s[i];
+//         if(ans.size()<k-1)
+//         {
+//             ans.push_back(newchar);
+//         }
+//         else 
+//         {
+//             if(CheckLastTwoElementOfk_1IsSame(ans,newchar,k-1))
+//             {
+//             for(int j=0;j<k-1;j++)
+//             {
+//                 ans.pop_back();
+//             }
+//             }
+//              else{
+//                 ans.push_back(newchar);
+//             }
+       
+//             }
+//         }
+       
+//         return ans;
+//     }
+// };
+
+//using two pointers
+string removeDuplicates(string s, int k) {
+
+    int i=0;
+    int j=0;
+    vector<int>count(s.size());
+    while(j<s.size())
+    {
+        s[i]=s[j];
+        count[i]=1;
+        if(i>0 && s[i]==s[i-1])
+        {
+            count[i]=count[i]+count[i-1];
+        }
+        if(count[i]==k)
+        {
+            i=i-k;
+        }
+        i++,j++;
+    }
+
+return s.substr(0,i);
+    }
+ };
