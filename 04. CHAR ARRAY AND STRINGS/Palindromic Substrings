@@ -1,0 +1,33 @@
+class Solution {
+public:
+
+    int FindOddPalindrome(string s,int start,int end)
+    {
+        int count=0;
+        while(start>=0 && end<s.size() && s[start]==s[end])
+        {
+            count++;
+            start--;
+            end++;
+        }
+        return count;
+    }
+    int countSubstrings(string s) {
+        int totalcount=0;
+        for(int center=0;center<s.size();center++)
+        {
+            int i=center;
+            int j=center;
+            int ansoddcount=FindOddPalindrome(s,i,j);
+
+            i=center;
+            j=center+1;
+
+            int ansevencount=FindOddPalindrome(s,i,j);
+            totalcount+=ansoddcount+ansevencount;
+
+        }
+        return totalcount;
+    }
+
+};
