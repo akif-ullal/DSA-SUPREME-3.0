@@ -19,11 +19,8 @@ public:
             int i=center;
             int j=center;
             int ansoddcount=FindOddPalindrome(s,i,j);
-
-            i=center;
-            j=center+1;
-
-            int ansevencount=FindOddPalindrome(s,i,j);
+        
+            int ansevencount=FindOddPalindrome(s,i,j+1);
             totalcount+=ansoddcount+ansevencount;
 
         }
