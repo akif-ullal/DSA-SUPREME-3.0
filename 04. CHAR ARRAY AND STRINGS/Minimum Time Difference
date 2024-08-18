@@ -1,0 +1,29 @@
+class Solution {
+public:
+int convertToInteger(string &time)
+{
+    int hr=stoi(time.substr(0,2));
+    int min=stoi(time.substr(3,2));
+    return 60*hr+min;
+}
+    int findMinDifference(vector<string>& timePoints) {
+        vector<int>minimum;
+      
+      for(auto time:timePoints)
+      {
+        minimum.push_back(convertToInteger(time));
+      }
+      sort(minimum.begin(),minimum.end());
+      int ans=INT_MAX;
+      for(int i=1;i<minimum.size();i++)
+      {
+        ans=min(ans,minimum[i]-minimum[i-1]);
+      }
+      int lastdiff=minimum[0]+1440-minimum[minimum.size()-1];
+     
+      ans=min(ans,lastdiff);
+      
+    return ans;
+    }
+
+};
