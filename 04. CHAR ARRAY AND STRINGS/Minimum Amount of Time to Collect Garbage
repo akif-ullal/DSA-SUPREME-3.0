@@ -1,0 +1,72 @@
+class Solution {
+public:
+    int garbageCollection(vector<string>& garbage, vector<int>& travel) {
+        
+        int garbageP=0;
+        int lastPointP=0;
+
+        int garbageG=0;
+        int lastPointG=0;
+
+        int garbageM=0;
+        int lastPointM=0;
+
+        for(int i=0;i<garbage.size();i++)
+        {
+            string InsideVector=garbage[i];
+            for(int j=0;j<InsideVector.size();j++)
+            {
+                if(InsideVector[j]=='P')
+                {
+                garbageP++;
+                lastPointP=i;
+                }
+            }
+            for(int j=0;j<InsideVector.size();j++)
+            {
+                if(InsideVector[j]=='G')
+                {
+                garbageG++;
+                lastPointG=i;
+                }
+            }
+            for(int j=0;j<InsideVector.size();j++)
+            {
+                if(InsideVector[j]=='M')
+                {
+                garbageM++;
+                lastPointM=i;
+                }
+            }
+        }
+        cout<<" lastpoint of p value: "<<lastPointP<<endl;
+        int totalTimeP=0;
+        int totalTimeG=0;
+        int totalTimeM=0;
+        for(int i=0;i<lastPointP;i++)
+        {
+            totalTimeP=totalTimeP+travel[i];
+
+        }
+
+        for(int i=0;i<lastPointG;i++)
+        {
+            
+            totalTimeG=totalTimeG+travel[i];
+
+        }
+
+          for(int i=0;i<lastPointM;i++)
+        {
+            
+            totalTimeG=totalTimeG+travel[i];
+
+        }
+
+        int finalans=garbageP+totalTimeP+garbageG+totalTimeG+garbageM+totalTimeM;
+
+        
+       
+        return finalans;
+    }
+};
