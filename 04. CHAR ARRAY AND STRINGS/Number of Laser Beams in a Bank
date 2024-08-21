@@ -1,0 +1,39 @@
+class Solution {
+public:
+
+    int CalculateNumberOfOnes(string &rows)
+    {
+        int count=0;
+        for(auto c:rows)
+        {
+            count+=c-'0';
+            
+        }
+        cout<<count<<endl;
+        return count;
+    }
+    int numberOfBeams(vector<string>& bank) {
+        vector<int>devices;
+        for(auto rows:bank)
+        {
+            devices.push_back(CalculateNumberOfOnes(rows));
+        }
+        int beam=0;
+        for(int i=0;i<devices.size();i++)
+        {
+            int j=i+1;
+            while(j<devices.size())
+            {
+                beam=beam+devices[i]*devices[j];
+                if(devices[j]==0)
+                {
+                    j++;
+                }
+                else{
+                    break;
+                }
+            }
+        }
+        return beam;
+    }
+};
