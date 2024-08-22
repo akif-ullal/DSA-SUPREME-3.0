@@ -1,0 +1,50 @@
+class Solution {
+public:
+
+    void normalize(string &characters)
+    {
+        unordered_map<char,char>mapping;
+        char start='a';
+        int index=0;
+        while(index<characters.size())
+        {
+           if(mapping.find(characters[index])!=mapping.end())
+           {
+            index++;
+           }
+           else{
+            mapping[characters[index]]=start;
+            start++;
+            index++;
+           }
+        }
+        for(int i=0;i<characters.size();i++)
+        {
+            char NewCharacter=mapping[characters[i]];
+            characters[i]=NewCharacter;
+        }
+
+        // unordered_map<char,char>::iterator it;
+        // for(it=mapping.begin();it!=mapping.end();it++)
+        // {
+        //     char key=it->first;
+        //     char value=it->second;
+        //     cout<<key<<"-> "<<value<<endl;
+        // }
+        
+    }
+    vector<string> findAndReplacePattern(vector<string>& words, string pattern) {
+        normalize(pattern);
+        vector<string> ans;
+        for(int i=0;i<words.size();i++)
+        {
+            string currentword=words[i];
+            normalize(currentword);
+            if(currentword==pattern)
+            {
+                ans.push_back(words[i]);
+            }
+        }
+        return ans;
+    }
+};
