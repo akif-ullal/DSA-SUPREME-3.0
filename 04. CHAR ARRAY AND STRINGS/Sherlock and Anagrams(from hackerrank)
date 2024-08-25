@@ -1,0 +1,23 @@
+int sherlockAndAnagrams(string s) {
+    unordered_map<string,int>mpp;
+    string substr;
+    for(int i=0;i<s.size();i++)
+    {
+        for(int j=i;j<s.size();j++)
+        {
+             substr=s.substr(i,j-i+1);
+             sort(substr.begin(),substr.end());
+             mpp[substr]++;
+             
+        }
+        
+    }
+    int anagram_count=0;
+    for(auto each:mpp)
+    {
+        int count=each.second;
+        anagram_count+=(count*(count-1))/2;
+    }
+    return anagram_count;
+
+}
