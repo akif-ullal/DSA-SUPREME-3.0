@@ -1,0 +1,70 @@
+class Solution {
+public:
+    vector<string> fullJustify(vector<string>& words, int maxWidth) {
+        vector<string>currentWord;
+        int n=words.size();
+        int currentchar=0;
+        
+        vector<string>finalans;
+        for(int i=0;i<n;i++)
+        {
+            string currentstring=words[i];
+            int currentspace=currentWord.size();
+
+            if(currentchar+currentspace+currentstring.size()>maxWidth)
+            {
+                int extraspace=maxWidth-currentchar;
+                int spaceInBetween=extraspace/max(1,int(currentWord.size()-1));
+                int remainder=extraspace%max(1,int(currentWord.size()-1));
+                for(int j=0;j<currentWord.size()-1;j++)
+                {
+                    for(int k=0;k<spaceInBetween;k++)
+                    {
+                       currentWord[j]+=" "; 
+                    }
+
+                    if(remainder>0)
+                    {
+                        currentWord[j]+=" ";
+                        remainder--;
+                    }
+                }
+                
+                if(currentWord.size()==1)
+                {
+                    while(extraspace--)
+                    {
+                        currentWord[0]+=" ";
+                    }
+                }
+                string combinedstring;
+                for(string each:currentWord)
+                {
+                 combinedstring+=each;
+                }
+                finalans.push_back(combinedstring);
+               
+                currentWord.clear();
+                currentchar=0;
+            }
+            currentWord.push_back(currentstring);
+            currentchar = currentchar +currentstring.size();
+             
+        }
+                string newstring;
+                for(auto e:currentWord)
+                {
+                newstring+=e+" ";
+                }
+                newstring.pop_back();
+                int theExtraSpace=maxWidth-newstring.size();
+                while(theExtraSpace--)
+                {
+                    newstring+=" ";
+                }
+                finalans.push_back(newstring);
+            
+       
+        return finalans;
+    }
+};
