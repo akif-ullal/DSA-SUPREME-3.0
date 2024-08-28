@@ -1,0 +1,30 @@
+class Solution {
+public:
+    string reverseOnlyLetters(string s) {
+        int n=s.size();
+        int start=0;
+        int end=n-1;
+       while(start<end)
+        {
+            char ch=s[start];
+            char ch2=s[end];
+            if( ((ch>='a' && ch<='z')  || (ch>='A' && ch<='Z')) && ((ch2>='a' && ch2<='z')  || (ch2>='A' && ch2<='Z')))
+            {
+                
+                swap(s[start],s[end]);
+                start++;
+                end--;
+            }    
+                else if(!((ch2>='a' && ch2<='z')  || (ch2>='A' && ch2<='Z')))
+                {
+                    end--;
+                }
+                
+            else{
+                start++;
+                
+            }
+        }
+        return s;
+    }
+};
