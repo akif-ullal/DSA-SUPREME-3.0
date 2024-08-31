@@ -1,0 +1,47 @@
+class Solution {
+public:
+    std::array<int,256> Hash(string &str)
+    {
+        std::array<int,256>hash={0};
+        for(int i=0;i<str.size();i++)
+        {
+            hash[str[i]]++;
+        }
+        return hash;
+    }
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+
+        map<std::array<int,256>,vector<string>>mpp;
+        vector<vector<string>>ans;
+        for(auto str :strs)
+        {
+            mpp[Hash(str)].push_back(str);
+        }
+
+        for(auto it=mpp.begin();it!=mpp.end();it++)
+        {
+            ans.push_back(it->second);
+        }
+        return ans;
+        
+    }
+};
+
+//using map
+//         unordered_map<string,vector<string>>mpp;
+//         vector<vector<string>>ans;
+//         for(auto str :strs)
+//         {
+//             string s=str;
+//             sort(s.begin(),s.end());
+//             mpp[s].push_back(str);
+//         }
+
+//         for(auto it=mpp.begin();it!=mpp.end();it++)
+//         {
+//             ans.push_back(it->second);
+//         }
+//         return ans;
+        
+//     }
+// };
