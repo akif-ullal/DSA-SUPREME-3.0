@@ -1,5 +1,6 @@
 class Solution {
 public:
+    //using hash approach
     std::array<int,256> Hash(string &str)
     {
         std::array<int,256>hash={0};
