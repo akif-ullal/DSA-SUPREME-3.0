@@ -1,0 +1,68 @@
+class Solution{
+public:
+
+    vector<bool> normalsieve(int n)
+    {
+      vector<bool>sieve(n,true);
+      sieve[0]=sieve[1]=false;
+    
+      for(int i=2;i*i<=n;i++)
+      {
+        int j=i*i;
+        while(j<=n)
+        {
+          sieve[j]=false;
+          j+=i;
+        }
+      }
+     return sieve;
+    }
+    long long primeProduct(long long L, long long R){
+        // code here
+         vector<bool> ans(R-L+1,true);
+         long long int mod=1e9+7;
+          if(L==0) ans[0]=ans[1]=false;
+          if(L==1) ans[0]=false;
+          vector<bool> sieve=normalsieve(sqrt(R));
+          vector<int>primes;
+         
+          vector<int> finalans;
+          long long productprime=1;
+    
+          for(int i=0;i<=sieve.size();i++)
+          {
+            if(sieve[i])
+            {
+              primes.push_back(i);
+            }
+          }
+        
+          for(auto prime:primes)
+          {
+             int first_num=(L/prime)*prime;
+            if(first_num < L)
+            {
+              first_num+=prime;
+            }
+             int j=max(first_num,prime*prime);
+            while(j <= R)
+            {
+               ans[j-L]=false;
+               j+=prime;
+            }
+          }
+          for(int i=0;i<ans.size();i++)
+          {
+              if(ans[i])
+              {
+                  finalans.push_back(i+L);
+              }
+          }
+          
+          for(auto i:finalans)
+          {
+            productprime=(productprime*i)%mod;  
+          }
+         return productprime;
+            }
+};
