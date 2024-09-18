@@ -1,0 +1,47 @@
+class Solution{
+public: 
+    long long int primeProduct(int n){
+        //code here
+        vector<bool> prime(n,true);
+    
+        if(n==0) return 0;
+    
+        prime[0]=prime[1]=false;
+    
+        vector<int>storePrime;
+        int ans=1;
+        for(int i=2;i*i<=n;i++)
+        {
+            if(prime[i])
+            {
+                int j=i*i;
+                while(j<=n)
+                {
+                    prime[j]=false;
+                    j+=i;
+                }
+            }
+        }
+       for(int i=0;i<=n;i++)
+       {
+           if(prime[i])
+           {
+               storePrime.push_back(i);
+           }
+       }
+      
+    
+      for(int i=0;i<storePrime.size();i++)
+      {
+          if(n%storePrime[i]==0)
+          {
+              ans*=storePrime[i];
+          }
+      }
+      
+   
+      
+      return ans;
+    }
+};
+
