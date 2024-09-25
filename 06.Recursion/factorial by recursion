@@ -1,1 +1,22 @@
+#include<iostream>
+using namespace std;
 
+int getfact(int n)
+{
+    if(n==0)
+    {
+        return 1;
+    }
+
+    int ans=n*getfact(n-1);
+    return ans;
+}
+
+int main()
+{
+    int n=5;
+    int ans=getfact(n);
+    cout<<ans<<endl;
+    return 0;
+
+}
