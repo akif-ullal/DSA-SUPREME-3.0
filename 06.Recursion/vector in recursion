@@ -1,0 +1,30 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+void printodd(int arr[],int n,int index,vector<int> &ans)
+{
+    if(index>=n)
+    {
+        return;
+    }
+    
+    if((arr[index]&1)==0)
+    {
+        ans.push_back(arr[index]);
+    }
+    printodd(arr,n,index+1,ans);
+    
+}
+int main()
+{
+    int arr[]={10,21,31,4,5};
+    int size=5;
+    int index=0;
+    vector<int>ans;
+    printodd(arr,size,index,ans);
+    for(auto i:ans)
+    {
+        cout<<i<<" ";
+    }
+    
+}
