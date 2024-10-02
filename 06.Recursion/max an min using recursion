@@ -1,0 +1,22 @@
+#include<iostream>
+#include<climits>
+using namespace std;
+int findmax(int arr[],int n,int index,int  ans)
+{
+    if(index>=n)
+    {
+        return ans;
+    }
+    ans=min(ans,arr[index]);
+    int finalans=findmax(arr,n,index+1,ans);
+    return finalans;
+}
+int main()
+{
+    int arr[]={100,20,30,56,5,18};
+    int size=6;
+    int index=0;
+    int ans=INT_MAX;
+    int finalans=findmax(arr,size,index,ans);
+    cout<<finalans<<endl;
+}
