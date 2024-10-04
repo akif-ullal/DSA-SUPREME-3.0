@@ -1,0 +1,33 @@
+#include <iostream>
+using namespace std;
+
+bool checkSorted(int arr[],int n,int index)
+{
+  if(n==index)
+  {
+    return true;
+  }
+  bool firstans=false;
+  bool sorted=false;
+  if(arr[index+1]>arr[index])
+  {
+   firstans = true;
+  }
+   sorted=checkSorted(arr,n,index+1);
+
+  //  if(sorted && firstans)
+  //  {
+  //     return true;
+  //  }
+  //  return false;
+  return (sorted && firstans);
+
+}
+int main() {
+  int arr[]={10,20,30,40,50};
+  int size=5;
+  int index=0;
+  bool ans = checkSorted(arr,size,index);
+  cout<<ans<<endl;
+  return 0;
+}
