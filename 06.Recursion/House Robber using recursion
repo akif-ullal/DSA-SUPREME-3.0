@@ -1,0 +1,20 @@
+class Solution {
+public:
+
+    int MaxAmount(vector<int>& nums,int i)
+    {
+      if(i>=nums.size())
+      {
+        return 0;
+      }
+      int include=nums[i]+MaxAmount(nums,i+2);
+      int exclude=0+MaxAmount(nums,i+1);
+      int finalans=max(include,exclude);
+      return finalans;
+    }
+    int rob(vector<int>& nums) {
+        int index=0;
+        int ans=MaxAmount(nums,index);
+        return ans;
+    }
+};
