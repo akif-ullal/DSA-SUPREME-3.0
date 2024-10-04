@@ -1,0 +1,40 @@
+class Solution {
+public:
+
+    int MinCoinRequried(vector<int>& coins, int amount)
+    {
+        if(amount==0)
+        {
+            return 0;
+        }
+        int totalcoins=INT_MAX;
+        for(int i=0;i<coins.size();i++)
+        {
+            int coin=coins[i];
+
+            int recursionAns=0;
+            if(amount>=coin)
+            {
+             recursionAns=MinCoinRequried(coins,amount-coin);
+
+            
+            if(recursionAns!=INT_MAX)
+            {
+                int ans=1+recursionAns;
+                totalcoins=min(ans,totalcoins);
+            }
+            }
+
+        }
+        return totalcoins;
+    }
+    int coinChange(vector<int>& coins, int amount) {
+       
+        int ans=MinCoinRequried(coins,amount);
+        if(ans==INT_MAX)
+        {
+            return -1;
+        }
+        return ans;
+    }
+};
