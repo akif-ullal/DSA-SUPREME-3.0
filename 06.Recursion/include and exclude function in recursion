@@ -1,0 +1,23 @@
+#include <iostream>
+using namespace std;
+
+void printsubsequences(string input,string output,int i)
+{
+  if(i==input.size())
+  {
+    cout<<output<<endl;
+    return;
+  }
+  char ch=input[i];
+  //include function
+  printsubsequences(input,output+ch,i+1);
+  //exclude function
+  printsubsequences(input,output,i+1);
+}
+int main() {
+  string input="abc";
+  string output=" ";
+  int index=0;
+  printsubsequences(input,output,index);
+  return 0;
+}
