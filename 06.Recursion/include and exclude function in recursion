@@ -1,3 +1,4 @@
+//print subsequences using recursion
 #include <iostream>
 using namespace std;
 
@@ -19,5 +20,36 @@ int main() {
   string output=" ";
   int index=0;
   printsubsequences(input,output,index);
+  return 0;
+}
+
+//print subsequences using iterative way
+#include <iostream>
+#include<math.h>
+using namespace std;
+
+int main() {
+  string sub="abc";
+  int n = sub.size(); 
+  int totalcount =pow(2,n);
+  for(int i=0;i<totalcount;i++)
+  {
+    bool emptySpace=false;
+    for(int j=0;j<n;j++)
+    {
+      int power=pow(2,j);
+      if(i&(power))
+      {
+        cout<<sub[j];
+        emptySpace=true;
+      }
+    }
+
+    if(!emptySpace)
+      {
+        cout<<" ";
+      }
+    cout<<endl;
+  }
   return 0;
 }
