@@ -1,0 +1,26 @@
+class Solution {
+public:
+
+    int minTriangles(vector<int>& values,int s,int e)
+    {
+        if(s+1==e)
+        {
+            return 0;
+        }
+        int ans=INT_MAX;
+
+        for(int k=s+1;k<e;k++)
+        {
+            int value=(values[s])*(values[e])*(values[k])+minTriangles(values,s,k)+minTriangles(values,k,e);
+            ans=min(ans,value);
+        }
+        return ans;
+    }
+    int minScoreTriangulation(vector<int>& values) {
+        int n=values.size();
+        int s=0;
+        int e=n-1;
+        int ans = minTriangles(values,s,e);
+        return ans;
+    }
+};
