@@ -1,0 +1,38 @@
+#include <bits/stdc++.h> 
+int maxValue(vector<int> &weight, vector<int> &value,int W,int i)
+{
+	
+	if(i==0)
+	{
+		if(weight[0]<=W)
+	    {
+
+		return value[0];
+
+        } 
+		else
+		{
+          return 0;
+        }
+    }
+	int exclude=0+maxValue(weight,value,W,i-1);
+	int include=INT_MIN;
+        if(W>=weight[i])
+	{
+		include=value[i]+maxValue(weight,value,W-weight[i],i-1);
+
+	}
+	include=max(exclude,include);
+	return include;
+}
+int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) 
+{
+	// Write your code here
+	int i=n;;
+	int ans=maxValue(weight,value,maxWeight,i);
+	if(ans==INT_MIN)
+	{
+		return 0;
+	}
+	return ans;
+}
