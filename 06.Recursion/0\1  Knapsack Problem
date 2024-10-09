@@ -29,7 +29,7 @@ int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight)
 {
 	// Write your code here
 	int i=n;;
-	int ans=maxValue(weight,value,maxWeight,i);
+	int ans=maxValue(weight,value,maxWeight,i-1);
 	if(ans==INT_MIN)
 	{
 		return 0;
