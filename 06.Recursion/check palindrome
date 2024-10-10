@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+bool getPalindrome(string arr,int i,int j)
+{
+  if(i>j)
+  {
+    return 1;
+  }
+  bool ans=false;
+  bool RE=false;
+  if(arr[i]==arr[j])
+  {
+     ans=true;
+  }
+  RE=getPalindrome(arr,i+1,j-1);
+  if(ans & RE)
+  {
+    return 1;
+  }
+  return 0;
+}
+int main() {
+  string arr="racecar";
+  int i=0;
+  int j=arr.size()-1;
+  bool ans = getPalindrome(arr,i,j);
+  cout<<ans<<endl;
+  return 0;
+}
