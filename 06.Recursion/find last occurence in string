@@ -1,0 +1,27 @@
+#include <iostream>
+using namespace std;
+void lastchar(string &arr,char target,int i,int &ans)
+{
+  if(i>=arr.size())
+  {
+    return ;
+  }
+
+  
+  if(arr[i]==target)
+  {
+     ans=i;
+  }
+ 
+  lastchar(arr,target,i+1,ans);
+}
+int main() {
+  string arr="abcddedg";
+  char target='d';
+  int i=0;
+  int ans=-1;
+  
+  lastchar(arr,target,i,ans);
+  cout<<ans<<endl;
+  return 0;
+}
