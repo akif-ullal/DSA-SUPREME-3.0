@@ -1,0 +1,21 @@
+#include <iostream>
+using namespace std;
+
+void reverse(string &arr,int i,int j)
+{
+  if(i>j)
+  {
+    return;
+  }
+  swap(arr[i],arr[j]);
+  reverse(arr,i+1,j-1);
+}
+int main() {
+  string arr="abcd";
+  int n=arr.size();
+  int i=0;
+  int j=n-1;
+  reverse(arr,i,j);
+  cout<<arr<<endl;
+  return 0;
+}
