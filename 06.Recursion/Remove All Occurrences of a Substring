@@ -1,0 +1,33 @@
+class Solution {
+public:
+
+    void REapproach(string &s,string &part)
+    {
+        int pos = s.find(part);
+        if (pos == string::npos) {
+            return; 
+        }
+
+        //s.erase(s.find(part),part.size());
+        //this or above solution also works
+        if(pos != string::npos)
+        {
+            string left_part=s.substr(0,pos);
+            string right_pos=s.substr(pos+part.size(),s.size());
+            s=left_part+right_pos;
+        }
+        
+        REapproach(s,part);
+    }
+     string removeOccurrences(string s, string part) {
+        
+    //     while(s.find(part)!=string::npos)
+    //     {
+    //         s.erase(s.find(part),part.length());
+    //     }
+    //     return s;
+
+       REapproach(s,part);
+       return s;
+    }
+};
