@@ -1,0 +1,50 @@
+class Solution {
+public:
+    //recursive approach
+    void maxProfitFinder(vector<int>& prices,int &minProfit,int &maxProfit,int i)
+    {
+        if(i>=prices.size())
+        {
+            return;
+        }
+        if(prices[i]<minProfit)
+        {
+            minProfit=prices[i];
+        }
+        int todaysProfit=prices[i]-minProfit;
+
+        if(todaysProfit>maxProfit)
+        {
+            maxProfit=todaysProfit;
+        }
+        maxProfitFinder(prices,minProfit,maxProfit,i+1);
+    }
+    int maxProfit(vector<int>& prices) {
+        int minProfit=INT_MAX;
+        int maxProfit=INT_MIN;
+        int i=0;
+        maxProfitFinder(prices,minProfit,maxProfit,i);
+        return maxProfit;
+    }
+};
+//irterative approach
+  int maxProfit(vector<int>& prices) {
+        int minProfit=INT_MAX;
+        int maxProfit=INT_MIN;
+        int n=prices.size();
+        for(int i=0;i<n;i++)
+        {
+            if(prices[i]<minProfit)
+            {
+                minProfit=prices[i];
+            }
+            int todaysProfit=prices[i]-minProfit;
+
+            if(todaysProfit>maxProfit)
+            {
+                maxProfit=todaysProfit;
+            }
+        }
+        return maxProfit;
+    }
+};
