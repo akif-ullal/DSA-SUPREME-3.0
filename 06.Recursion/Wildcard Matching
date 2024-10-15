@@ -1,0 +1,46 @@
+class Solution {
+public:
+
+    bool isMatchFinder(string &s,string &p,int i,int j)
+    {
+        //base case
+        if(i==s.size() && j==p.size())
+        {
+            return true;
+        }
+        
+        if(i==s.size() && j<p.size())
+        {
+            while(i==s.size() && j<p.size())
+            {
+                if(p[j]=='*')
+                {
+                    j++;
+                }else{
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+
+        if(s[i]==p[j] || p[j]=='?')
+        {
+            return isMatchFinder(s,p,i+1,j+1);
+        }
+        if(p[j]=='*')
+        {
+            bool include = isMatchFinder(s,p,i,j+1);
+            bool exclude = isMatchFinder(s,p,i+1,j);
+            return include || exclude;
+        }
+        return false;
+        
+    }
+    bool isMatch(string s, string p) {
+        int i=0;
+        int j=0;
+        return isMatchFinder(s,p,i,j);
+    }
+};
