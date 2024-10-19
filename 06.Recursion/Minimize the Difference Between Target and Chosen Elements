@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int solve(vector<vector<int>>& mat, int target,int row,int sum)
+    {
+        if(row==mat.size())
+        {
+            return abs(target-sum);
+        }
+        int ans=INT_MAX;
+        int recAns=0;
+        for(int i=0;i<mat[row].size();i++)
+        {
+         recAns=solve(mat,target,row+1,sum+mat[row][i]);
+         ans=min(ans,recAns);
+        }
+        return ans;
+    }
+    int minimizeTheDifference(vector<vector<int>>& mat, int target) {
+     return solve(mat,target,0,0);
+    }
+};
