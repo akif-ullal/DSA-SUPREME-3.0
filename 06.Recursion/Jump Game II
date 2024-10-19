@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int solve(vector<int>& nums,int i,int step)
+    {
+        if(i==nums.size()-1) return step;
+        if(i>=nums.size()) return INT_MAX;
+        //if(nums[i]==0) return 0;
+        int ans = INT_MAX;
+
+        for(int j=1;j<=nums[i];j++)
+        {
+         int rec=solve(nums,i+j,step+1);
+         ans=min(ans,rec);
+        }
+        return ans;
+    }
+    int jump(vector<int>& nums) {
+        return solve(nums,0,0);
+        
+    }
+};
