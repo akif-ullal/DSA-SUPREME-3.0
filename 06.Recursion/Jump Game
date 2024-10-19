@@ -1,0 +1,19 @@
+class Solution {
+public:
+
+    bool solve(vector<int>& nums,int i)
+    {
+        if(i==nums.size()-1) return true;
+        if(i>=nums.size()) return false;
+        if(nums[i]==0) return false;
+        bool recAns=false;
+        for(int j=1;j<=nums[i];j++)
+        {
+         recAns= recAns||solve(nums,i+j);
+        }
+        return recAns;
+    }
+    bool canJump(vector<int>& nums) {
+        return solve(nums,0);
+    }
+};
