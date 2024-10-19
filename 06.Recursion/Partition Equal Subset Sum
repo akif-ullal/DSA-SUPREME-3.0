@@ -1,0 +1,23 @@
+class Solution {
+public:
+
+    bool solve(vector<int>& nums,int target,int i) 
+    {
+        if(target<0 || i>=nums.size()) return 0;
+        if(target==0) return 1;
+
+        int include=solve(nums,target-nums[i],i+1);
+        int exclude=solve(nums,target,i+1);
+        return include || exclude;
+    }
+    bool canPartition(vector<int>& nums) {
+        int sum=accumulate(nums.begin(),nums.end(),0);
+        if(sum%2 != 0)
+        {
+            return 0;
+        }
+        int target=sum/2;
+        bool ans=solve(nums,target,0);
+        return ans;
+    }
+};
