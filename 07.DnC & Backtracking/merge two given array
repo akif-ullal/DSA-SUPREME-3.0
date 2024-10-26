@@ -1,0 +1,40 @@
+#include <iostream>
+#include<vector>
+using namespace std;
+void merge(vector<int>&arr,vector<int>&brr,vector<int>&ans)
+{
+  int i=0;
+  int j=0;
+  while(i<arr.size() && j<brr.size())
+  {
+    if(arr[i]<brr[j])
+    {
+      ans.push_back(arr[i]);
+      i++;
+    }
+    else{
+      ans.push_back(brr[j]);
+      j++;
+    }
+  }
+  while(i<arr.size())
+  {
+    ans.push_back(arr[i]);
+    i++;
+  }
+  while(j<brr.size())
+  {
+    ans.push_back(brr[j]);
+    j++;
+  }
+}
+int main() {
+ vector<int>arr={10,30,50,70};
+ vector<int>brr={20,40,60,80,100};
+ vector<int>ans;
+ merge(arr,brr,ans);
+ for(auto i:ans)
+ {
+  cout<<i<<" ";
+ }
+}
