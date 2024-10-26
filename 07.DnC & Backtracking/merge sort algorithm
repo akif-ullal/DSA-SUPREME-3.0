@@ -1,0 +1,69 @@
+#include <iostream>
+#include<vector>
+using namespace std;
+void sortMerge(vector<int>& arr,int s,int e,int mid)
+{
+ vector<int>left(mid-s+1,0);
+ vector<int>right(e-mid,0);
+ int index=s;
+ for(int i=0;i<left.size();i++)
+ {
+  left[i]=arr[index];
+  index++;
+ }
+index=mid+1;
+ for(int i=0;i<right.size();i++)
+ {
+  right[i]=arr[index];
+  index++;
+ }
+int i=0;
+int j=0;
+int mainindex=s;
+ while(i<left.size() && j<right.size())
+ {
+  if(left[i]>right[j])
+  {
+    arr[mainindex]=right[j];
+    j++;
+    mainindex++;
+  }
+  else{
+    arr[mainindex]=left[i];
+    i++;
+    mainindex++;
+  }
+ }
+ while(i<left.size())
+ {
+  arr[mainindex]=left[i];
+  i++;
+ }
+ while(j<right.size())
+ {
+  arr[mainindex]=right[j];
+  j++;
+ }
+}
+void merge(vector<int>&arr,int s,int e)
+{
+  if(s>=e)
+  {
+    return;
+  }
+  int mid=(s+e)/2;
+  merge(arr,s,mid);
+  merge(arr,mid+1,e);
+  sortMerge(arr,s,e,mid);
+}
+int main() {
+  vector<int>arr={10,40,30,50,20};
+  int s=0;
+  int e=arr.size()-1;
+  merge(arr,s,e);
+  for(auto i:arr)
+  {
+    cout<<i<<" ";
+  }
+  return 0;
+}
