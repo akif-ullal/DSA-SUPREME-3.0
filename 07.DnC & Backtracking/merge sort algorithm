@@ -38,11 +38,13 @@ int mainindex=s;
  {
   arr[mainindex]=left[i];
   i++;
+  mainindex++;
  }
  while(j<right.size())
  {
   arr[mainindex]=right[j];
   j++;
+  mainindex++;
  }
 }
 void merge(vector<int>&arr,int s,int e)
