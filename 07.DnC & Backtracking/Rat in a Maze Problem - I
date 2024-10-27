@@ -1,0 +1,84 @@
+class Solution {
+  public:
+  
+    bool isSafe(int newX,int newY,vector<vector<int>> &mat,vector<vector<bool>>&flag,int n,int destX,int destY)
+    {
+        if(newX<0 || newY<0 || newX >= n || newY >= n)
+        {
+            return false;
+        }
+        
+        if(flag[newX][newY]==true)
+        {
+            return false;
+        }
+        if(mat[newX][newY]==0)
+        {
+            return false;
+        }
+        return true;
+    }
+  
+    void solve(vector<vector<int>> &mat,int n,vector<vector<bool>>&flag,int sX,int sY,int destX,int destY,vector<string>&ans,string output)
+    {
+        if(sX==destX && sY==destY)
+        {
+            ans.push_back(output);
+            return;
+        }
+        int newX=sX-1;
+        int newY=sY;
+        if(isSafe(newX,newY,mat,flag,n,destX,destY))
+        {
+            flag[newX][newY]=true;
+            solve(mat,n,flag,newX,newY,destX,destY,ans,output+"U");
+            flag[newX][newY]=false;
+        }
+        
+        
+        newX=sX+1;
+        newY=sY;
+        if(isSafe(newX,newY,mat,flag,n,destX,destY))
+        {
+            flag[newX][newY]=true;
+            solve(mat,n,flag,newX,newY,destX,destY,ans,output+"D");
+            flag[newX][newY]=false;
+        }
+        
+        newX=sX;
+        newY=sY-1;
+        if(isSafe(newX,newY,mat,flag,n,destX,destY))
+        {
+            flag[newX][newY]=true;
+            solve(mat,n,flag,newX,newY,destX,destY,ans,output+"L");
+            flag[newX][newY]=false;
+        }
+        
+        newX=sX;
+        newY=sY+1;
+        if(isSafe(newX,newY,mat,flag,n,destX,destY))
+        {
+            flag[newX][newY]=true;
+            solve(mat,n,flag,newX,newY,destX,destY,ans,output+"R");
+            flag[newX][newY]=false;
+        }
+    }
+    vector<string> findPath(vector<vector<int>> &mat) {
+        // Your code goes here
+        int n=mat.size();
+        int sourceX=0;
+        int sourceY=0;
+        int destX=n-1;
+        int destY=n-1;
+        vector<string>ans;
+        vector<vector<bool>>flag(n,vector<bool>(n,0));
+        if(mat[0][0]==0)
+        {
+            return ans;
+        }
+        flag[0][0]=true;
+        string output="";
+        solve(mat,n,flag,sourceX,sourceY,destX,destY,ans,output);
+        return ans;
+    }
+};
