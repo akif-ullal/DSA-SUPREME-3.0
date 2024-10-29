@@ -1,0 +1,38 @@
+class Solution {
+public:
+
+    void solve(string digits,vector<string>&ans,unordered_map<char,string>mapp,int i,string output)
+    {
+        if(i>=digits.size())
+        {
+            if(output.size()>0)
+            ans.push_back(output);
+            return;
+        }
+
+        char digit=digits[i];
+        string mapping=mapp[digit];
+        for(auto num:mapping)
+        {
+            output.push_back(num);
+            solve(digits,ans,mapp,i+1,output);
+            output.pop_back();
+        }
+    }
+    vector<string> letterCombinations(string digits) {
+        unordered_map<char,string>mapp;
+        mapp['2']="abc";
+        mapp['3']="def";
+        mapp['4']="ghi";
+        mapp['5']="jkl"; 
+        mapp['6']="mno";
+        mapp['7']="pqrs"; 
+        mapp['8']="tuv";
+        mapp['9']="wxyz";   
+        vector<string>ans;
+        int i=0;
+        string output;
+        solve(digits,ans,mapp,i,output);
+        return ans;
+    }
+};
