@@ -20,15 +20,29 @@ public:
             }
         }
 
-         for(int k=0;k<n;k++)
+        //  for(int k=0;k<n;k++)
+        // {
+        //     if(board[3*(row/3)+k/3][3*(col/3)+k%3]==digit)
+        //     {
+        //         return false;
+        //     }
+        int startingRow=row-(row%3);
+        int startingCol=col-(col%3);
+
+        for(int i=0;i<3;i++)
         {
-            if(board[3*(row/3)+k/3][3*(col/3)+k%3]==digit)
+            for(int j=0;j<3;j++)
             {
-                return false;
+                int Translate_r=i+startingRow;
+                int TRanslate_c=j+startingCol;
+                if(board[Translate_r][TRanslate_c]==digit)
+                {
+                    return false;
+                }
             }
         }
-        return true;
-
+    return true;
+    
     }
     bool solve(vector<vector<char>>& board)
     {
