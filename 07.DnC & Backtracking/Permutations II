@@ -1,0 +1,41 @@
+class Solution {
+public:
+
+    void solve(vector<vector<int>>&ans,vector<int>& nums,int i)
+    {
+        if(i>=nums.size())
+        {
+            ans.push_back(nums);
+            return;
+        }
+        unordered_map<int,bool>mpp;
+        for( int j=i;j<nums.size();j++)
+        {
+            if(mpp.find(nums[j])!=mpp.end())
+            {
+                continue;
+            }
+            mpp[nums[j]]=true;
+            swap(nums[i],nums[j]);
+            solve(ans,nums,i+1);
+            swap(nums[i],nums[j]);
+        }
+
+    }
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        vector<vector<int>>ans;
+        //set<vector<int>>st;
+        int i=0;
+        solve(ans,nums,i);
+        // for(auto i:ans)
+        // {
+        //     st.insert(i);
+        // }
+        // ans.clear();
+        //  for(auto i:st)
+        // {
+        //     ans.push_back(i);
+        // }
+        return ans;
+    }
+};
