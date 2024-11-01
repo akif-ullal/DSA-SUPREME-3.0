@@ -1,0 +1,40 @@
+class Solution {
+public:
+    void gapAlgo(vector<int>& nums,int s,int e,int mid)
+    {
+        int total_count=e-s+1;
+        int gap=(total_count/2)+(total_count%2);
+
+        while(gap>0)
+        {
+            int i=s;
+            int j=i+gap;
+            while(j<=e)
+            {
+                if(nums[i]>nums[j])
+                {
+                    swap(nums[i],nums[j]);
+                }
+                ++i,++j;
+            }
+            gap= gap<=1 ? 0 : (gap/2)+(gap%2);
+        }
+    }
+    void mergeSort(vector<int>& nums,int s,int e)
+    {
+        if(s>=e)
+        {
+            return;
+        }
+        int mid=s+(e-s)/2;
+        mergeSort(nums,s,mid);
+        mergeSort(nums,mid+1,e);
+        gapAlgo(nums,s,e,mid);
+    }
+    vector<int> sortArray(vector<int>& nums) {
+        int s=0;
+        int e=nums.size()-1;
+        mergeSort(nums,s,e);
+        return nums;
+    }
+};
