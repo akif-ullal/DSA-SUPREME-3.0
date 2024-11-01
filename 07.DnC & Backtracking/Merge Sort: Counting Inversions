@@ -1,0 +1,70 @@
+long merge(vector<int> &arr,long s,long e,long mid)
+ {
+     vector<int>leftSide(mid-s+1,0);
+     vector<int>rightSide(e-mid,0);
+     int startIndex=s;
+     long c=0;
+     for(int i=0;i<leftSide.size();i++)
+     {
+         leftSide[i]=arr[startIndex];
+         startIndex++;
+     }
+      startIndex=mid+1;
+      for(int i=0;i<rightSide.size();i++)
+     {
+         rightSide[i]=arr[startIndex];
+         startIndex++;
+     }
+     int i=0;
+     int j=0;
+     int index=s;
+     while(i<leftSide.size() && j<rightSide.size())
+     {
+         if(leftSide[i]>rightSide[j])
+         {
+             arr[index]=rightSide[j];
+             index++;
+             j++;
+             c += mid-i-s+1;
+         }else{
+              arr[index]=leftSide[i];
+              index++;
+              i++;
+         }
+     }
+     while(i<leftSide.size())
+     {
+         arr[index]=leftSide[i];
+         index++;
+         i++;
+     }
+      while(j<rightSide.size())
+     {
+         arr[index]=rightSide[j];
+         index++;
+         j++;
+     }
+     cout<<"i is :"<<i<<" "<<"c is:"<<c<<endl;
+     return c;
+ }
+long mergeSort(vector<int> &arr,long s,long e)
+{
+    if(s>=e)
+    {
+        return 0;
+    }
+    long mid=s+(e-s)/2;
+    long c=0;
+    c+=mergeSort(arr,s,mid);
+    c+=mergeSort(arr,mid+1,e);
+    c+=merge(arr,s,e,mid);
+    return c;
+    
+}
+long countInversions(vector<int> arr) {
+ long start=0;
+ long end=arr.size()-1;
+ long c=0;
+ c=mergeSort(arr,start,end);
+ return c;
+}
