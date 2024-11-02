@@ -11,7 +11,7 @@ public:
         {
             if(v[i]==0 &&(i%index==0 || index%i==0))
             {
-                v[i]=1;
+                v[i]=index;
                 countArrangement_helper(v,ans,n,index+1);
                 v[i]=0;
             }
