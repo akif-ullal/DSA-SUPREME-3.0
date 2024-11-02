@@ -1,0 +1,37 @@
+class Solution {
+public:
+
+    int maxSubArray_helper(vector<int>& nums,int s,int e)
+    {
+        if(s==e)
+        {
+            return nums[s];
+        }
+        int leftMaxSubArray=0;
+        int rightSubArray=0;
+        int mid=s+(e-s)/2;
+        leftMaxSubArray=maxSubArray_helper(nums,s,mid);
+        rightSubArray=maxSubArray_helper(nums,mid+1,e);
+        int leftBoarderSum=INT_MIN;
+        int rightBoarderSum=INT_MIN;
+        int leftBoarderAns=0;
+        int rightBoarderAns=0;
+        for(int i=mid;i>=s;i--)
+        {
+           leftBoarderAns+=nums[i];
+           leftBoarderSum=max(leftBoarderSum,leftBoarderAns);
+        }
+        for(int i=mid+1;i<=e;i++)
+        {
+           rightBoarderAns+=nums[i];
+           rightBoarderSum=max(rightBoarderSum,rightBoarderAns);
+        }
+        int crossBoarder=leftBoarderSum+rightBoarderSum;
+        return max(leftMaxSubArray,max(crossBoarder,rightSubArray));
+
+    }
+    int maxSubArray(vector<int>& nums) {
+        
+        return maxSubArray_helper(nums,0,nums.size()-1);
+    }
+};
