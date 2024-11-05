@@ -50,3 +50,30 @@ public:
         return newSet.size();
     }
 };
+
+//optimal solu
+  int count=0;
+        void solve(string nums,int i)
+        {
+        count++;
+        unordered_map<char,bool>mpp;
+        for( int j=i;j<nums.size();j++)
+        {
+            if(mpp.find(nums[j])!=mpp.end())
+            {
+                continue;
+            }
+            mpp[nums[j]]=true;
+            swap(nums[i],nums[j]);
+            solve(nums,i+1);
+            swap(nums[i],nums[j]);
+        }
+
+    }
+    int numTilePossibilities(string tiles)
+    {
+       int i=0;
+       solve(tiles,i);
+       return count-1;
+    }
+    };
