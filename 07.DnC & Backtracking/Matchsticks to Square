@@ -1,0 +1,40 @@
+class Solution {
+public:
+
+    bool solve(vector<int>& matchsticks,vector<int>& sumsides,int i)
+    {
+        if(i==matchsticks.size())
+        {
+            return sumsides[0]==0 && sumsides[1]==0 && sumsides[2]==0 && sumsides[3]==0;
+        }
+        bool ans=false;
+        for(int j=0;j<sumsides.size();j++)
+        {
+            if(matchsticks[i]<=sumsides[j])
+            {
+                sumsides[j]-=matchsticks[i];
+                ans=ans||solve(matchsticks,sumsides,i+1);
+                if(ans==true) return true;
+                sumsides[j]+=matchsticks[i];
+            }
+        }
+        return ans;
+    }
+    bool makesquare(vector<int>& matchsticks) {
+        if(matchsticks.size()<4)
+        {
+            return false;
+        }
+        int sum=accumulate(matchsticks.begin(),matchsticks.end(),0);
+        if(sum%4!=0)
+        {
+            return false;
+        }
+
+        int sides=sum/4;
+        vector<int>sumSides(4,sides);
+        sort(matchsticks.rbegin(),matchsticks.rend());
+        return solve(matchsticks,sumSides,0);
+
+    }
+};
