@@ -1,0 +1,54 @@
+class Solution {
+public:
+    unordered_map<int,bool>rowPlaced;
+    unordered_map<int,bool>upPlaced;
+    unordered_map<int,bool>downPlaced;
+    bool isSafe(vector<vector<char>>&board,int row,int col)
+    {
+        if(rowPlaced[row]==true)
+        {
+            return false;
+        }
+        if(upPlaced[row+col]==true)
+        {
+            return false;
+        }
+        if(downPlaced[row-col]==true)
+        {
+            return false;
+        }
+        return true;
+    }
+    void solve(int &ans,vector<vector<char>>&board,int col,int n)
+    {
+        if(col>=n)
+        {
+            ans++;
+            return;
+        }
+
+        for(int row=0;row<n;row++)
+        {
+            if(isSafe(board,row,col))
+            {
+                board[row][col]='Q';
+                rowPlaced[row]=true;
+                upPlaced[row+col]=true;
+                downPlaced[row-col]=true;
+                solve(ans,board,col+1,n);
+                board[row][col]='.';
+                rowPlaced[row]=false;
+                upPlaced[row+col]=false;
+                downPlaced[row-col]=false;
+
+            }
+        }
+    }
+   int totalNQueens(int n) {
+        int ans=0;
+        vector<vector<char>>board(n,vector<char>(n,'.'));
+        int col=0;
+        solve(ans,board,col,n);
+        return ans;
+    }
+};
