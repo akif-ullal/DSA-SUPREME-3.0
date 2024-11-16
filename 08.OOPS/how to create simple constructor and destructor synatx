@@ -1,0 +1,41 @@
+#include <iostream>
+using namespace std;
+
+class student{
+  public:
+  //create cont
+  student()
+  {
+    cout<<"create constructor"<<endl;
+  }
+  //attribute
+  int rollno;
+  int nos;
+  string name;
+
+  //behaviour
+  void sleep()
+  {
+    cout<<this->name<<" "<<"student is sleeping"<<endl;
+  }
+
+  void study()
+  {
+    cout<<this->name<<"student is studying"<<endl;
+  }
+
+  ~student()
+  {
+    cout<<"deletd or destructed"<<endl;
+  }
+};
+int main() {
+  student A;
+
+  A.name="akif";
+  A.rollno=3;
+  A.nos=1;
+
+  A.study();
+  return 0;
+}
