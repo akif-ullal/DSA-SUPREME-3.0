@@ -1,0 +1,51 @@
+#include <iostream>
+using namespace std;
+
+class student{
+  public:
+  //create cont
+  student()
+  {
+    cout<<"create constructor"<<endl;
+  }
+  //attribute
+  int rollno;
+  int nos;
+  string name;
+
+ //parametrised constructor
+  student(int nos,int rollno,string name)
+  {
+    cout<<"parametrised cont"<<endl;
+    this->nos=nos;
+    this->rollno=rollno;
+    this->name=name;
+  }
+ //behaviour
+  void study()
+  {
+    cout<<this->name<<"  is studying"<<endl;
+    cout<<rollno<<endl;
+    
+  }
+
+  void sleep()
+  {
+    cout<<this->name<<"  is sleeping"<<endl;
+  }
+
+  ~student()
+  {
+    cout<<"deletd or destructed"<<endl;
+  }
+};
+int main() {
+   student A(1,3,"akif");
+   student B(2,4,"arif");
+   
+   cout<<A.name<<" "<<B.rollno<<endl;
+   A.study();
+   B.study();
+   
+  return 0;
+}
