@@ -1,0 +1,54 @@
+#include <iostream>
+using namespace std;
+
+class student{
+  public:
+  //create cont
+  student()
+  {
+    cout<<"create constructor"<<endl;
+  }
+  //attribute
+  int rollno;
+  int nos;
+  string name;
+  float *gpa;
+
+ //parametrised constructor
+  student(int nos,int rollno,string name,float gpa)
+  {
+    cout<<"parametrised cont"<<endl;
+    this->nos=nos;
+    this->rollno=rollno;
+    this->name=name;
+    this->gpa=new float(gpa);
+  }
+
+  
+ //behaviour
+  void study()
+  {
+    cout<<this->name<<"  is studying"<<endl;
+    cout<<rollno<<endl;
+    
+  }
+
+  void sleep()
+  {
+    cout<<this->name<<"  is sleeping"<<endl;
+  }
+
+  ~student()
+  {
+    cout<<"deletd or destructed"<<endl;
+    delete gpa;
+  }
+};
+int main() {
+   //dynamic merory allocation
+   student *A=new student(1,2,"akif",7.5);
+   cout<<A->name<<endl;
+   cout<<*(A->gpa)<<endl;
+   delete A;
+  return 0;
+}
