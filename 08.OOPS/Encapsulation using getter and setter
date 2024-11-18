@@ -1,0 +1,61 @@
+#include <iostream>
+using namespace std;
+class student{
+  private:
+  int age;
+  string gf;
+
+  private:
+  string name;
+  int nos;
+  int id;
+
+  public:
+  student(int id,int age,int nos,string name,string gf)
+  {
+    cout<<"the parameterized const"<<endl;
+    this->name=name;
+    this->id=id;
+    this->age=age;
+    this->nos=nos;
+    this->gf=gf;
+  }
+ 
+  void setage(int a)
+  {
+    this->age=a;
+  }
+
+  int getage() const
+  {
+    return this->age;
+  }
+  void sleep()
+  {
+    cout<<" student is sleeping"<<endl;
+  }
+
+  void study()
+  {
+    cout<<"stuent is studying"<<endl;
+  }
+
+  ~student()
+  {
+    cout<<" destructed"<<endl;
+  }
+
+  private:
+  void gfchatting()
+  {
+    cout<<"time to chat"<<endl;
+  }
+
+};
+int main() {
+  student A(1,23,6,"akif","single");
+  cout<<A.getage()<<endl;
+  A.setage(24);
+  cout<<A.getage()<<endl;
+  return 0;
+}
