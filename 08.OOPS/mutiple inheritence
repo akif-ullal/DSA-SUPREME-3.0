@@ -1,0 +1,72 @@
+#include <iostream>
+using namespace std;
+
+class employe{
+protected:
+string name;
+int empId;
+
+public:
+employe(int _empId,string _name)
+{
+  this->empId=_empId;
+  this->name=_name;
+}
+
+void display()
+{
+  cout<<name<<" is a emplye"<<endl;
+}
+
+};
+
+class projectManager{
+protected:
+  string projectManged;
+public:
+  projectManager(string _projectManged)
+  {
+    this->projectManged=_projectManged;
+  }
+  void manageProject()
+  {
+    cout<<"project managed is: "<<projectManged<<endl;
+  }
+};
+
+class TeamLead{
+protected:
+  int teamSize;
+
+public:
+  TeamLead(int _teamSize) 
+  {
+    this->teamSize=_teamSize;
+  }
+
+  void leadTeam()
+  {
+    cout<<"the size of team is: "<<teamSize<<endl;
+  }
+
+};
+
+class TechincalLead : public employe,public projectManager,TeamLead
+{
+  public:
+    TechincalLead(int _teamSize,string _projectManged,int _empId,string _name) : employe(_empId,_name),projectManager(_projectManged),TeamLead(_teamSize)
+    {
+
+    }
+    void displayInfo()
+    {
+      leadTeam();
+      manageProject();
+      display();
+    }
+};
+int main() {
+  TechincalLead A(5,"X",123,"akif");
+  A.displayInfo();
+  return 0;
+}
