@@ -51,7 +51,7 @@ public:
 
 };
 
-class TechincalLead : public employe,public projectManager,TeamLead
+class TechincalLead : public employe,public projectManager,public TeamLead
 {
   public:
     TechincalLead(int _teamSize,string _projectManged,int _empId,string _name) : employe(_empId,_name),projectManager(_projectManged),TeamLead(_teamSize)
