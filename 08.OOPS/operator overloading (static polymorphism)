@@ -1,0 +1,82 @@
+#include <iostream>
+using namespace std;
+class complex{
+
+  public:
+  int real;
+  int imag;
+
+  complex() : real(0), imag(0) {}
+
+  complex(int r,int i):real(r),imag(i){
+
+  }
+
+  complex operator+(const complex &B)
+  {
+    complex temp;
+    temp.real=this->real+B.real;
+    temp.imag=this->imag+B.imag;
+    return temp;
+  }
+
+  void print()
+  {
+    printf("[%d+ i%d]\n",this->real,this->imag);
+  }
+
+};
+int main() {
+  complex A(2,3);
+  A.print();
+
+  complex B(3,4);
+  B.print();
+
+  complex C=A+B;
+  C.print();
+  
+  return 0;
+}
+
+//== example
+#include <iostream>
+using namespace std;
+class complex{
+
+  public:
+  int real;
+  int imag;
+
+  complex() : real(0), imag(0) {}
+
+  complex(int r,int i):real(r),imag(i){
+
+  }
+
+  bool operator==(const complex &B)
+  {
+    complex temp;
+    temp.real=this->real+B.real;
+    temp.imag=this->imag+B.imag;
+    return (this->real==B.real) && (this->imag==B.imag);
+  }
+
+  void print()
+  {
+    printf("[%d+ i%d]\n",this->real,this->imag);
+  }
+
+};
+int main() {
+  complex A(3,4);
+  A.print();
+
+  complex B(3,4);
+  B.print();
+
+  bool C=A==B;
+  cout<<C<<endl;
+  
+  return 0;
+}
