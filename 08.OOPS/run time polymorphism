@@ -8,10 +8,10 @@ class shape {
   }
 };
 
-class circle : public shape
+class circle : public shape 
 {
   public:
-  void print()
+  void print() override
   {
     cout<<"circle shape"<<endl;
   }
