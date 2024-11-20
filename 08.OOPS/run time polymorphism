@@ -1,0 +1,42 @@
+#include <iostream>
+using namespace std;
+class shape {
+  public:
+   virtual void print() 
+  {
+    cout<<"generic shape.."<<endl;
+  }
+};
+
+class circle : public shape
+{
+  public:
+  void print()
+  {
+    cout<<"circle shape"<<endl;
+  }
+};
+
+void draw(shape*s)
+{
+  s->print();
+}
+
+int main() {
+  //upcasting
+  shape *A=new circle();
+  A->print();
+  
+  //downCsating
+  shape *b=new shape();
+  circle*c=(circle*)b;
+  c->print();
+
+//staic way
+  circle s1;
+  draw(&s1);
+//dynamic way  
+  circle *s3=new circle();
+  draw(s3);
+  return 0;
+}
