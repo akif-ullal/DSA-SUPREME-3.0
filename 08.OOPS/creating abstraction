@@ -1,0 +1,66 @@
+//cretaing interface or hearderfile
+#if !defined(BIRD_H)
+#define BIRD_H
+#include <bits/stdc++.h>
+using namespace std;
+
+class bird{
+    public:
+    virtual void eat() = 0;
+    virtual void fly() = 0;
+};
+
+class sparrow : public bird
+{
+    private:
+    void eat()
+    {
+        cout<<"spparow is eatting\n";
+    }
+
+    void fly()
+    {
+        cout<<"spparow is flying\n";
+    }
+};
+
+class eagle : public bird
+{
+    private:
+    void eat()
+    {
+        cout<<"Eagle is eatting\n";
+    }
+
+    void fly()
+    {
+        cout<<"Eagle is flying\n";
+    }
+};
+
+#endif
+
+//example to use the interface
+#include<iostream>
+#include "bird.h"
+using namespace std;
+void birdDoingSomething(bird *&B)
+{
+    B->eat();
+    B->fly();
+    B->eat();
+}
+int main()
+{
+    bird *B=new sparrow();
+    birdDoingSomething(B);
+
+    //we cannot acess bcz its private also we can only acess through bird name only
+    // sparrow *c=new spparow();
+    // c->eat();
+
+    //we cannot acess it  because the following virtual functions are pure within ‘bird’ 
+    // bird *d=new bird();
+    // d->eat();
+
+}
