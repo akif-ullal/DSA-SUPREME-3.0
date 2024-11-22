@@ -58,4 +58,29 @@ int main()
 
 }
 
+//static member
+#include<iostream>
+using namespace std;
+class abc{
+    public:
+     int x;
+     int y;
+
+    public:
+    static void print()
+    {
+       printf("this is static member%s\n", __FUNCTION__);
+    }
+};
+
+int main()
+{
+   abc obj1;
+   abc::print();
+   abc obj2;
+   abc::print();
+   abc::print();
+
+}
+
 
