@@ -1,0 +1,47 @@
+#include<iostream>
+using namespace std;
+
+int main()
+{
+    // const int x=10;
+    // cout<<x<<endl;
+    // x=5;
+    // cout<<x<<endl;
+
+    //const with pointer
+    //which gives error
+    // int const *a=new int (5);
+    // *a=10;
+    // cout<<*a<<endl;
+
+    //proper one
+    //  int const *a=new int (5); //const data and non const pointer
+    //  int b=10;
+    //  a=&b;
+    // cout<<*a<<endl;
+
+    //const pointer and data is non const
+    // int  * const a=new int (5);
+    // *a=10;
+    // cout<<*a<<endl;
+
+    //wrong one
+    //  int  * const a=new int (5); //const data and non const pointer
+    //  int b=10;
+    //  a=&b;
+    //  cout<<*a<<endl;
+
+    //both data and pointer is const
+    //  int const * const a=new int (5); //const data and non const pointer
+    //  int b=10;
+    //  a=&b;
+    //  cout<<*a<<endl;
+
+    //  int const * const a=new int (5);
+    //  *a=10;
+    //  cout<<*a<<endl;
+
+
+
+}
+    
