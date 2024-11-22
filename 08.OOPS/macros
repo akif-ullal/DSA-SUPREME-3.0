@@ -1,0 +1,19 @@
+#include<iostream>
+using namespace std;
+#define PI 3.14
+
+float areaofcircle(float r)
+{
+    return PI*r*r;
+}
+
+float perimeterofcircle(float r)
+{
+    return 2*PI*r;
+}
+
+int main()
+{
+    cout<<areaofcircle(4.0)<<endl;
+    cout<<perimeterofcircle(3.0)<<endl;
+}
