@@ -32,7 +32,7 @@ int main()
     //  cout<<*a<<endl;
 
     //both data and pointer is const
-    //  int const * const a=new int (5); //const data and non const pointer
+    //  int const * const a=new int (5); //const data and const pointer
     //  int b=10;
     //  a=&b;
     //  cout<<*a<<endl;
