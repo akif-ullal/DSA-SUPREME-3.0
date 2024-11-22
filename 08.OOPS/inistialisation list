@@ -1,0 +1,66 @@
+#include<iostream>
+using namespace std;
+
+class abc{
+    public:
+    int x=0;
+    int *y=new int(0);
+    const int z;
+    public:
+    //normal or older way
+    // abc(int _x,int _y)
+    // {
+    //     x=_x;
+    //     *y=_y;
+    // }
+
+    //initialization list
+    abc(int _x,int _y,int _z=0):x(_x),y(new int(_y)),z(_z){}
+
+     int getx() const
+    {
+        
+        return x;
+    }
+
+    void setx(int _x)
+    {
+        x=_x;
+        cout<<x<<endl;
+    }
+
+    int gety() const
+    {
+        return *y;
+    }
+    
+    void sety(int _y)
+    {
+        *y=_y;
+        cout<<*y<<endl;
+    }
+
+     int getz() const
+    {
+        
+        return z;
+    }
+    
+
+};
+
+void print(const abc &A)
+{
+     cout<<A.getx()<<" "<<A.gety()<<" "<<A.getz()<<endl; //without const with get fun which gives error
+}    
+
+int main()
+{
+    abc A(2,3);
+    print(A);
+    // int b=5;
+    // A.setx(5);
+    // A.sety(5);
+     
+}
+    
