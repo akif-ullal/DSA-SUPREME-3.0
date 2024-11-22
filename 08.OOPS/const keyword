@@ -41,7 +41,65 @@ int main()
     //  *a=10;
     //  cout<<*a<<endl;
 
-
-
 }
+
+//const with object
+
+#include<iostream>
+using namespace std;
+
+class abc{
+    public:
+    int x=5;
+    int *y=new int(0);
+
+    public:
+    //which error bcz your given an onst and still updates
+    // int getx() const
+    // {
+    //     x=50;
+    //     return x;
+    // }
+
+     int getx() const
+    {
+        
+        return x;
+    }
+
+    void setx(int _x)
+    {
+        x=_x;
+        cout<<x<<endl;
+    }
+
+    int gety() const
+    {
+        return *y;
+    }
+    
+    void sety(int _y)
+    {
+        *y=_y;
+        cout<<*y<<endl;
+    }
+    
+
+};
+
+void print(const abc &A)
+{
+     cout<<A.getx()<<" "<<A.gety()<<endl; //without const with get fun which gives error
+}    
+
+int main()
+{
+    abc A;
+    print(A);
+    // int b=5;
+    // A.setx(5);
+    // A.sety(5);
+     
+}
+    
     
