@@ -1,0 +1,38 @@
+#include<iostream>
+using namespace std;
+
+class abc
+{
+   int x=0;
+
+   private:
+   abc(int _x) : x(_x){}
+
+   public:
+   int getterX()
+   {
+      return x;
+   }
+
+  
+  friend class A;
+};
+
+class A 
+{ 
+   int a=0;
+
+   public:
+   abc get_abc(int _x)
+   {
+      return abc(_x);
+   }
+};
+
+int main()
+{
+   A a;
+
+   abc b=a.get_abc(100);
+   cout<<b.getterX()<<endl;
+}
