@@ -1,0 +1,50 @@
+#include<iostream>
+using namespace std;
+class abc{
+    public:
+     int x;
+     int *y;
+
+    public:
+    
+     abc(int _x,int _y) : x(_x),y(new int(_y))
+     { }
+
+   
+   //dumb const(shallow)
+   //   abc(const abc &a)
+   //   {
+   //    x=a.x;
+   //    y=a.y;
+   //   }
+     
+     //smart const (deep)
+     abc(const abc &a)
+     {
+       x=a.x;
+       y=new int (*a.y);
+     }
+
+    void print()
+    {
+      cout<<"x is : "<<x<<endl;
+      cout<<"y is : "<<*y<<endl;
+      cout<<"y ptr is : "<<y<<endl;
+   }
+   //problem double free detected in tcache 2(complier error) by using dump one
+   ~abc()
+   {
+      delete y;
+   }
+};
+
+int main()
+{
+ abc a(1,2);
+ a.print();
+
+ abc b = a;
+
+ b.print();
+
+}
