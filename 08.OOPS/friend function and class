@@ -1,0 +1,44 @@
+#include<iostream>
+using namespace std;
+
+class abc
+{
+   int x=5;
+
+   public:
+   abc(int _x) : x(_x){}
+
+   public:
+   int getterX() const
+   {
+      return x;
+   }
+
+  
+  friend class A;//friend class
+  friend void print(const abc &);//friend function
+};
+
+class A 
+{ 
+  public:
+  void print(const abc &a)
+  {
+   //cout<<a.getterX()<<endl;
+   cout<<a.x<<endl;
+  }
+};
+
+void print(const abc &a)
+  {
+   cout<<a.x<<endl;
+  }
+
+int main()
+{
+   abc a(100);
+   A b;
+   b.print(a);
+   print(a);
+   
+}
