@@ -61,7 +61,11 @@ class cmp{
    }
    bool operator()(student a,student b)
    {
-      return a.marks<b.marks;
+      if(a.marks==b.marks)
+      {
+         return a.name<b.name;
+      }
+      return a.marks>b.marks;
    }
 };
 
@@ -71,6 +75,7 @@ int main()
    arr.push_back(student(90,"akif"));
    arr.push_back(student(88,"arif"));
    arr.push_back(student(99,"asif"));
+   arr.push_back(student(99,"ali"));
 
    cmp c;
 
