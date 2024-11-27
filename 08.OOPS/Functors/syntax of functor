@@ -1,0 +1,26 @@
+#include<iostream>
+using namespace std;
+
+class cmp{
+   public: 
+   cmp()
+   {
+
+   }
+   bool operator()(int a,int b)
+   {
+      return a>b;
+   }
+};
+
+int main()
+{
+   cmp c;
+   if(c(3,4))
+   {
+      cout<<"a is grater"<<endl;
+   }
+   else{
+      cout<<"b is grater"<<endl;
+   }
+}
