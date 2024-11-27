@@ -1,3 +1,4 @@
+//using normal integer
 #include<iostream>
 #include<vector>
 #include<algorithm>
@@ -26,6 +27,58 @@ int main()
    for(int i:arr)
    {
       cout<<i<<" ";
+   }
+   cout<<endl;
+
+
+}
+
+//for objects sorting
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+class student
+{
+   public:
+   int marks;
+   string name;
+
+   student(int m,string na) : marks(m),name(na)
+   {}
+
+
+};
+
+
+class cmp{
+   public: 
+   cmp()
+   {
+
+   }
+   bool operator()(student a,student b)
+   {
+      return a.marks<b.marks;
+   }
+};
+
+int main()
+{
+   vector<student>arr;
+   arr.push_back(student(90,"akif"));
+   arr.push_back(student(88,"arif"));
+   arr.push_back(student(99,"asif"));
+
+   cmp c;
+
+   sort(arr.begin(),arr.end(),c);
+
+   for(student i:arr)
+   {
+      cout<<i.name<<" ";
    }
    cout<<endl;
 
