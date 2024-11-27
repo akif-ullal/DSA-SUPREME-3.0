@@ -1,0 +1,43 @@
+#include<iostream>
+using namespace std;
+
+class student
+{
+   public:
+   int marks;
+   string name;
+
+   student(int m,string na) : marks(m),name(na)
+   {}
+
+
+};
+
+class cmp{
+   public: 
+   cmp()
+   {
+
+   }
+   bool operator()(student a,student b)
+   {
+      return a.marks>b.marks;
+   }
+};
+
+int main()
+{
+   student s1(83,"akif");
+   student s2(90,"arif");
+   
+   cmp c;
+
+   if(c(s1,s2))
+   {
+      cout<<"akif is topper"<<endl;
+   }
+   else{
+      cout<<"arif is topper"<<endl;
+   }
+
+}
