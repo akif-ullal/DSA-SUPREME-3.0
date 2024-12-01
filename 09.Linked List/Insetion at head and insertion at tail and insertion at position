@@ -1,0 +1,113 @@
+#include <iostream>
+using namespace std;
+
+class Node{
+  public:
+  int data;
+  Node *next;
+  
+  Node(int value)
+  {
+    this->data=value;
+    this->next=NULL;
+  }
+};
+
+Node *InsertAtHead(int value,Node *&Head,Node*&Tail)
+{
+  if(Head==NULL && Tail==NULL)
+  {
+    Node *newNode=new Node(value);
+    Head=newNode;
+    Tail=newNode;
+  }
+  else
+  {
+    Node *newNode= new Node(value);
+    newNode->next=Head;
+    Head=newNode;
+  }
+  return Head;
+}
+
+Node *InsertAtTail(int value,Node *&Head,Node*&Tail)
+{
+  if(Head==NULL && Tail==NULL)
+  {
+    Node *newNode=new Node(value);
+    Head=newNode;
+    Tail=newNode;
+  }
+  else
+  {
+    Node *newNode= new Node(value);
+    Tail->next=newNode;
+    Tail=newNode;
+  }
+  return Head;
+}
+
+int getlen(Node*&Head)
+{
+  Node *temp=Head;
+  int count=0;
+  while(temp!=NULL)
+  {
+    count++;
+    temp=temp->next;
+  }
+  return count;
+ 
+}
+
+
+Node *InsertAtPosition(int position,int value,Node *&Head,Node*&Tail)
+{
+  int length=getlen(Head);
+   Node *temp=Head;
+  if(position==1)
+  {
+    Head=InsertAtHead(value,Head,Tail);
+  }
+  else if(position==length+1)
+  {
+    InsertAtTail(value,Head,Tail);
+  }
+  else
+  {
+    Node *newNode= new Node(value);
+    for(int i=0;i<position-2;i++)
+    {
+      temp=temp->next;
+    }
+    newNode->next=temp->next;
+    temp->next=newNode;
+  }
+  return Head;
+}
+
+void print(Node *&Head)
+{
+  Node *temp=Head;
+  while(temp!=NULL)
+  {
+    cout<<temp->data<<"->";
+    temp=temp->next;
+  }
+  cout<<"NULL"<<endl;
+}
+
+
+int main() {
+  Node *Head=NULL;
+  Node *Tail=NULL;
+  Head=InsertAtTail(10,Head,Tail);
+  Head=InsertAtTail(102,Head,Tail);
+  Head=InsertAtTail(104,Head,Tail);
+  Head=InsertAtTail(105,Head,Tail);
+  print(Head);
+
+  Head=InsertAtPosition(3,4,Head,Tail);
+  print(Head);
+  return 0;
+}
