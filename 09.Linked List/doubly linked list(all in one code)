@@ -119,6 +119,7 @@ void deleteNode(int position,Node*&head,Node*&tail)
     Node *forward=temp->next;
     forward->prev=NULL;
     temp->next=NULL;
+    tail=temp;
     delete forward;
 
   }
@@ -174,6 +175,6 @@ int main() {
   print(head);
   deleteNode(4,head,tail);
   print(head);
-  //Revprint(tail);
+  Revprint(tail);
  
 }
