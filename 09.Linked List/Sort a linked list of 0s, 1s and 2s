@@ -1,0 +1,87 @@
+/*
+
+  Node is defined as
+  struct Node {
+    int data;
+    struct Node *next;
+    Node(int x) {
+        data = x;
+        next = NULL;
+    }
+};
+
+*/
+class Solution {
+  public:
+    // Function to sort a linked list of 0s, 1s and 2s.
+    void insertAtTail(Node* &head,Node* &tail,Node* &curr)
+    {
+        if(head==NULL && tail==NULL)
+        {
+            head=curr;
+            tail=curr;
+        }
+        else{
+            tail->next=curr;
+            tail=curr;
+        }
+    }
+    Node* segregate(Node* head) {
+
+        // Add code here
+        Node* oneshead=NULL;
+        Node* onesTail=NULL;
+        Node* zeroshead=NULL;
+        Node* zeroesTail=NULL;
+        Node* twoshead=NULL;
+        Node* twosTail=NULL;
+        
+        Node* temp=head;
+        while(temp!=NULL)
+        {
+            Node* curr=temp;
+            temp=temp->next;
+            curr->next=NULL;
+            
+            if(curr->data==0)
+            {
+                insertAtTail(zeroshead,zeroesTail,curr);
+            }
+             else if(curr->data==1)
+            {
+                insertAtTail(oneshead,onesTail,curr);
+            }
+            else
+            {
+                insertAtTail(twoshead,twosTail,curr);
+            }
+        }
+        
+        if(zeroshead!=NULL)
+        {
+            if(oneshead!=NULL)
+            {
+                zeroesTail->next=oneshead;
+                onesTail->next=twoshead;
+            }
+            else
+            {
+               zeroesTail->next= twoshead;
+            }
+            return zeroshead;
+        }
+        else
+        {
+            if(oneshead!=NULL)
+            {
+                onesTail->next=twoshead;
+                return oneshead;
+            }
+            else
+            {
+                return twoshead;
+            }
+        }
+    }
+
+};
