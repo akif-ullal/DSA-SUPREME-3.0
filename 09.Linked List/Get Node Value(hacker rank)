@@ -1,0 +1,66 @@
+//my solution
+void reverseLL(SinglyLinkedListNode*&head)
+{
+    SinglyLinkedListNode* prev = NULL;
+    SinglyLinkedListNode* curr = head;
+    while(curr!=NULL)
+    {
+        SinglyLinkedListNode* forward = curr->next;
+        curr->next=prev;
+        prev=curr;
+        curr=forward;
+    }
+    head=prev;
+}
+int getNode(SinglyLinkedListNode* llist, int positionFromTail) {
+    
+reverseLL(llist);
+for(int i=0;i<positionFromTail;++i)
+{
+    llist=llist->next;
+}
+return llist->data;
+}
+
+//course approach
+int getlen(SinglyLinkedListNode*&head)
+{
+    SinglyLinkedListNode* temp = head;
+    int count=0;
+    while(temp!=NULL)
+    {
+        ++count;
+        temp=temp->next;
+    }
+    return count;
+}
+int getNode(SinglyLinkedListNode* llist, int positionFromTail) {
+  
+  int len = getlen(llist);
+  int ans=len - positionFromTail;
+  
+  for(int i=1;i<ans;++i)
+  {
+    llist=llist->next;
+  }
+  return llist->data;
+}
+
+//recursive way
+void findAns(SinglyLinkedListNode* &head, int &positionFromTail,int &ans)
+{
+    if(head==NULL) return;
+    findAns(head->next,positionFromTail,ans);
+    
+    if(positionFromTail==0)
+    {
+        ans=head->data;
+    }
+    positionFromTail--;
+}
+int getNode(SinglyLinkedListNode* llist, int positionFromTail) {
+ 
+ int ans=-1;
+ findAns(llist,positionFromTail,ans);
+ return ans;
+}
