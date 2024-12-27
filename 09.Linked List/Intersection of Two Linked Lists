@@ -1,0 +1,45 @@
+class Solution {
+  public:
+    Node* findIntersection(Node* head1, Node* head2) {
+        // code here
+        unordered_map<int,int>mapp;
+        
+        Node* curr = head2;
+        
+        while(curr!=NULL)
+        {
+            mapp[curr->data]++;
+            curr=curr->next;
+        }
+        
+        
+        Node* IL=NULL;
+        Node* it=NULL;
+        curr=head1;
+        while(curr!=NULL)
+        {
+          if(mapp.find(curr->data)!=mapp.end() && mapp[curr->data]>0)
+          {
+              if(IL==NULL)
+              {
+                  IL=new Node(curr->data);
+                  it=IL;
+              }
+              else
+              {
+                  it->next=new Node(curr->data);;
+                  it=it->next;
+                  
+              }
+               mapp[curr->data]--;
+          }
+          curr=curr->next;
+        }
+       
+       
+        return IL;
+    }
+};
+
+
+
