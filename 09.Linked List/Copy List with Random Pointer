@@ -16,3 +16,43 @@ public:
       return helper(head,mapp); 
     }
 };
+
+//using o(1) space optimized solution
+
+class Solution {
+public:
+
+    Node* copyRandomList(Node* head) {
+        if(!head) return NULL;
+
+        Node* it=head;
+        while(it)
+        {
+            Node* newNode=new Node(it->val);
+            newNode->next=it->next;
+            it->next=newNode;
+            it=it->next->next;
+        }
+       it=head;
+       while(it)
+       {
+        Node* newNode=it->next;
+        newNode->random=it->random ? it->random->next:NULL;
+        it=it->next->next;
+       }
+
+       it=head;
+       Node*newNode=it->next;
+       while(it)
+       {
+        Node* temp=it->next;
+        it->next=it->next->next;
+        if(temp->next)
+        {
+            temp->next=temp->next->next;
+        }
+        it=it->next;
+       }
+       return newNode;
+    }
+};
