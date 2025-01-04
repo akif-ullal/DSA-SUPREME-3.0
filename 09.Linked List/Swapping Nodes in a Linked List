@@ -1,0 +1,113 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+
+    int getlen(ListNode* head) {
+    int length = 0;
+    ListNode* current = head;
+    while (current != nullptr) {
+        length++;
+        current = current->next;
+    }
+    return length;
+    }
+    ListNode* swapNodes(ListNode* head, int k) {
+        if(!head ||!head->next) return head;
+
+        int len=getlen(head);
+        int lpos=k;
+        int rpos=len-k+1;
+        
+        if(lpos>rpos) swap(lpos,rpos);
+
+        if(lpos==rpos) return head;
+        if(len==2)
+        {
+            ListNode*ln=head;
+            ListNode*nextNode=head->next;
+
+            nextNode->next=ln;
+            ln->next=NULL;
+            head=nextNode;
+            return head;
+        }
+        else if(lpos==1)
+        {
+            ListNode*lp=0;
+            ListNode*ln=head;
+            ListNode*rp=head;
+        
+            for(int i=0;i<rpos-2;++i)
+            {
+                rp=rp->next;
+            }
+            ListNode* rn=rp->next;
+
+            rn->next=ln->next;
+            rp->next=ln;
+            ln->next=NULL;
+            head=rn;
+            return head;
+        }
+        int noOfNodeInBetween=rpos-lpos-1;
+        if(noOfNodeInBetween==0)
+        {
+            ListNode*lp=head;
+
+            for(int i=0;i<lpos-2;++i)
+            {
+                lp=lp->next;
+            }
+            ListNode*ln=lp->next;
+
+            ListNode*rp=head;
+
+            for(int i=0;i<rpos-2;++i)
+            {
+                rp=rp->next;
+            }
+           
+            ListNode*rn=rp->next;
+            ListNode*rs=rn->next;
+
+            lp->next=rp->next;
+            rn->next=rp;
+            rp->next=rs;
+            return head;    
+        }
+
+        else{
+            ListNode*lp=head;
+            ListNode*rp=head;
+
+            for(int i=0;i<lpos-2;++i)
+            {
+                lp=lp->next;
+            }
+
+            for(int i=0;i<rpos-2;++i)
+            {
+                rp=rp->next;
+            }
+            ListNode*ln=lp->next;
+            ListNode*rn=rp->next;
+            ListNode*rs=rn->next;
+            rn->next=ln->next;
+            rp->next=ln;
+            lp->next=rn;
+            ln->next=rs;
+            return head;
+        }
+        
+
+    }
+};
