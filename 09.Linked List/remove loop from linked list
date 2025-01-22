@@ -1,0 +1,55 @@
+class Solution {
+  public:
+    // Function to remove a loop in the linked list.
+     Node* hasCycle(Node *head) {
+        //optimal solution
+        Node* fast=head;
+        Node* slow=head;
+        while(fast!=NULL)
+        {
+            fast=fast->next;
+            if(fast!=NULL)
+            {
+                fast=fast->next;
+                slow=slow->next;
+            }
+            if(fast==slow)
+            {
+                return slow;
+            }
+        }
+        return NULL;
+     }
+    void removeLoop(Node* head) {
+        // code here
+        if(!head || !head->next) return;
+        Node*fast=hasCycle(head);
+        if(!fast) return;
+        Node*slow=head;
+        Node*prev=NULL;
+        //important condition
+        if(fast==head)
+        {
+            while(fast->next!=head)
+            {
+                fast=fast->next;
+            }
+            fast->next=NULL;
+            return;
+        }
+        while(true)
+        {
+            if(slow==fast)
+            {
+                break;
+            }
+        
+            slow=slow->next;
+            prev=fast;
+            fast=fast->next;
+           
+        }
+        prev->next=NULL;
+       
+    }
+};
