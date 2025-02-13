@@ -1,0 +1,36 @@
+#include <iostream>
+#include<stack>
+#include <limits.h>
+using namespace std;
+bool checkSortedStack(stack<int>&s,int ele1)
+{
+  if(s.empty())
+  {
+    return true;
+  }
+  
+  int ele2=s.top();
+  if(ele2 < ele1)
+  {
+    s.pop();
+    bool ans=checkSortedStack(s,ele2);
+    s.push(ele2);
+    return ans;
+  }
+  else{
+    return false;
+  }
+}
+int main() {
+  stack<int>s;
+  s.push(10);
+  s.push(20);
+  s.push(30);
+  s.push(40);
+  s.push(50);
+
+  int ele1=INT_MAX;
+  cout<<checkSortedStack(s,ele1);
+  
+  return 0;
+}
