@@ -1,0 +1,40 @@
+class Solution {
+  public:
+    int checkRedundancy(string s) {
+        // code here
+        stack<char>st;
+        
+        for(int i=0;i<s.size();i++)
+        {
+            char ch=s[i];
+            
+            if(ch=='(' || ch=='+' || ch=='*' || ch=='-' || ch=='/')
+            {
+                st.push(ch);
+            }
+           else if(ch==')')
+           {
+               bool hasOperator=false;
+               while(!st.empty() && st.top()!='(')
+               {
+               if(st.top()=='+' || st.top()=='*' || st.top()=='-' || st.top()=='/')
+               {
+                   hasOperator=true;
+               }
+               st.pop();
+               }
+               
+               if(!st.empty())
+               {
+                   st.pop();
+               }
+               
+               if(!hasOperator)
+               {
+                   return 1;
+               }
+           }
+        }
+        return 0;
+    }
+};
