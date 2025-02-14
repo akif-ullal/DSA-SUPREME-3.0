@@ -1,0 +1,34 @@
+#include <iostream>
+#include<stack>
+#include<vector>
+#include<algorithm>
+using namespace std;
+void nextSmallerEle(vector<int>&v,vector<int>&ans)
+{
+  stack<int>s;
+  s.push(-1);
+
+  for(int i=v.size()-1;i>=0;i--)
+  {
+    int ele = v[i];
+
+    while(s.top()>ele)
+    {
+      s.pop();
+    }
+    ans.push_back(s.top());
+    s.push(ele);
+  }
+}
+int main() {
+  vector<int>v={8,4,6,2,3};
+  vector<int>ans;
+
+  nextSmallerEle(v,ans);
+  reverse(ans.begin(),ans.end());
+  for(auto i:ans)
+  {
+    cout<<i<<" ";
+  }
+  return 0;
+}
