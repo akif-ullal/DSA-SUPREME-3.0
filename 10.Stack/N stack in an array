@@ -1,0 +1,84 @@
+#include <iostream>
+#include<stack>
+using namespace std;
+
+class NStack{
+  public:
+  int *top;
+  int *next;
+  int *arr;
+  int freespace;
+  int size;
+  int n;
+
+  NStack(int _n,int _size) : n(_n),size(_size) 
+  {
+    arr=new int[size];
+    top=new int[n];
+    next=new int[size];
+    freespace=0;
+    for(int i=0;i<n;i++)
+    {
+      top[i]=-1;
+    }
+
+    for(int i=0;i<size;i++)
+    {
+      next[i]=i+1;
+    }
+    next[size-1]=-1;
+  }
+
+  bool push(int x,int m)
+  {
+     if(freespace==-1)
+    {
+      return 0;
+    }
+
+    int index=freespace;
+
+    freespace=next[index];
+
+    arr[index]=x;
+
+    next[index]=top[m-1];
+
+    top[m-1]=index;
+
+    return 1;
+  }
+
+  int pop(int m)
+  {
+    if(top[m-1]==-1)
+    {
+      return -1;
+    }
+    int index=top[m-1];
+
+    top[m-1]=next[index];
+
+    next[index]=freespace;
+
+    freespace=index;
+    return arr[index];
+  }
+};
+int main() {
+  NStack st(3,6);
+  
+  cout<<st.push(6,1)<<endl;
+  cout<<st.push(7,1)<<endl;
+  cout<<st.push(8,2)<<endl;
+  cout<<st.push(9,2)<<endl;
+  cout<<st.push(10,3)<<endl;
+  cout<<st.push(11,3)<<endl;
+  
+
+  cout<<st.pop(1)<<endl;
+  cout<<st.pop(1)<<endl;
+
+  
+  return 0;
+}
