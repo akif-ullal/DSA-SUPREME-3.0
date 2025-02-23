@@ -1,0 +1,102 @@
+class Solution {
+public:
+
+    void nextSmallerEle(vector<int>& heights,vector<int>& nextans)
+    {
+        stack<int>st;
+        st.push(-1);
+        int n=heights.size();
+        for(int i=n-1;i>=0;i--)
+        {
+            int ele=heights[i];
+
+            while(st.top()!=-1 && heights[st.top()]>=ele)
+            {
+                st.pop();
+            }
+            nextans.push_back(st.top());
+            st.push(i);
+        }
+    }
+
+       void PrevSmallerEle(vector<int>& heights,vector<int>& prevAns)
+        {
+            stack<int>st;
+            st.push(-1);
+            int n=heights.size();
+            for(int i=0;i<n;i++)
+            {
+                int ele=heights[i];
+
+                while(st.top()!=-1 && heights[st.top()]>=ele)
+                {
+                    st.pop();
+                }
+                prevAns.push_back(st.top());
+                st.push(i);
+            }
+        }
+
+    int largestRectangleArea(vector<int>& heights) {
+        vector<int>prevAns;
+        vector<int>nextAns;
+
+        nextSmallerEle(heights,nextAns);
+        reverse(nextAns.begin(),nextAns.end());
+        for(int i=0;i<nextAns.size();i++)
+        {
+            int change=nextAns[i];
+
+            if(change==-1)
+            {
+                nextAns[i]=nextAns.size();
+            }
+        }
+        PrevSmallerEle(heights,prevAns);
+        int maxArea=INT_MIN;
+        
+        for(int i=0;i<heights.size();i++)
+        {
+            int widith = nextAns[i]-prevAns[i]-1;
+            int height=heights[i];
+            int area=widith*height;
+            maxArea=max(maxArea,area);
+        }
+
+        return maxArea;
+
+    }
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        vector<vector<int>>m;
+
+        for(int i=0;i<matrix.size();i++)
+        {
+            vector<int>t;
+            for(int j=0;j<matrix[0].size();j++)
+            {
+                t.push_back(matrix[i][j]-'0');
+            }
+            m.push_back(t);
+        }
+
+        int maxArea=largestRectangleArea(m[0]);
+
+        for(int i=1;i<matrix.size();i++)
+        {
+            for(int j=0;j<matrix[0].size();j++)
+            {
+                if(m[i][j])
+                {
+                    m[i][j]+=m[i-1][j];
+                }
+                else
+                {
+                    m[i][j]=0;
+                }
+            }
+            maxArea=max(maxArea,largestRectangleArea(m[i]));
+        }
+
+        return maxArea;
+    }
+};
