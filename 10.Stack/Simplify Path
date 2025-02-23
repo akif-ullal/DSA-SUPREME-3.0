@@ -1,0 +1,52 @@
+class Solution {
+public:
+
+    void correctOrder(string&ans,stack<string>&st)
+    {
+        if(st.empty())
+        {
+            return;
+        }
+        string top=st.top();
+        st.pop();
+        correctOrder(ans,st);
+        ans+=top;
+    }
+    string simplifyPath(string path) {
+        
+        stack<string>st;
+
+        int i=0;
+
+        while(i<path.size())
+        {
+            int start=i;
+            int end=i+1;
+
+            while(end<path.size() && path[end]!='/')
+            {
+                end++;  
+            }
+            i=end;
+            string minpath=path.substr(start,end-start);
+
+            if(minpath=="/." || minpath=="/")
+            {
+                continue;
+            }
+            if(!st.empty() && minpath=="/..")
+            {
+                st.pop();
+            }
+            else if(minpath!="/..")
+            {
+                st.push(minpath);
+            }
+        }
+
+        string ans=st.empty() ? "/" : "";
+
+        correctOrder(ans,st);
+        return ans;
+    }
+};
