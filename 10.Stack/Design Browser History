@@ -1,0 +1,37 @@
+class BrowserHistory {
+public:
+
+    stack<string>browserstack;
+    stack<string>frwdstack;
+    BrowserHistory(string homepage) {
+        browserstack.push(homepage);
+    }
+    
+    void visit(string url) {
+        browserstack.push(url);
+        while(!frwdstack.empty())
+        {
+            frwdstack.pop();
+        }
+    }
+    
+    string back(int steps) {
+        while(steps > 0 && browserstack.size()!=1)
+        {
+            frwdstack.push(browserstack.top());
+            browserstack.pop();
+            steps--;
+        }
+        return browserstack.top();
+    }
+    
+    string forward(int steps) {
+        while(steps > 0 && !frwdstack.empty())
+        {
+            browserstack.push(frwdstack.top());
+            frwdstack.pop();
+            steps--;
+        }
+        return browserstack.top();
+    }
+};
