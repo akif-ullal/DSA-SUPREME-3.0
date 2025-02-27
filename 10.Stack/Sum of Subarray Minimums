@@ -1,0 +1,65 @@
+class Solution {
+public:
+
+    vector<int> PrevSmallerEle(vector<int>&v)
+    {
+    stack<int>s;
+    s.push(-1);
+    vector<int>ans;
+    for(int i=0;i<v.size();i++)
+    {
+        int ele = v[i];
+
+        while(s.top()!=-1 && v[s.top()]>=ele)
+        {
+        s.pop();
+        }
+        ans.push_back(s.top());
+        s.push(i);
+    }
+    return ans;
+    }
+
+    vector<int> NextSmallerEle(vector<int>&v)
+    {
+    stack<int>s;
+    s.push(-1);
+    vector<int>ans;
+    for(int i=v.size()-1;i>=0;i--)
+    {
+        int ele = v[i];
+
+        while(s.top()!=-1 && v[s.top()]>ele)
+        {
+        s.pop();
+        }
+        ans.push_back(s.top());
+        s.push(i);
+    }
+    return ans;
+    }
+    int sumSubarrayMins(vector<int>& arr) {
+        auto next=NextSmallerEle(arr);
+        auto prev=PrevSmallerEle(arr);
+        long long int mod=1e9+7;
+        long long int finalAns=0;
+        reverse(next.begin(),next.end());
+        for(int i=0;i<next.size();i++)
+        {
+            if(next[i]==-1)
+            {
+                next[i]=next.size();
+            }
+        }
+        for(int i=0;i<arr.size();i++)
+        {
+            long long int nextAns=next[i]-i;
+            long long int prevAns=i-prev[i];
+
+            long long int no_times=((nextAns%mod)*(prevAns%mod))%mod;
+            finalAns = (finalAns + (no_times * arr[i]) % mod) % mod;
+        }
+        return finalAns;
+
+    }
+};
