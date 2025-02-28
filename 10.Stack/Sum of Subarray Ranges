@@ -1,0 +1,126 @@
+class Solution {
+public:
+
+     vector<int> PrevSmallerEle(vector<int>&v)
+    {
+    stack<int>s;
+    s.push(-1);
+    vector<int>ans;
+    for(int i=0;i<v.size();i++)
+    {
+        int ele = v[i];
+
+        while(s.top()!=-1 && v[s.top()]>=ele)
+        {
+        s.pop();
+        }
+        ans.push_back(s.top());
+        s.push(i);
+    }
+    return ans;
+    }
+
+    vector<int> NextSmallerEle(vector<int>&v)
+    {
+    stack<int>s;
+    s.push(-1);
+    vector<int>ans;
+    for(int i=v.size()-1;i>=0;i--)
+    {
+        int ele = v[i];
+
+        while(s.top()!=-1 && v[s.top()]>ele)
+        {
+        s.pop();
+        }
+        ans.push_back(s.top());
+        s.push(i);
+    }
+    return ans;
+    }
+
+     vector<int> PrevGreaterEle(vector<int>&v)
+    {
+    stack<int>s;
+    s.push(-1);
+    vector<int>ans;
+    for(int i=0;i<v.size();i++)
+    {
+        int ele = v[i];
+
+        while(s.top()!=-1 && v[s.top()]<=ele)
+        {
+        s.pop();
+        }
+        ans.push_back(s.top());
+        s.push(i);
+    }
+    return ans;
+    }
+
+    vector<int> NextGreaterEle(vector<int>&v)
+    {
+    stack<int>s;
+    s.push(-1);
+    vector<int>ans;
+    for(int i=v.size()-1;i>=0;i--)
+    {
+        int ele = v[i];
+
+        while(s.top()!=-1 && v[s.top()]<ele)
+        {
+        s.pop();
+        }
+        ans.push_back(s.top());
+        s.push(i);
+    }
+    return ans;
+    }
+
+    long long subArrayRanges(vector<int>& nums) {
+        auto nextSmaller=NextSmallerEle(nums);
+        auto prevSmaller=PrevSmallerEle(nums);
+
+        reverse(nextSmaller.begin(),nextSmaller.end());
+        for(int i=0;i<nextSmaller.size();i++)
+        {
+            if(nextSmaller[i]==-1)
+            {
+                nextSmaller[i]=nextSmaller.size();
+            }
+        }
+
+        auto nextGreater=NextGreaterEle(nums);
+        auto prevGreater=PrevGreaterEle(nums);
+
+        reverse(nextGreater.begin(),nextGreater.end());
+        for(int i=0;i<nextGreater.size();i++)
+        {
+            if(nextGreater[i]==-1)
+            {
+                nextGreater[i]=nextGreater.size();
+            }
+        }
+
+        long long finalAns=0;
+        long long SmallerAns=0;
+        long long GreaterAns=0;
+        for(int i=0;i<nums.size();i++)
+        {
+            long long int nextSmallerAns=nextSmaller[i]-i;
+            long long int PevSmallerAns=i-prevSmaller[i];
+
+            long long int nextGreaterAns=nextGreater[i]-i;
+            long long int prevGreaterAns=i-prevGreater[i];
+
+            long long int no_times1 = nextSmallerAns * PevSmallerAns;
+            SmallerAns = (SmallerAns + (no_times1 * nums[i]) );
+
+            long long int no_times2 = nextGreaterAns * prevGreaterAns;
+            GreaterAns = (GreaterAns + (no_times2 * nums[i]) );
+
+        }
+            finalAns=GreaterAns-SmallerAns;
+        return finalAns;
+    }
+};
