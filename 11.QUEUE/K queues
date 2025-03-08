@@ -1,0 +1,107 @@
+#include <iostream>
+using namespace std;
+
+class Kqueue{
+  public:
+  int *arr;
+  int *next;
+  int *front;
+  int *rear;
+  int size;
+  int k;
+  int freespot;
+
+Kqueue(int _n,int _k):size(_n),k(_k)
+{
+  arr=new int[_n];
+  freespot=0;
+
+  front = new int[k];
+  for(int i=0;i<k;i++)
+  {
+    front[i]=-1;
+  }
+
+  rear=new int[k];
+  for(int i=0;i<k;i++)
+  {
+    rear[i]=-1;
+  }
+
+
+ next = new int[size]; 
+  for(int i=0;i<size;i++)
+  {
+    next[i]=i+1;
+  }
+  next[size-1]=-1;
+}
+
+bool push(int x,int qi)
+{
+  if(freespot==-1)
+  {
+    cout<<"queue overflow"<<endl;
+    return false;
+  }
+
+  int index=freespot;
+  freespot=next[index];
+
+  if(front[qi]==-1)
+  {
+    front[qi]=index;
+    rear[qi]=index;
+    next[rear[qi]]=-1;
+    arr[index]=x;
+    return 1;
+  }
+  else{
+    next[rear[qi]]=index;
+    next[index]=-1;
+    rear[qi]=index;
+    arr[index]=x;
+    return 1;
+  }
+
+}
+
+int pop(int qi)
+{
+  if(front[qi]==-1)
+  {
+    cout<<"queue under flow"<<endl;
+    return -1;
+  }
+  int index=front[qi];
+
+  if(front[qi]==rear[qi])
+  {
+    front[qi]=-1;
+    rear[qi]=-1;
+    next[index]=freespot;
+    freespot=index;
+    return arr[index];
+  }
+  else{
+    front[qi]=next[index];
+    next[index]=freespot;
+    freespot=index;
+    return arr[index];
+  }
+}
+};
+int main() {
+ Kqueue q(8,3);
+  cout<<q.push(10,0)<<endl;
+  cout<<q.push(20,0)<<endl;
+  cout<<q.push(1,1)<<endl;
+  cout<<q.push(30,0)<<endl;
+  cout<<q.pop(1)<<endl;
+  cout<<q.pop(1)<<endl;
+  cout<<q.pop(0)<<endl;
+  return 0;
+
+
+  return 0;
+}
