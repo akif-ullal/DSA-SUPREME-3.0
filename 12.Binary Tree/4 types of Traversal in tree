@@ -1,0 +1,118 @@
+#include <iostream>
+#include<queue>
+using namespace std;
+class Node{
+public:
+int data;
+Node* left;
+Node* right;
+
+Node(int value)
+{
+  this->data=value;
+  this->left=NULL;
+  this->right=NULL;
+}
+
+};
+
+Node* createTree()
+{
+  int data;
+  cout<<"Enter the data"<<endl;
+  cin>>data;
+  if(data==-1)
+  {
+    return NULL;
+  }
+  else
+  {
+    Node* root=new Node(data);
+    cout<<"Enterthe left node of "<<data<<endl;
+    root->left=createTree();
+    cout<<"Enterthe right node of "<<data<<endl;
+    root->right=createTree();
+    return root;
+
+  }
+}
+
+void PreOderTravesel(Node* root)
+{
+  if(root==NULL)
+  {
+    return;
+  }
+  cout<<root->data<<" ";
+  PreOderTravesel(root->left);
+  PreOderTravesel(root->right);
+}
+
+void InOderTravesel(Node* root)
+{
+  if(root==NULL)
+  {
+    return;
+  }
+  InOderTravesel(root->left);
+  cout<<root->data<<" ";
+  InOderTravesel(root->right);
+}
+
+void PostOderTravesel(Node* root)
+{
+  if(root==NULL)
+  {
+    return;
+  }
+  PostOderTravesel(root->left);
+  PostOderTravesel(root->right);
+  cout<<root->data<<" ";
+}
+
+void LevelOrderTraversel(Node*root)
+{
+  if(root==NULL)
+  {
+    return;
+  }
+  queue<Node*>q;
+  q.push(root);
+  q.push(NULL);
+
+  while(!q.empty())
+    {
+      Node* front=q.front();
+      q.pop();
+      if(front==NULL)
+      {
+        cout<<endl;
+        if(!q.empty())
+        {
+          q.push(NULL);
+        }
+      }
+      else
+      {
+        cout<<front->data<<" ";
+        if(front->left!=NULL)
+        q.push(front->left);
+
+        if(front->right!=NULL)
+        q.push(front->right);
+      }
+    }
+}
+int main() {
+  Node* root;
+  root=createTree();
+  cout<<root->data<<endl;
+  PreOderTravesel(root);
+  cout<<endl;
+  InOderTravesel(root);
+  cout<<endl;
+  PostOderTravesel(root);
+  cout<<endl;
+  LevelOrderTraversel(root);
+}
+//10 50 20 -1 -1 -1 30 60 -1 -1 -1
