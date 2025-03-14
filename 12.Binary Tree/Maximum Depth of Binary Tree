@@ -1,0 +1,18 @@
+class Solution {
+public:
+
+    int HieghtOfBinaryTree(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return 0;
+        }
+        int leftside=HieghtOfBinaryTree(root->left);
+        int rightside=HieghtOfBinaryTree(root->right);
+        int ans=max(leftside,rightside)+1;
+        return ans;
+    }
+    int maxDepth(TreeNode* root) {
+        return HieghtOfBinaryTree(root); 
+    }
+};
