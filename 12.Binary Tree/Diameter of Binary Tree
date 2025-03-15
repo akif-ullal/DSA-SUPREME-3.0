@@ -1,6 +1,28 @@
 class Solution {
 public:
 
+//optimized solution t.c o(n)
+    int height(TreeNode* root,int &diameter)
+    {
+        if(root == NULL)
+        return 0;
+
+        int ls=height(root->left,diameter);
+        int rs=height(root->right,diameter);
+        diameter=max(diameter,ls+rs);
+        return 1+max(ls,rs);
+    }
+    int diameterOfBinaryTree(TreeNode* root) {
+      int maxi=0;
+      int ans=height(root,maxi);
+      return maxi;
+    }
+};
+
+
+class Solution {
+public:
+
     int HieghtOfBinaryTree(TreeNode* root)
     {
         if(root==NULL)
