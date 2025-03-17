@@ -1,0 +1,43 @@
+class Solution {
+public:
+
+    void mapping(vector<int>&inorder,unordered_map<int,int>&mapp)
+    {
+        for(int i=0;i<inorder.size();i++)
+        {
+            mapp[inorder[i]]=i;
+        }
+    }
+    TreeNode* solve(unordered_map<int,int>&mapp,vector<int>& preorder, vector<int>& inorder,int inorderStart
+    ,int inorderEnd,int size,int &preorderIndex)
+    {
+        if(preorderIndex>=size)
+        {
+            return NULL;
+        }
+
+        if(inorderStart > inorderEnd)
+        {
+            return NULL;
+        }
+        int element=preorder[preorderIndex];
+        TreeNode* root=new TreeNode(element);
+        preorderIndex++;
+
+        int current=mapp[element];
+
+        root->left=solve(mapp,preorder,inorder,inorderStart,current-1,size,preorderIndex);
+        root->right=solve(mapp,preorder,inorder,current+1,inorderEnd,size,preorderIndex);
+        return root;
+    }
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        int inorderStart=0;
+        int inorderEnd=inorder.size()-1;
+        int size=preorder.size();
+        int preorderIndex=0;
+        unordered_map<int,int>mapp;
+        mapping(inorder,mapp);
+         TreeNode* root=solve(mapp,preorder,inorder,inorderStart,inorderEnd,size,preorderIndex);
+         return root;
+    }
+};
