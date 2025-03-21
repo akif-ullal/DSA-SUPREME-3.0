@@ -1,0 +1,28 @@
+class Solution {
+  public:
+   int modifiedTree(Node *node)
+  {
+        if(!node)
+        return 0;
+        
+        if(node->left==NULL && node->right==NULL)
+        {
+            int tempAns=node->data;
+            node->data=0;
+            return tempAns;
+        }
+        
+        int ls=modifiedTree(node->left);
+        int rs=modifiedTree(node->right);
+        
+        int temp=node->data;
+        node->data=ls+rs;
+        
+        return  node->data+temp;
+  }
+    void toSumTree(Node *node)
+    {
+        // Your code here
+        modifiedTree(node);
+    }
+};
