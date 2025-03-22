@@ -1,0 +1,37 @@
+class Solution {
+public:
+
+void topViewTraversal(TreeNode* root,map<int,map<int,multiset<int>>>&mpp,int col,int row)
+{
+    if(!root)
+    return;
+
+    mpp[col][row].insert(root->val);
+
+    topViewTraversal(root->left,mpp,col-1,row+1);
+    topViewTraversal(root->right,mpp,col+1,row+1);
+
+}
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+       vector<vector<int>>ans;
+       if(!root)
+       return ans;
+       
+       map<int,map<int,multiset<int>>>mpp;
+       int row=0;
+       int col=0;
+       topViewTraversal(root,mpp,col,row); 
+    
+        for(auto each:mpp)
+        {
+            vector<int>temp;
+            for(auto rowVals:each.second)
+            {
+                temp.insert(temp.end(), rowVals.second.begin(), rowVals.second.end());
+            }
+            ans.push_back(temp);
+          
+        }
+        return ans;
+    }
+};
