@@ -1,37 +1,78 @@
+//level order traversal
 class Solution {
 public:
-
-void topViewTraversal(TreeNode* root,map<int,map<int,multiset<int>>>&mpp,int col,int row)
-{
-    if(!root)
-    return;
-
-    mpp[col][row].insert(root->val);
-
-    topViewTraversal(root->left,mpp,col-1,row+1);
-    topViewTraversal(root->right,mpp,col+1,row+1);
-
-}
     vector<vector<int>> verticalTraversal(TreeNode* root) {
        vector<vector<int>>ans;
        if(!root)
        return ans;
-       
+
+       queue<pair<TreeNode*,pair<int,int>>>q;
        map<int,map<int,multiset<int>>>mpp;
-       int row=0;
-       int col=0;
-       topViewTraversal(root,mpp,col,row); 
-    
+       q.push({root,{0,0}});
+       while(!q.empty())
+       {
+            auto front=q.front();
+            q.pop();
+            auto &coordinates=front.second;
+            int row=coordinates.first;
+            int col=coordinates.second;
+            auto node=front.first;
+            mpp[col][row].insert(node->val);
+
+            if(node->left!=NULL)
+            q.push({node->left,{row+1,col-1}});
+
+            if(node->right!=NULL)
+            q.push({node->right,{row+1,col+1}});
+
+
+       }
+
         for(auto each:mpp)
         {
             vector<int>temp;
-            for(auto rowVals:each.second)
+            for(auto &topview:each.second)
             {
-                temp.insert(temp.end(), rowVals.second.begin(), rowVals.second.end());
+                temp.insert(temp.end(), topview.second.begin(), topview.second.end());
             }
             ans.push_back(temp);
-          
         }
         return ans;
     }
 };
+
+//bit slower t.c o(nlogn)
+// void topViewTraversal(TreeNode* root,map<int,map<int,multiset<int>>>&mpp,int col,int row)
+// {
+//     if(!root)
+//     return;
+
+//     mpp[col][row].insert(root->val);
+
+//     topViewTraversal(root->left,mpp,col-1,row+1);
+//     topViewTraversal(root->right,mpp,col+1,row+1);
+
+// }
+//     vector<vector<int>> verticalTraversal(TreeNode* root) {
+//        vector<vector<int>>ans;
+//        if(!root)
+//        return ans;
+       
+//        map<int,map<int,multiset<int>>>mpp;
+//        int row=0;
+//        int col=0;
+//        topViewTraversal(root,mpp,col,row); 
+    
+//         for(auto each:mpp)
+//         {
+//             vector<int>temp;
+//             for(auto rowVals:each.second)
+//             {
+//                 temp.insert(temp.end(), rowVals.second.begin(), rowVals.second.end());
+//             }
+//             ans.push_back(temp);
+          
+//         }
+//         return ans;
+//     }
+// };
