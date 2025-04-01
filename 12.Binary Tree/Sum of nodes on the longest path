@@ -1,0 +1,36 @@
+class Solution {
+  public:
+  pair<int,int>longestPathSum(Node *root)
+  {
+      if(root==NULL)
+      return {0,0};
+      
+      
+      auto ls=longestPathSum(root->left);
+      auto rs=longestPathSum(root->right);
+      
+      int sum=root->data;
+      
+      if(ls.first==rs.first)
+      {
+          sum+=ls.second>rs.second ? ls.second : rs.second;
+      }
+      else if(ls.first>rs.first)
+      {
+          sum+=ls.second;
+      }
+      else
+      {
+          sum+=rs.second;
+      }
+      
+      return {max(ls.first,rs.first)+1,sum};
+  }
+    int sumOfLongRootToLeafPath(Node *root) {
+        int sum=0;
+        
+        auto ans=longestPathSum(root);
+        return ans.second;
+        
+    }
+};
