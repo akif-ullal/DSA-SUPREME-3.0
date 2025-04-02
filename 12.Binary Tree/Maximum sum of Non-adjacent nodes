@@ -1,0 +1,25 @@
+class Solution{
+  public:
+    
+    pair<int,int>NonAdjacentSum(Node* root)
+    {
+        if(!root)
+        {
+            return {0,0};
+        }
+        
+        auto ls=NonAdjacentSum(root->left);
+        auto rs=NonAdjacentSum(root->right);
+        
+        int include=root->data+ls.second+rs.second;
+        int exclude =max(ls.first, ls.second)+max(rs.first, rs.second);
+        return {include,exclude};
+    }
+    int getMaxSum(Node *root) 
+    {
+        pair<int,int> maxSum=NonAdjacentSum(root);
+        int ans=max(maxSum.first,maxSum.second);
+        return ans;
+        
+    }
+};
