@@ -1,0 +1,76 @@
+class Solution {
+  public:
+  
+    void findParentNode(Node* root,unordered_map<Node*,Node*>&parentMapp,Node*&targetNode,int target)
+    {
+        if(!root)
+        return;
+        
+        if(root->data==target)
+        {
+            targetNode=root;
+        }
+        if(root->left)
+        parentMapp[root->left]=root;
+        
+        if(root->right)
+        parentMapp[root->right]=root;
+        
+        findParentNode(root->left,parentMapp,targetNode,target);
+        findParentNode(root->right,parentMapp,targetNode,target);
+        
+        
+    }
+
+    int burningTree(unordered_map<Node*,Node*>&parent,Node*targetNode)
+    {
+        unordered_map<Node*,bool>visited;
+        queue<Node*>q;
+        q.push(targetNode);
+        visited[targetNode]=true;
+        int Time=0;
+        
+        while(!q.empty())
+        {
+          int size=q.size();
+          bool burned=false;
+          for(int i=0;i<size;i++)
+          {
+            Node* front=q.front();
+            q.pop();
+            
+            if(front->left && !visited[front->left])
+            {
+                visited[front->left]=true;
+                q.push(front->left);
+                burned=true;
+            }
+            
+            if(front->right && !visited[front->right])
+            {
+                visited[front->right]=true;
+                q.push(front->right);
+                burned=true;
+            }
+            if(parent[front]!=NULL && !visited[parent[front]])
+            {
+                visited[parent[front]]=true;
+                q.push(parent[front]);
+                burned=true;
+            }
+          }
+          if(burned)
+          Time++;
+        }
+        return Time;
+    }
+    int minTime(Node* root, int target) {
+        // code here
+        unordered_map<Node*,Node*>parentMapp;
+        Node*targetNode=NULL;
+        findParentNode(root,parentMapp,targetNode,target);
+        int ans=burningTree(parentMapp,targetNode);
+        return ans;
+        
+    }
+};
