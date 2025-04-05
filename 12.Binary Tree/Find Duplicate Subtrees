@@ -1,0 +1,26 @@
+class Solution {
+public:
+
+    string findDuplicateSubtrees_helper(TreeNode* root,unordered_map<string,int>&Nodefreq,vector<TreeNode*> &ans)
+    {
+        if(!root)
+        return "N";
+
+        string ls=findDuplicateSubtrees_helper(root->left,Nodefreq,ans);
+        string rs=findDuplicateSubtrees_helper(root->right,Nodefreq,ans);
+
+        string str=to_string(root->val)+","+ls+","+rs;
+        Nodefreq[str]++;
+        if(Nodefreq[str]==2)
+        {
+            ans.push_back(root);
+        }
+        return str;
+    }
+    vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
+        vector<TreeNode*> ans;
+        unordered_map<string,int>Nodefreq;
+        findDuplicateSubtrees_helper(root,Nodefreq,ans);
+        return ans;
+    }
+};
