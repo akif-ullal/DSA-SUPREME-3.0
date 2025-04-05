@@ -1,26 +1,60 @@
 class Solution {
 public:
 
-    string findDuplicateSubtrees_helper(TreeNode* root,unordered_map<string,int>&Nodefreq,vector<TreeNode*> &ans)
+int fds(TreeNode* root,unordered_map<string,int>&Nodefreq, unordered_map<int,vector<TreeNode*>>&ansMapp,int & id_count)
     {
         if(!root)
-        return "N";
+        return -1;
 
-        string ls=findDuplicateSubtrees_helper(root->left,Nodefreq,ans);
-        string rs=findDuplicateSubtrees_helper(root->right,Nodefreq,ans);
-
-        string str=to_string(root->val)+","+ls+","+rs;
-        Nodefreq[str]++;
-        if(Nodefreq[str]==2)
+        string key=to_string(root->val)+","
+        +to_string(fds(root->left,Nodefreq,ansMapp,id_count))+","
+        +to_string(fds(root->right,Nodefreq,ansMapp,id_count));
+        if(Nodefreq.find(key)==Nodefreq.end())
         {
-            ans.push_back(root);
+            Nodefreq[key]=id_count++;
         }
-        return str;
+
+        int id=Nodefreq[key];
+        ansMapp[id].push_back(root);
+        return id;
     }
     vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
-        vector<TreeNode*> ans;
+        int id_count=0;
+        unordered_map<int,vector<TreeNode*>>ansMapp;
         unordered_map<string,int>Nodefreq;
-        findDuplicateSubtrees_helper(root,Nodefreq,ans);
-        return ans;
+        fds(root,Nodefreq,ansMapp,id_count);
+        vector<TreeNode*>finalans;
+        for(auto &[id,root]:ansMapp)
+        {
+            if(root.size()>1)
+            {
+                finalans.push_back(root[0]);
+            }
+        }
+        return finalans;
     }
 };
+//worst case it can be o(n^2) bcz we are adding big string as going up
+//     string findDuplicateSubtrees_helper(TreeNode* root,unordered_map<string,int>&Nodefreq,vector<TreeNode*> &ans)
+//     {
+//         if(!root)
+//         return "N";
+
+//         string ls=findDuplicateSubtrees_helper(root->left,Nodefreq,ans);
+//         string rs=findDuplicateSubtrees_helper(root->right,Nodefreq,ans);
+
+//         string str=to_string(root->val)+","+ls+","+rs;
+//         Nodefreq[str]++;
+//         if(Nodefreq[str]==2)
+//         {
+//             ans.push_back(root);
+//         }
+//         return str;
+//     }
+//     vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
+//         vector<TreeNode*> ans;
+//         unordered_map<string,int>Nodefreq;
+//         findDuplicateSubtrees_helper(root,Nodefreq,ans);
+//         return ans;
+//     }
+// };
