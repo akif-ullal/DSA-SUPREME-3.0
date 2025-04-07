@@ -1,0 +1,79 @@
+class Solution {
+public:
+
+    void findParent(TreeNode*root,unordered_map<TreeNode*,TreeNode*>&parentMapp)
+    {
+        if(!root)
+        return;
+
+        if(root->left)
+        {
+            parentMapp[root->left]=root;
+        }
+
+        if(root->right)
+        {
+            parentMapp[root->right]=root;
+        }
+
+        findParent(root->left,parentMapp);
+        findParent(root->right,parentMapp);
+
+    }
+
+    void finddistanceK(TreeNode* root, TreeNode* target, int k,unordered_map<TreeNode*,TreeNode*>&parentMapp,queue<TreeNode*>&q)
+    {
+        unordered_map<TreeNode*,bool>visited;
+        q.push(target);
+        int count=0;
+        visited[target]=true;
+        while(!q.empty())
+        {
+            int size=q.size();
+
+            if(count==k)
+            break;
+
+            for(int i=0;i<size;i++)
+            {
+                auto front=q.front();
+                q.pop();
+                if(front->left && !visited[front->left])
+                {
+                    visited[front->left]=true;
+                    q.push(front->left);
+                }
+
+                if(front->right && !visited[front->right])
+                {
+                    visited[front->right]=true;
+                    q.push(front->right);
+                }
+
+                if(parentMapp[front]!=NULL && !visited[parentMapp[front]])
+                {
+                    visited[parentMapp[front]]=true;
+                    q.push(parentMapp[front]);
+                }
+            }
+            count++;
+        }
+    }
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+       unordered_map<TreeNode*,TreeNode*>parentMapp;
+        parentMapp[root]=NULL;
+        findParent(root,parentMapp);
+
+        queue<TreeNode*>q;
+        finddistanceK(root,target,k,parentMapp,q);
+        vector<int>ans;
+        while(!q.empty())
+        {
+            auto front=q.front();
+            q.pop();
+            ans.push_back(front->val);
+        }
+        return ans;
+
+    }
+};
