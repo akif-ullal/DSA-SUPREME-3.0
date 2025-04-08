@@ -1,0 +1,36 @@
+class Solution {
+public:
+    
+    int leftSide(TreeNode* root)
+    {
+        if(!root)
+        return 0;
+
+        int ans=1+leftSide(root->left);
+        return ans;
+        
+    }
+    int rightSide(TreeNode* root)
+    {
+        if(!root)
+        return 0;
+
+        int ans=1+rightSide(root->right);
+        return ans;
+        
+    }
+    int countNodes(TreeNode* root) {
+        if(!root)
+        return 0;
+
+        int ls=leftSide(root);
+        int rs=rightSide(root);
+
+        if(ls==rs)
+        return (pow(2,ls))-1;
+
+        int leftCount=countNodes(root->left);
+        int rightCount=countNodes(root->right);
+        return 1+leftCount+rightCount;
+    }
+};
