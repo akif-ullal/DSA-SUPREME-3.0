@@ -1,0 +1,134 @@
+class Codec {
+public:
+    
+    string serialize(TreeNode* root) {
+        if(!root)
+        return "";
+        queue<TreeNode*>q;
+        q.push(root);
+        string ans="";
+        while(!q.empty())
+        {
+            auto front=q.front();
+            q.pop();
+            ans+=(front==NULL) ? "N,": to_string(front->val)+",";
+        
+            if(front!=NULL && front->left)
+            {
+                q.push(front->left);
+            }
+            else if(front!=NULL && front->left==NULL)
+            {
+                q.push(NULL);
+            }
+         
+
+            if(front!=NULL && front->right)
+            {
+                q.push(front->right);
+            }
+            else if((front!=NULL && front->right==NULL))
+            {
+                q.push(NULL);
+            }
+          
+        }
+        cout<<ans<<endl;
+        return ans;
+    }
+    vector<int>convertStoI(string &ans)
+    {
+        int num=0;
+        vector<int>integerAns;
+        bool buildingNo=false;
+        bool negative=false;
+        int sign=1;
+        for(auto ch:ans)
+        {
+           if(ch=='-')
+           {
+            negative=true;
+           }
+            else if(isdigit(ch))
+            {
+                num=num*10+(ch-'0');
+                buildingNo=true;
+            }
+
+            if(ch==',')
+            {
+                if(buildingNo)
+                {
+                    if(negative)
+                    {
+                        integerAns.push_back(-num);
+                    }
+                    else
+                    {
+                        integerAns.push_back(num);
+                    }
+                    
+                     num=0;
+                     buildingNo=false;
+                     negative=false;
+                }
+            }
+            if(ch=='N')
+            {
+                integerAns.push_back(-1001);
+                buildingNo=false;
+            }
+        }
+        
+         return integerAns;
+    }
+  
+    TreeNode* deserialize(string data) {
+        if(data.size()==0)
+        {
+            return NULL;
+        }
+        vector<int>values=convertStoI(data);
+
+        TreeNode* root=new TreeNode(values[0]);
+        queue<TreeNode*>q;
+        q.push(root);
+        int i=1;
+        int size=values.size();
+        while(!q.empty() && i<size)
+        {
+            auto front=q.front();
+            q.pop();
+
+            if(!front->left && values[i]==-1001)
+            {
+                front->left=NULL;
+                ++i;
+            }
+            else if(!front->left)
+            {
+                front->left=new TreeNode(values[i]);
+                q.push(front->left);
+                ++i;
+            }
+
+            if(!front->right && values[i]==-1001)
+            {
+                front->right=NULL;
+                ++i;
+            }
+            else if(!front->right)
+            {
+                front->right=new TreeNode(values[i]);
+                q.push(front->right);
+                ++i;
+            }
+        }
+        return root;
+        
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec ser, deser;
+// TreeNode* ans = deser.deserialize(ser.serialize(root));
