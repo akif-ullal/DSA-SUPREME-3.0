@@ -1,0 +1,64 @@
+class Solution {
+  public:
+   bool explore(pair<int,int>&front,pair<int,int>&dest,queue<pair<int,int>>&q
+   ,int &N,vector<vector<bool>>&visited)
+   {
+       int x[]={-1,1,1,-1,2,2,-2,-2};
+       int y[]={-2,-2,2,2,-1,1,1,-1};
+       
+       for(int i=0;i<8;i++)
+       {
+           int newX=front.first+x[i];
+           int newY=front.second+y[i];
+           
+           if(newX<0 || newX>=N || newY<0 || newY>=N || visited[newX][newY]==true)
+           {
+               continue;
+           }
+           if(make_pair(newX,newY) == dest)
+           {
+               return true;
+           }
+           else
+           {
+               q.push({newX,newY});
+               visited[newX][newY]=true;
+           }
+       }
+       return false;
+   }
+    int minStepToReachTarget(vector<int>& knightPos, vector<int>& targetPos, int N) {
+        pair<int,int>src={knightPos[0]-1,knightPos[1]-1};
+        pair<int,int>dest={targetPos[0]-1,targetPos[1]-1};
+        vector<vector<bool>>visited(N,vector<bool>(N,false));
+        if(src==dest)
+        return 0;
+        queue<pair<int,int>>q;
+        q.push(src);
+        q.push(make_pair(-1,-1));
+        visited[knightPos[0]-1][knightPos[1]-1]=true;
+        int steps=1;
+        while(!q.empty())
+        {
+            auto front=q.front();
+            q.pop();
+            
+            if(front==make_pair(-1,-1))
+            {
+                steps++;
+                if(!q.empty())
+                {
+                    q.push({-1,-1});
+                }
+            }
+            else
+            {
+                if(explore(front,dest,q,N,visited))
+                {
+                    return steps;
+                }
+            }
+        }
+        return -1;
+    }
+};
