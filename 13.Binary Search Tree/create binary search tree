@@ -39,7 +39,66 @@ Node *createBST() {
   }
   return root;
 }
+void preorderTraversal(Node* root)
+{
+  if(!root)
+    return;
 
+  cout<<root->data<<" ";
+  preorderTraversal(root->left);
+  preorderTraversal(root->right);
+}
+
+void inorderTraversal(Node* root)
+{
+  if(!root)
+    return;
+
+  
+  inorderTraversal(root->left);
+  cout<<root->data<<" ";
+  inorderTraversal(root->right);
+}
+
+void postorderTraversal(Node* root)
+{
+  if(!root)
+    return;
+
+  postorderTraversal(root->left);
+  postorderTraversal(root->right);
+  cout<<root->data<<" ";
+}
+
+int getMaxINBST(Node* root)
+{
+  if(root==NULL)
+  {
+    return -1;
+  }
+  if(root->right==NULL)
+  {
+    return root->data;
+  }
+
+  int maxAns=getMaxINBST(root->right);
+  return maxAns;
+}
+
+int getMinINBST(Node* root)
+{
+  if(root==NULL)
+  {
+    return -1;
+  }
+  if(root->left==NULL)
+  {
+    return root->data;
+  }
+
+  int minAns=getMinINBST(root->left);
+  return minAns;
+}
 void levelOrderTraversal(Node *&root) {
   queue<Node *> q;
   q.push(root);
@@ -65,15 +124,62 @@ void levelOrderTraversal(Node *&root) {
     }
   }
 }
+bool seasrchInBST(Node* root,int target)
+{
+  if(root==NULL)
+  {
+    return false;
+  }
+  if(target==root->data)
+  {
+    return true;
+  }
+  else if(target < root->data)
+  {
+    return seasrchInBST(root->left,target);
+  }
+  else if(target > root->data){
+    return seasrchInBST(root->right,target);
+  }
+  return false;
+  
+}
+
 int main() {
   Node *root = createBST();
   levelOrderTraversal(root);
+  cout<<"preorder: "<<" ";
+  preorderTraversal(root);
+  cout<<endl;
+  cout<<"inorder: "<<" ";
+  inorderTraversal(root);
+  cout<<endl;
+  cout<<"postorder: "<<" ";
+  postorderTraversal(root);
+  cout<<endl;
+
+  bool findTarget=seasrchInBST(root,1250);
+  if(findTarget)
+  {
+    cout<<"Target found"<<endl;
+  }
+  else{
+    cout<<"Target not found"<<endl;
+  }
+
+  cout<<getMaxINBST(root)<<endl;
+  cout<<getMinINBST(root)<<endl;
 }
 
-# input:
-#   Enter the values
-# 100 50 200 70 20 250 150 -1
-# output:
-# 100 
-# 50 200 
-# 20 70 150 250 
+
+Enter the values
+100 50 200 70 20 250 150 -1
+100 
+50 200 
+20 70 150 250 
+preorder:  100 50 20 70 200 150 250 
+inorder:  20 50 70 100 150 200 250 
+postorder:  20 70 50 150 250 200 100 
+Target not found
+250
+20
