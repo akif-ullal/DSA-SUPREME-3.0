@@ -1,0 +1,79 @@
+#include <iostream>
+#include <queue>
+using namespace std;
+
+class Node {
+public:
+  int data;
+  Node *right;
+  Node *left;
+
+  Node(int val) {
+    this->data = val;
+    right = NULL;
+    left = NULL;
+  }
+};
+
+void createTree(Node *&root, int val) {
+  if (root == NULL) {
+    root = new Node(val);
+    return;
+  }
+
+  if (val< root->data ) {
+    createTree(root->left, val);
+  } else {
+    createTree(root->right, val);
+  }
+}
+
+Node *createBST() {
+  int val;
+  cout << "Enter the values" << endl;
+  cin >> val;
+  Node *root = NULL;
+  while (val != -1) {
+    createTree(root, val);
+    cin >> val;
+  }
+  return root;
+}
+
+void levelOrderTraversal(Node *&root) {
+  queue<Node *> q;
+  q.push(root);
+  q.push(NULL);
+
+  while (!q.empty()) {
+    auto front = q.front();
+    q.pop();
+
+    if (front == NULL) {
+      cout << endl;
+      if (!q.empty()) {
+        q.push(NULL);
+      }
+    } else {
+      cout << front->data << " ";
+      if (front->left) {
+        q.push(front->left);
+      }
+      if (front->right) {
+        q.push(front->right);
+      }
+    }
+  }
+}
+int main() {
+  Node *root = createBST();
+  levelOrderTraversal(root);
+}
+
+# input:
+#   Enter the values
+# 100 50 200 70 20 250 150 -1
+# output:
+# 100 
+# 50 200 
+# 20 70 150 250 
