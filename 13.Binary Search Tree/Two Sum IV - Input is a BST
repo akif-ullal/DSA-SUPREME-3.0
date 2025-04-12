@@ -1,0 +1,42 @@
+class Solution {
+public:
+    void inorderTraversal(TreeNode*root,vector<int>&inorder)
+    {
+        if(!root)
+        return;
+
+        inorderTraversal(root->left,inorder);
+        inorder.push_back(root->val);
+        inorderTraversal(root->right,inorder);
+
+    }
+
+    bool findSum(TreeNode*root,vector<int>arr,int k)
+    {
+        int start=0;
+        int end=arr.size()-1;
+        while(start<end)
+        {
+            int sum=arr[start]+arr[end];
+            if(k==sum)
+            {
+                return true;
+            }
+            else if(sum<k)
+            {
+                start++;
+            }
+            else
+            {
+                end--;
+            }
+        }
+        return false;
+    }
+    bool findTarget(TreeNode* root, int k) {
+        vector<int>inorder;
+        inorderTraversal(root,inorder);
+        bool ans=findSum(root,inorder,k);
+        return ans;
+    }
+};
