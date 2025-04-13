@@ -1,0 +1,39 @@
+class Solution {
+  public:
+  
+    pair<bool,int>findisSumTree(Node* root)
+    {
+        if(root==NULL)
+        {
+            return {true,0};
+        }
+        if(root->left==NULL && root->right==NULL)
+        {
+            return {true,root->data};
+        }
+        
+        auto ls=findisSumTree(root->left);
+        auto rs=findisSumTree(root->right);
+        
+        bool left=ls.first;
+        bool right=ls.first;
+        
+        bool parentsum=root->data==ls.second+rs.second;
+        pair<bool,int> ans={false,0};
+        if(parentsum && left && right)
+        {
+            ans.first=true;
+            ans.second=root->data+ls.second+rs.second;
+        }
+        else
+        {
+            ans.first=false;
+        }
+        return ans;
+    }
+    bool isSumTree(Node* root) {
+        // Your code here
+        auto ans=findisSumTree(root);
+        return ans.first;
+    }
+};
