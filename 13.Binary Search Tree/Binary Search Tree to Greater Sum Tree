@@ -1,0 +1,41 @@
+class Solution {
+public:
+
+void inorderTraversal(TreeNode*root,vector<int>&inorder)
+    {
+        if(!root)
+        return;
+
+        inorderTraversal(root->left,inorder);
+        inorder.push_back(root->val);
+        inorderTraversal(root->right,inorder);
+
+    }
+
+    void storeInIorder(TreeNode*root,vector<int>&inorder,int &index)
+    {
+        if(!root)
+        return;
+
+        storeInIorder(root->left,inorder,index);
+        root->val=inorder[index];
+        index++;
+        storeInIorder(root->right,inorder,index); 
+    }
+    TreeNode* bstToGst(TreeNode* root) {
+        vector<int>inorder;
+        inorderTraversal(root,inorder);
+        int n = inorder.size();
+        for(int i=n-1;i>=0;i--)
+        {
+            if(i+1 < n)
+            {
+                int sum = inorder[i]+inorder[i+1];
+                inorder[i]=sum;
+            }
+        }
+        int index=0;
+        storeInIorder(root,inorder,index);
+        return root;
+    }
+};
