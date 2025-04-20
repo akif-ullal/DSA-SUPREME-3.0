@@ -1,0 +1,25 @@
+class Solution {
+  public:
+  
+    void BuildBToDLL(Node*root,Node*&head)
+    {
+        if(!root)
+        return;
+        
+        BuildBToDLL(root->right,head);
+        Node*createNode=new Node(root->data);
+        createNode->right=head;
+        if(head!=NULL)
+        {
+            head->left=createNode;
+        }
+        head=createNode;
+       BuildBToDLL(root->left,head); 
+    }
+    Node* bToDLL(Node* root) {
+       
+        Node*head=NULL;
+        BuildBToDLL(root,head);
+        return head;
+    }
+};
