@@ -1,0 +1,46 @@
+class Info{
+    public:
+    int maxVal;
+    int minVal;
+    bool isbst;
+    int maxsum;
+
+};
+class Solution {
+public:
+
+    Info solve(TreeNode*root,int &sum)
+    {
+        if(!root)
+        {
+            Info temp;
+            temp.maxVal=INT_MIN;
+            temp.minVal=INT_MAX;
+            temp.isbst=true;
+            temp.maxsum=0;
+            return temp;
+        }
+
+        Info ls=solve(root->left,sum);
+        Info rs=solve(root->right,sum);
+
+        Info curr;
+        curr.maxVal=max(ls.maxVal,max(rs.maxVal,root->val));
+        curr.minVal=min(ls.minVal,min(rs.minVal,root->val));
+
+        curr.maxsum=ls.maxsum+rs.maxsum+root->val;
+
+        curr.isbst=(root->val > ls.maxVal && root->val < rs.minVal && ls.isbst && rs.isbst);
+        
+        if(curr.isbst)
+        {
+            sum=max(sum,curr.maxsum);
+        }
+        return curr;
+    }
+    int maxSumBST(TreeNode* root) {
+        int sum=0;
+        Info ans=solve(root,sum);
+        return sum;
+    }
+};
