@@ -1,3 +1,4 @@
+//without inplace 
 class Solution {
 public:
 
@@ -46,6 +47,76 @@ public:
 
                 root->left = deleteNode(root->left,maxVal);
             }
+
+
+        }else if(key < root->val)
+        {
+            root->left = deleteNode(root->left,key);
+        }
+        else
+        {
+            root->right = deleteNode(root->right,key);
+        }
+        return root;
+    }
+};
+
+//with inplace 
+class Solution {
+public:
+
+    int getMaxINBST(TreeNode* root)
+    {
+    if(root==NULL)
+    {
+        return -1;
+    }
+    if(root->right==NULL)
+    {
+        return root->val;
+    }
+
+    int maxAns=getMaxINBST(root->right);
+    return maxAns;
+    }
+
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(!root)
+        return NULL;
+
+        if(key==root->val)
+        {
+            if(root->left==NULL && root->right==NULL)
+            {
+                delete root;
+                return NULL;
+            }
+            else if(root->left==NULL && root->right!=NULL)
+            {
+                TreeNode* rightChild=root->right;
+                delete root;
+                return rightChild;
+            }
+            else if(root->left!=NULL && root->right==NULL)
+            {
+                TreeNode* leftChild=root->left;
+                delete root;
+                return leftChild;
+            }
+ 
+            //with  inplace
+            else if(root->left!=NULL && root->right!=NULL)
+            {
+               auto rscan=root->right;
+               auto rootright=root->right;
+               while(rscan->left)
+               rscan=rscan->left;
+
+               rscan->left=root->left;
+               delete root;
+               return rootright;
+            }
+
 
 
         }else if(key < root->val)
