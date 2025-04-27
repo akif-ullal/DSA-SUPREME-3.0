@@ -1,0 +1,56 @@
+class Solution {
+  public:
+    int countPairs(Node* root1, Node* root2, int x) {
+        int count=0;
+        stack<Node*>s1,s2;
+        Node*BST1=root1;
+        Node*BST2=root2;
+        
+        while(1)
+        {
+            while(BST1)
+            {
+                s1.push(BST1);
+                BST1=BST1->left;
+            }
+            
+             while(BST2)
+            {
+                s2.push(BST2);
+                BST2=BST2->right;
+            }
+            
+            if(s1.empty() || s2.empty())
+            {
+                break;
+            }
+            
+            Node* bst1Top=s1.top();
+            Node* bst2Top=s2.top();
+            
+            int sum=bst1Top->data+bst2Top->data;
+            
+            if(sum==x)
+            {
+                count++;
+                s1.pop();
+                s2.pop();
+                BST1=bst1Top->right;
+                BST2=bst2Top->left;
+            }
+           else if(sum > x)
+           {
+               s2.pop();
+               BST2=bst2Top->left;
+           }
+           else if(sum < x)
+           {
+               s1.pop();
+               BST1=bst1Top->right;
+           }
+            
+           
+        }
+        return count;
+    }
+};
