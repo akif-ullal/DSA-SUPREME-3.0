@@ -1,0 +1,23 @@
+class Solution {
+public:
+
+    TreeNode* createBstFromPreorder(vector<int>&preorder,int s,int e,int &i,int n)
+    {
+        if(i >= n || e < preorder[i]) 
+        return NULL;
+
+        int val=preorder[i++];
+        TreeNode* root=new TreeNode(val);
+        root->left=createBstFromPreorder(preorder,s,val,i,n);
+        root->right=createBstFromPreorder(preorder,val,e,i,n);
+        return root;
+    }
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        int s=INT_MIN;
+        int e=INT_MAX; 
+        int i=0;
+        int n=preorder.size();
+        TreeNode* root = createBstFromPreorder(preorder,s,e,i,n);
+        return root;
+    }
+};
