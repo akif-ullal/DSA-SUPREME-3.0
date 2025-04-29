@@ -1,0 +1,53 @@
+//my code 
+class Solution {
+public:
+
+    int checkRangeSumBST(TreeNode* root, int low, int high,int &ans)
+    {
+        if(!root)
+        return 0;
+
+        if(low<=root->val && root->val<=high)
+        {
+            ans=root->val+checkRangeSumBST(root->left,low,high,ans)+checkRangeSumBST(root->right,low,high,ans);
+        }
+        else if(root->val < low)
+        {
+            ans=checkRangeSumBST(root->right,low,high,ans);
+        }
+        else if(root->val > high)
+        {
+            ans=checkRangeSumBST(root->left,low,high,ans);
+        }
+        return ans;
+    }
+    int rangeSumBST(TreeNode* root, int low, int high) {
+      int ans=0;
+      int finalAns=checkRangeSumBST(root,low,high,ans);
+      return ans;
+    }
+};
+
+//class code 
+class Solution {
+public:
+    int rangeSumBST(TreeNode* root, int low, int high) {
+        if(!root) return 0;
+        int ans = 0;
+        bool wasInRange = false;
+        if(root->val >= low && root->val <= high){
+            wasInRange = true;
+            ans+= root->val;
+        }
+        if(wasInRange){
+            ans += rangeSumBST(root->left, low, high) + rangeSumBST(root->right,low,high);
+        }
+        else if(root->val < low){
+            ans += rangeSumBST(root->right, low,high);
+        }
+        else if(root->val > high){
+            ans += rangeSumBST(root->left,low,high);
+        }
+        return ans;
+    }
+};
