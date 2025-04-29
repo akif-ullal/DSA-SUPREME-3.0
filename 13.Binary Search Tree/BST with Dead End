@@ -1,0 +1,36 @@
+class Solution {
+  public:
+  
+    bool checkisDeadEnd(Node*root,unordered_map<int,bool>&visited,bool &ans)
+    {
+        if(root==NULL)
+        {
+            return false;
+        }
+        visited[root->data]=true;
+        if(root->left==NULL && root->right==NULL)
+        {
+            int xpr=root->data+1;
+            int xmr=root->data-1==0 ? root->data : root->data-1;
+            if(visited.find(xpr)!=visited.end() && visited.find(xmr)!=visited.end())
+            {
+                ans=true;
+                return ans;
+            }
+            
+
+        }
+       
+        bool ls=checkisDeadEnd(root->left,visited,ans);
+        bool rs=checkisDeadEnd(root->right,visited,ans);
+        return ls||rs;
+        
+    }
+    bool isDeadEnd(Node *root) {
+      unordered_map<int,bool>visited;
+      bool ans=false;
+      checkisDeadEnd(root,visited,ans);
+      return ans;
+        
+    }
+};
