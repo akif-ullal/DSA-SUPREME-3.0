@@ -1,0 +1,20 @@
+class Solution {
+public:
+
+    bool checkIsValidBST(TreeNode*root,long long  s,long long  e)
+    {
+        if(!root)
+        return true;
+
+        bool CurrIsINRange=(root->val>s && root->val<e);
+        bool ls=checkIsValidBST(root->left,s,root->val);
+        bool rs=checkIsValidBST(root->right,root->val,e);
+        return CurrIsINRange && ls && rs;
+    }
+    bool isValidBST(TreeNode* root) {
+        long long s=LONG_MIN;
+        long long e=LONG_MAX;
+        bool ans=checkIsValidBST(root,s,e);
+        return ans;
+    }
+};
