@@ -1,3 +1,85 @@
+//withot taking extra vector or array
+class BSTIterator {
+public:
+
+    stack<TreeNode*>stL;
+    stack<TreeNode*>stR;
+    void PushLeftEle(TreeNode* root)
+    {
+        TreeNode*curr=root;
+        while(curr)
+        {
+            stL.push(curr);
+            curr=curr->left;
+        }
+    }
+
+    void PushRightEle(TreeNode* root)
+    {
+        TreeNode*curr=root;
+        while(curr)
+        {
+            stR.push(curr);
+            curr=curr->right;
+        }
+    }
+    BSTIterator(TreeNode* root) {
+        PushLeftEle(root);
+        PushRightEle(root);
+    }
+    
+    int next() {
+        TreeNode*top=stL.top();
+        stL.pop();
+        if(top->right)
+        {
+            PushLeftEle(top->right);
+        }
+        return top->val;
+    }
+
+      int before() {
+        TreeNode*top=stR.top();
+        stR.pop();
+        if(top->left)
+        {
+            PushRightEle(top->left);
+        }
+        return top->val;
+    }
+    
+  
+};
+class Solution {
+public:
+    bool findTarget(TreeNode* root, int k) {
+        if(!root) return false;
+        BSTIterator it(root);
+
+        int i=it.next();
+        int j=it.before();
+
+        while(i<j)
+        {
+            int sum=i+j;
+
+            if(sum==k)
+            {
+                return true;
+            }
+            else if( sum > k)
+            {
+                j=it.before();
+            }
+            else
+            {
+                i=it.next();
+            }
+        }
+        return false;
+    }
+};
+//using vector
 class Solution {
 public:
     void inorderTraversal(TreeNode*root,vector<int>&inorder)
