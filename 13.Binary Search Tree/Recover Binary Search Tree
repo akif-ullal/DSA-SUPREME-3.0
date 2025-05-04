@@ -1,0 +1,34 @@
+class Solution {
+public:
+
+    void solve(TreeNode*root,TreeNode*&first,TreeNode*&second,TreeNode*&prev)
+    {
+        if(!root)
+        return;
+
+        solve(root->left,first,second,prev);
+        if(prev)
+        {
+            if(prev->val > root->val)
+            {
+                if(!first)
+                {
+                    first=prev;
+                }
+                second=root;
+            }
+        }
+        prev=root;
+        solve(root->right,first,second,prev);
+    }
+    void recoverTree(TreeNode* root) {
+        TreeNode*first=NULL;
+        TreeNode*second=NULL;
+
+        TreeNode*prev=NULL;
+
+        solve(root,first,second,prev);
+        
+        swap(first->val,second->val);
+    }
+};
