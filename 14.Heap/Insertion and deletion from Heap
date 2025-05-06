@@ -1,0 +1,111 @@
+#include<iostream>
+using namespace std;
+
+class Heap{
+public:
+int *arr;
+int capacity;
+int index;
+
+Heap(int val)
+{
+  this->capacity=val;
+  this->index=0;
+  arr=new int[capacity+1];
+}
+
+void insert(int data)
+{
+
+  if(index==capacity-1)
+  {
+    cout<<"overflow"<<endl;
+    return;
+  }
+  index++;
+
+  arr[index]=data;
+  int i=index;
+  while(i>1)
+    {
+      int parent=i/2;
+
+      if(arr[parent]<arr[i])
+      {
+        swap(arr[parent],arr[i]);
+        i=parent;
+      }
+      else
+      {
+        break;
+      }
+    }
+}
+
+void deleteFromHeap()
+{
+  if (index == 1) {
+      cout << "Heap is empty!" << endl;
+      return;
+  }
+  arr[1]=arr[index];
+  index--;
+
+  int i = 1;
+  while(i<index)
+    {
+      int curr=i;
+      int leftChild=2*i;
+      int rightChild=2*i+1;
+
+      if(leftChild <= index && arr[leftChild]>arr[curr])
+      {
+        curr=leftChild;
+      }
+
+      if(rightChild <= index && arr[rightChild]>arr[curr])
+        {
+          curr=rightChild;
+        }
+
+      if(curr!=i)
+      {
+        swap(arr[curr],arr[i]);
+        i=curr;
+      }
+      else{
+        break;
+      }
+      
+    }
+}
+
+void print()
+{
+  for(int i=1;i<=index;i++)
+    {
+      cout<<arr[i]<<" ";
+    }
+  cout<<endl;
+}
+
+};
+int main()
+{
+  Heap h(6);
+  h.insert(50);
+  h.insert(20);
+  h.insert(30);
+  h.insert(5);
+  h.insert(6);
+  h.print();
+  h.deleteFromHeap();
+  h.deleteFromHeap();
+  h.deleteFromHeap();
+  h.deleteFromHeap();
+  //h.deleteFromHeap();
+  
+  h.print();
+  
+  
+}
