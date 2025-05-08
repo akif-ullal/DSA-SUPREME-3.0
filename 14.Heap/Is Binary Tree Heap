@@ -1,0 +1,69 @@
+class Solution {
+  public:
+      bool Completeness(Node*root)
+    {
+        if(!root)
+        return true;
+
+        queue<Node*>q;
+        bool isNull=false;
+        q.push(root);
+        while(!q.empty())
+        {
+            auto front=q.front();
+            q.pop();
+            if(front==NULL)
+            {
+                isNull=true;
+            }
+            else 
+            {
+                if(isNull)
+                {
+                    return false;
+                }
+               
+                q.push(front->left);
+                q.push(front->right);
+            }
+            
+        }
+        return true;
+    }
+    bool maxHeapProperty(Node *root)
+    {
+        if(!root)
+        return true;
+        
+        if(!root->left && !root->right)
+        return true;
+        
+        bool ls=maxHeapProperty(root->left);
+        bool rs=maxHeapProperty(root->right);
+        
+        bool curr=false;
+        int parent=root->data;
+        int leftChild=-1;
+        int rightChild=-1;
+        if(root->left)
+        {
+            leftChild=root->left->data;
+        }
+        
+        if(root->right)
+        {
+            rightChild=root->right->data;
+        }
+        
+        if(parent > leftChild && parent >rightChild)
+        {
+            curr=true;
+        }
+        return curr && ls && rs;
+    }
+    bool isHeap(Node* tree) {
+        // code here
+        return Completeness(tree) && maxHeapProperty(tree);
+        
+    }
+};
