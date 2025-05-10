@@ -24,7 +24,7 @@ public:
             ListNode* top=p.top();
             p.pop();
 
-            if(head==NULL && top!=NULL)
+            if(head==NULL)
             {
                 head=top;
                 tail=top;
