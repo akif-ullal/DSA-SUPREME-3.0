@@ -1,0 +1,43 @@
+class comapre{
+public:
+bool operator()(ListNode*a,ListNode*b)
+{
+    return a->val > b->val;
+}
+};
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        ListNode*head=NULL;
+        ListNode*tail=NULL;
+
+        priority_queue<ListNode*,vector<ListNode*>,comapre>p;
+
+        for(int i=0;i<lists.size();i++)
+        {
+            if(lists[i]!=NULL)
+            p.push(lists[i]);
+        }
+
+        while(!p.empty())
+        {
+            ListNode* top=p.top();
+            p.pop();
+
+            if(head==NULL && top!=NULL)
+            {
+                head=top;
+                tail=top;
+            }
+            else
+            {
+                tail->next=top;
+                tail=top;
+                
+            }
+            if(top->next!=NULL)
+            p.push(top->next);
+        }
+        return head;
+    }
+};
