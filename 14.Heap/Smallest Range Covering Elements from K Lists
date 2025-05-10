@@ -1,0 +1,79 @@
+class Info{
+    public:
+    int data;
+    int rindex;
+    int cindex;
+
+    Info(int ele,int row,int col)
+    {
+        this->data=ele;
+        this->rindex=row;
+        this->cindex=col;
+
+    }
+};
+
+class compare{
+public:
+    bool operator()(Info* a,Info* b)
+    {
+        return a->data > b->data;
+    }
+};
+class Solution {
+public:
+    vector<int> smallestRange(vector<vector<int>>& nums) {
+        priority_queue<Info*,vector<Info*>,compare>p;
+        int Min=INT_MAX;
+        int Max=INT_MIN;
+
+        vector<int>ans;
+        int totalrow=nums.size();
+        for(int i=0;i<totalrow;i++)
+        {
+            int ele=nums[i][0];
+            Info* temp=new Info(ele,i,0);
+            p.push(temp);
+            Max=max(Max,ele);
+
+        }
+
+        int maxAns=Max;
+        int minAns=p.top()->data;;
+
+        while(!p.empty())
+        {
+            auto top = p.top();
+            p.pop();
+            int ele = top->data;
+            int row = top->rindex;
+            int col = top->cindex;
+
+            int totalcol=nums[row].size();
+
+            Min=ele;
+
+            if(Max-Min < maxAns-minAns)
+            {
+                maxAns=Max;
+                minAns=Min;
+            }
+
+            if(col+1 < totalcol)
+            {
+                Max=max(Max,nums[row][col+1]);
+                Info* temp = new Info(nums[row][col+1],row,col+1);
+                p.push(temp);
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        ans.push_back(minAns);
+        ans.push_back(maxAns);
+        return ans;
+
+    }
+};
