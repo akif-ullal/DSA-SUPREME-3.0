@@ -1,0 +1,55 @@
+class Info{
+ public:
+ int data;
+ int rindex;
+ int cindex;
+ 
+ Info(int ele,int row,int col)
+ {
+     this->data=ele;
+     this->rindex=row;
+     this->cindex=col;
+ }
+};
+
+class compare{
+    public:
+    bool operator()(const Info *a,const Info *b)
+    {
+        return a->data > b->data;
+    }
+};
+class Solution {
+  public:
+    vector<int> mergeKArrays(vector<vector<int>> arr, int K) {
+        // code here
+        priority_queue<Info*,vector<Info*>,compare>p;
+        
+        for(int i=0;i<K;i++)
+        {
+            int ele=arr[i][0];
+            Info* temp = new Info(ele,i,0);
+            p.push(temp);
+        }
+        int totalRow=arr.size();
+        int totalCol=arr[0].size();
+        vector<int>ans;
+        while(!p.empty())
+        {
+            auto top = p.top();
+            p.pop();
+            auto topRow=top->rindex;
+            auto topCol=top->cindex;
+            auto topData=top->data;
+            ans.push_back(topData);
+            if(topCol+1 < totalCol)
+            {
+                auto newEle=arr[topRow][topCol+1];
+                Info* temp = new Info(newEle,topRow,topCol+1);
+                p.push(temp);
+            }
+            
+        }
+        return ans;
+    }
+};
