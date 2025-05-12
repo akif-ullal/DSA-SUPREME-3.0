@@ -1,0 +1,30 @@
+
+class Solution {
+  public:
+    vector<int> mergeHeaps(vector<int> &a, vector<int> &b, int n, int m) {
+        // your code here
+        priority_queue<int>p;
+        
+        for(int i=0;i<b.size();i++)
+        {
+            p.push(b[i]);
+        }
+        
+        for(int i=0;i<a.size();i++)
+        {
+            p.push(a[i]);
+        }
+        
+        vector<int>ans;
+        
+        while(!p.empty())
+        {
+            auto top=p.top();
+            p.pop();
+            
+            ans.push_back(top);
+        }
+        
+        return ans;
+    }
+};
