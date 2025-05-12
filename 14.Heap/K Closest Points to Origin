@@ -1,0 +1,39 @@
+class cmp{
+    public:
+    bool operator()(pair<int,pair<int,int>>&a,pair<int,pair<int,int>> &b)
+    {
+        return a.first > b.first;
+    }
+};
+
+class Solution {
+public:
+
+    void getKcloser(vector<vector<int>>&points,priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,cmp>&p)
+    {
+         for(auto point:points)
+         {
+           int dist=(point[0]*point[0])+(point[1]*point[1]);
+           p.push({dist,{point[0],point[1]}});
+         }
+
+    }
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,cmp>p;
+
+         vector<vector<int>>ans;
+
+         getKcloser(points,p);
+
+         while(!p.empty() && k!=0)
+         {
+            auto top=p.top();
+            p.pop();
+            auto secondOftop=top.second;
+            ans.push_back({secondOftop.first,secondOftop.second});
+            k--;
+         }
+         return ans;
+
+    }
+};
