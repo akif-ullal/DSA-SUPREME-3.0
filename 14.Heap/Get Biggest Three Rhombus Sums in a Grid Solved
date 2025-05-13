@@ -1,0 +1,114 @@
+class Solution {
+public:
+
+    bool checkItsInRange(int row ,int col,int n,int m)
+    {
+        if(row<0 || col<0 || row>=n || col>=m)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    int makeRhombusSum(pair<int,int>&A,pair<int,int>&B,pair<int,int>&C,pair<int,int>&D,vector<vector<int>>& grid,int sum)
+    {
+        pair<int,int> a = A, b = B, c = C, d = D;
+
+        while(a!=B)
+        {
+            sum+=grid[a.first][a.second];
+            a.first=a.first+1;
+            a.second=a.second+1;
+
+        }
+
+        while(b!=C)
+        {
+            sum+=grid[b.first][b.second];
+            b.first=b.first+1;
+            b.second=b.second-1;
+
+        }
+
+        while(c!=D)
+        {
+            sum+=grid[c.first][c.second];
+            c.first=c.first-1;
+            c.second=c.second-1;
+
+        }
+
+         while(d!=A)
+        {
+            sum+=grid[d.first][d.second];
+            d.first=d.first-1;
+            d.second=d.second+1;
+
+        }
+        return sum;
+    }
+
+    void makeMaxRhombus(vector<vector<int>>& grid,priority_queue<int>&p,pair<int,int>&A,pair<int,int>&B,
+    pair<int,int>&C,pair<int,int>&D)
+    {
+         int rowSize=grid.size();
+         int colSize=grid[0].size();
+         int currSum=0;
+         for(int i=0;i<grid.size();i++)
+         {
+            for(int j=0;j<grid[0].size();j++)
+            {
+                p.push(grid[i][j]);
+                int delta = 1;
+                while(true)
+                {
+                if(checkItsInRange(i-delta,j,rowSize,colSize) && checkItsInRange(i,j+delta,rowSize,colSize) &&
+                checkItsInRange(i+delta,j,rowSize,colSize) && checkItsInRange(i,j-delta,rowSize,colSize))
+                {
+                    A={i-delta,j};
+                    B={i,j+delta};
+                    C={i+delta,j};
+                    D={i,j-delta};
+                    int sum=0;
+                    currSum=makeRhombusSum(A,B,C,D,grid,sum);
+                    p.push(currSum);
+
+                }
+                else
+                {
+                    break;
+                }
+                delta++;
+              }
+                
+            }
+         }
+    }
+    vector<int> getBiggestThree(vector<vector<int>>& grid) {
+        priority_queue<int>p;
+
+        pair<int,int>A={-1,-1};
+        pair<int,int>B={-1,-1};
+        pair<int,int>C={-1,-1};
+        pair<int,int>D={-1,-1};
+
+        makeMaxRhombus(grid,p,A,B,C,D);
+
+        
+        vector<int>ans;
+        int i=0;
+        while(!p.empty() && ans.size() < 3)
+        {
+            auto top=p.top();
+            p.pop();
+            if(ans.empty() || ans.back()!=top)
+            {
+                ans.push_back(top);
+                
+            }
+        }
+
+        return ans;
+        
+    }
+};
