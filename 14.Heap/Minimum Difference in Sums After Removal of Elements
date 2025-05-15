@@ -1,0 +1,66 @@
+class Solution {
+public:
+
+    void createprefix(vector<long long >&prefix,priority_queue<long long >&MaxHeap,long long n,vector<int>& nums)
+    {
+        long long sum=0;
+        for(long long i=0;i<nums.size();i++)
+        {
+            sum+=nums[i];
+            MaxHeap.push(nums[i]);
+            if(n==MaxHeap.size())
+            {
+               prefix[i]=sum;
+            }
+
+            if(MaxHeap.size()>n)
+            {
+                sum-=MaxHeap.top();
+                MaxHeap.pop();
+                prefix[i]=sum;
+            }
+            
+        }
+    }
+
+    void createSuffix( vector<long long >&suffix,priority_queue<long long ,vector<long long >,greater<long long >>&MinHeap,
+    long long n,vector<int>&nums)
+    {
+        long long sum=0;
+
+        for(long long i=nums.size()-1;i>=0;i--)
+        {
+            sum+=nums[i];
+            MinHeap.push(nums[i]);
+
+            if(n==MinHeap.size())
+            {
+                suffix[i]=sum;
+            }
+
+            if(MinHeap.size()>n)
+            {
+                sum-=MinHeap.top();
+                MinHeap.pop();
+                suffix[i]=sum;
+            }
+        }
+    }
+    long long minimumDifference(vector<int>& nums) {
+        vector<long long >prefix(nums.size(),-1);
+        priority_queue<long long >MaxHeap;
+        long long n=nums.size()/3;
+        createprefix(prefix,MaxHeap,n,nums);
+
+        vector<long long >suffix(nums.size(),-1);
+        priority_queue<long long ,vector<long long >,greater<long long >>MinHeap;
+        createSuffix(suffix,MinHeap,n,nums);
+
+        long long ans=LONG_LONG_MAX;
+        for(long long i=n-1;i<2*n;i++)
+        {
+            ans=min(ans,prefix[i]-suffix[i+1]);
+        }
+        return ans;
+    }
+};
