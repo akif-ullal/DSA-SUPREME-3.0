@@ -1,0 +1,101 @@
+class Twitter {
+public:
+
+    class tweet
+    {
+        public:
+        int tweetId;
+        int time;
+
+        tweet(int tweets,int t)
+        {
+            this->tweetId=tweets;
+            this->time=t;
+        }
+    };
+
+    class cmp
+    {
+        public:
+        bool operator()(const tweet&a,const tweet&b)
+        {
+            return a.time > b.time;
+        }
+    };
+
+    unordered_map<int,vector<tweet>>PostedTweets;
+    unordered_map<int,unordered_set<int>>following;
+
+    priority_queue<tweet,vector<tweet>,cmp>minHeap;
+    int time;
+    Twitter() {
+        time=0;
+    }
+    
+    void postTweet(int userId, int tweetId) {
+        PostedTweets[userId].push_back({tweetId,time++});
+    }
+    
+    vector<int> getNewsFeed(int userId) {
+       
+            if(PostedTweets.find(userId)!=PostedTweets.end())
+            {
+                auto usersTweets=PostedTweets[userId];
+
+                for(auto usersTweet:usersTweets)
+                {
+                    minHeap.push({usersTweet.tweetId,usersTweet.time});
+
+                    if(minHeap.size() > 10)
+                    minHeap.pop();
+                }
+            }
+
+            if(following.find(userId)!=following.end())
+            {
+                auto follwersTweets=following[userId];
+
+                for(auto follwer:follwersTweets)
+                {
+
+                    if(PostedTweets.find(follwer)!=PostedTweets.end())
+                    {
+                        auto usersTweets=PostedTweets[follwer];
+
+                        for(auto usersTweet:usersTweets)
+                        {
+                            minHeap.push({usersTweet.tweetId,usersTweet.time});
+
+                            if(minHeap.size() > 10)
+                            minHeap.pop();
+                        }
+                    }
+                }
+            }
+
+            vector<int>NewsFeed;
+            while(!minHeap.empty())
+            {
+                auto [tweetId,time]=minHeap.top();
+                NewsFeed.push_back(tweetId);
+                minHeap.pop();
+            }
+
+            reverse(NewsFeed.begin(),NewsFeed.end());
+            return NewsFeed;
+
+
+        }
+    
+    
+    void follow(int followerId, int followeeId) {
+        if(followerId == followeeId) return;
+        following[followerId].insert(followeeId);
+    }
+    
+    void unfollow(int followerId, int followeeId) {
+        if(followerId == followeeId) return;
+        following[followerId].erase(followeeId);
+    }
+};
+
