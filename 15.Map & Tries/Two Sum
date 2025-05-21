@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int,vector<int>>mapp;
+
+        for(int i=0;i<nums.size();i++)
+        {
+            mapp[nums[i]].push_back(i);
+        }
+
+        for(int i=0;i<nums.size();i++)
+        {
+            int currEle=nums[i];
+
+            int requriedEle=target-currEle;
+
+           if(mapp.find(requriedEle)!=mapp.end())
+           {
+                if(currEle == requriedEle && mapp[currEle].size()==1)
+                continue;
+
+                if(currEle == requriedEle && mapp[currEle].size()>1)
+                {
+                    return{mapp[currEle][0],mapp[currEle][1]};
+                }
+                else
+                {
+                    return {i,mapp[requriedEle][0]};
+                }
+           }
+        }
+        return {-1,-1};
+    }
+};
