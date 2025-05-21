@@ -1,0 +1,27 @@
+detail in stl of map
+#include<iostream>
+#include<unordered_map>
+#include<string>
+#include<vector>
+using namespace std;
+
+int main()
+{
+  unordered_map<string,int>mapp;
+
+  mapp.insert({"banana", 10});
+  mapp["apple"]=2;
+
+  for(auto i:mapp)
+    {
+      cout<<i.first<<"->"<<i.second<<endl;
+    }
+
+  if(mapp.find("appl")!=mapp.end())
+  {
+    cout<<"found"<<endl;
+  }
+  else{
+     cout<<"Not found"<<endl;
+  }
+}
