@@ -1,0 +1,48 @@
+class Solution {
+public:
+    vector<int> findSubstring(string s, vector<string>& words) {
+        unordered_map<string,int>mapp;
+
+        for(auto each:words)
+        {
+            mapp[each]++;
+        }
+
+        int wordLength=words[0].size();
+        vector<int>ans;
+        for(int offset=0;offset<wordLength;offset++)
+        {
+            unordered_map<string,int>visited;
+            int count=0;
+
+            for(int i=offset;i+wordLength<=s.size();i=i+wordLength)
+            {
+                string substr=s.substr(i,wordLength);
+
+                if(mapp.find(substr)==mapp.end())
+                {
+                    visited.clear();
+                    count=0;
+                }
+                else
+                {
+                    visited[substr]++;
+                    ++count;
+
+                    while(mapp[substr] < visited[substr])
+                    {
+                        string duplicate=s.substr(i-(count-1)*wordLength,wordLength);
+                        visited[duplicate]--;
+                        count--;
+                    }
+
+                    if(count==words.size())
+                    {
+                        ans.push_back(i-(count-1)*wordLength);
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
