@@ -1,0 +1,107 @@
+#include <iostream>
+#include<unordered_map>
+
+using namespace std;
+
+class TrieNode{
+  public:
+  int data;
+  bool isTerminal;
+  unordered_map<int,TrieNode*>childrens;
+
+  TrieNode(int val)
+  {
+    this->data=val;
+    isTerminal=false;
+  }
+};
+
+void insert(TrieNode*root,string word)
+{
+  if(word.size()==0)
+  {
+    root->isTerminal=true;
+    return;
+  }
+
+  TrieNode*child;
+  char ch=word[0];
+  if(root->childrens.find(ch)!=root->childrens.end())
+  {
+    child=root->childrens[ch];
+  }
+  else
+  {
+    child=new TrieNode(ch);
+    root->childrens[ch]=child;
+  }
+  insert(child,word.substr(1));
+}
+
+bool search(TrieNode*root,string word)
+{
+  if(word.size()==0)
+  return root->isTerminal;
+
+  TrieNode* child;
+  char ch=word[0];
+
+  if(root->childrens.find(ch)!=root->childrens.end())
+  {
+    child=root->childrens[ch];
+  }
+  else{
+    return false;
+  }
+
+  return search(child,word.substr(1));
+}
+
+void remove(TrieNode*root,string word)
+{
+  if(word.size()==0)
+  {
+    root->isTerminal=false;
+    return;
+  }
+
+  TrieNode*child;
+  char ch=word[0];
+  if(root->childrens.find(ch)!=root->childrens.end())
+  {
+    child=root->childrens[ch];
+  }
+  else{
+    return;
+  }
+ remove(child,word.substr(1));
+
+}
+int main() {
+  TrieNode*root=new TrieNode('-');
+  insert(root,"cover");
+  insert(root,"colder");
+
+  bool ans=search(root,"cover");
+
+  if(ans)
+  {
+    cout<<"found"<<endl;
+  }
+  else{
+    cout<<"not found"<<endl;
+  }
+
+  remove(root,"cover");
+
+  ans=search(root,"cover");
+
+  if(ans)
+  {
+    cout<<"found"<<endl;
+  }
+  else{
+    cout<<"not found"<<endl;
+  }
+  return 0;
+}
