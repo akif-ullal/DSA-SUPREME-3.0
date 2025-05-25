@@ -1,0 +1,123 @@
+#include <iostream>
+#include<vector>
+#include<unordered_map>
+
+using namespace std;
+
+class TrieNode{
+  public:
+  int data;
+  bool isTerminal;
+  unordered_map<char,TrieNode*>childrens;
+
+  TrieNode(char val)
+  {
+    this->data=val;
+    isTerminal=false;
+  }
+};
+
+void insert(TrieNode*root,string word)
+{
+  if(word.size()==0)
+  {
+    root->isTerminal=true;
+    return;
+  }
+
+  TrieNode*child;
+  char ch=word[0];
+  if(root->childrens.find(ch)!=root->childrens.end())
+  {
+    child=root->childrens[ch];
+  }
+  else
+  {
+    child=new TrieNode(ch);
+    root->childrens[ch]=child;
+  }
+  insert(child,word.substr(1));
+}
+
+void storeAllTerminals(TrieNode*root,vector<string>&ans,string &output)
+{
+  if(root->isTerminal)
+  {
+    ans.push_back(output);
+  }
+
+  for(auto [ch,node]:root->childrens)
+  {
+    TrieNode*child=node;
+    output.push_back(ch);
+    storeAllTerminals(child,ans,output);
+    output.pop_back();
+  }
+}
+void findSuggestions(TrieNode*root,string prefix,vector<string>&ans)
+{
+
+  if(prefix.size()==0)
+  {
+    string output="";
+    storeAllTerminals(root,ans,output);
+    return;
+  }
+
+  char ch=prefix[0];
+  TrieNode*child;
+  if(root->childrens.find(ch)!=root->childrens.end())
+  {
+    child=root->childrens[ch];
+    findSuggestions(child,prefix.substr(1),ans);
+  }else
+  {
+    return;
+  }
+
+}
+void findSuggestionsForSinglePrefix(TrieNode*root,string word, vector<vector<string>>&ans)
+{
+  string temp="";
+  for(int i=0;i<word.size();i++)
+    {
+      temp.push_back(word[i]);
+      vector<string>tempAns;
+      findSuggestions(root,temp,tempAns);
+      ans.push_back(tempAns);
+
+      for(int j=0;j<ans[i].size();j++)
+        {
+          cout<<temp+ans[i][j]<<" ";
+        }
+      cout<<endl;
+
+
+    }
+
+
+}
+int main() {
+  TrieNode*root=new TrieNode('-');
+  insert(root,"baby");
+  insert(root,"babber");
+  insert(root,"baba");
+  insert(root,"bala");
+  insert(root,"bab");
+
+  string prefix="bal";
+
+  vector<string>ans;
+  vector<vector<string>>singleprefixAns;
+  findSuggestions(root,prefix,ans);
+
+
+  findSuggestionsForSinglePrefix(root,prefix,singleprefixAns);
+
+
+  // for(auto i:ans)
+  //   {
+  //     cout<<prefix+i<<endl;
+  //   }
+
+}
