@@ -1,0 +1,120 @@
+class TrieNode{
+  public:
+  int data;
+  bool isTerminal;
+  unordered_map<char,TrieNode*>childrens;
+
+  TrieNode(char val)
+  {
+    this->data=val;
+    isTerminal=false;
+  }
+};
+
+void insertWord(TrieNode*root,string &word,int i)
+{
+  if(word.size()==i)
+  {
+    root->isTerminal=true;
+    return;
+  }
+
+  TrieNode*child;
+  char ch=word[i];
+  if(root->childrens.find(ch)!=root->childrens.end())
+  {
+    child=root->childrens[ch];
+  }
+  else
+  {
+    child=new TrieNode(ch);
+    root->childrens[ch]=child;
+  }
+  insertWord(child,word,i+1);
+}
+
+bool searchWord(TrieNode*root,string &word,int &i)
+{
+   if (root->isTerminal) {
+        return true;
+    }
+    
+    if (word.size() == i) {
+        return false;
+    }
+
+  TrieNode* child;
+  char ch=word[i];
+  i++;
+
+  if(root->childrens.find(ch)!=root->childrens.end())
+  {
+    child=root->childrens[ch];
+  }
+  else{
+    return false;
+  }
+
+  return searchWord(child,word,i);
+}
+
+
+class Trie {
+public:
+
+    TrieNode*root;
+    Trie() {
+        root=new TrieNode('-');
+    }
+    
+    void insert(string word) {
+        int i=0;
+        insertWord(root,word,i);
+    }
+    
+    int search(string word) {
+        int i=0;
+        bool ans=searchWord(root,word,i);
+        return ans ? i : -1;
+    }
+
+};
+
+class Solution {
+public:
+    string replaceWords(vector<string>& dictionary, string sentence) {
+        Trie trie;
+        
+        for(auto &word:dictionary)
+        {
+            trie.insert(word);
+        }
+
+        int s=0;
+        int e=0;
+        string output="";
+        while(e<sentence.size())
+        {
+            string replaceWord="";
+
+            while(e<sentence.size() && sentence[e]!=' ' )
+            {
+                ++e;
+            }
+            int len = e==sentence.size()-1 ? sentence.size() : e-s;
+            string word=sentence.substr(s,len);
+            int trieIndexMatch=trie.search(word);
+            output+= trieIndexMatch!=-1 ? word.substr(0,trieIndexMatch) : word;
+
+            if(sentence[e]==' ')
+            {
+                output+=" ";
+            }
+            
+            s = e+1;
+            e++;
+        }
+        
+        return output;
+    }
+};
