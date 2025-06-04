@@ -1,0 +1,110 @@
+class cmp{
+    public:
+    bool operator()(const pair<string,int>&a,const pair<string,int>&b)
+    {
+        return a.second==b.second ? a.first < b.first : a.second > b.second;
+    }
+};
+class TrieNode{
+  public:
+  char data;
+  bool isTerminal;
+  int count;
+  unordered_map<char,TrieNode*>childrens;
+
+  TrieNode(char val)
+  {
+    this->data=val;
+    isTerminal=false;
+    count=0;
+  }
+};
+
+void insertWord(TrieNode*root,string &word,int i)
+{
+  if(word.size()==i)
+  {
+    root->isTerminal=true;
+    root->count++;
+    return;
+  }
+
+  TrieNode*child;
+  char ch=word[i];
+  if(root->childrens.find(ch)!=root->childrens.end())
+  {
+    child=root->childrens[ch];
+  }
+  else
+  {
+    child=new TrieNode(ch);
+    root->childrens[ch]=child;
+  }
+  insertWord(child,word,i+1);
+}
+
+void searchWord(TrieNode*root,string &curr,priority_queue<pair<string,int>,vector<pair<string,int>>,cmp>&p,int k)
+{
+  
+    if(root->isTerminal)
+    {
+        p.push({curr,root->count});
+        if(p.size() > k)
+        {
+            p.pop();
+        }
+    }
+    
+  for(auto&child:root->childrens)
+  {
+    curr.push_back(child.first);
+    searchWord(child.second,curr,p,k);
+    curr.pop_back();
+  }
+
+}
+
+class Trie {
+public:
+
+    TrieNode*root;
+    Trie() {
+        root=new TrieNode('-');
+    }
+    
+    void insert(string word) {
+        int i=0;
+        insertWord(root,word,i);
+    }
+    
+    void search(priority_queue<pair<string,int>,vector<pair<string,int>>,cmp>&p,int k) {
+        string curr="";
+        searchWord(root,curr,p,k);
+        
+    }
+    
+};
+
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        Trie trie;
+        priority_queue<pair<string,int>,vector<pair<string,int>>,cmp>p;
+        for(auto &word:words)
+        {
+            trie.insert(word);
+        }
+
+        trie.search(p,k);
+        vector<string>ans;
+        while(!p.empty())
+        {
+            auto[word,count]=p.top();
+            cout<<word<<endl;
+            p.pop();
+            ans.push_back(word);
+        }
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+};
