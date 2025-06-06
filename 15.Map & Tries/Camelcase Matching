@@ -1,0 +1,106 @@
+class TrieNode{
+  public:
+  char data;
+  bool isTerminal;
+  unordered_map<char,TrieNode*>childrens;
+
+  TrieNode(char val)
+  {
+    this->data=val;
+    isTerminal=false;
+  }
+};
+
+void insertWord(TrieNode*root,string &word,int i)
+{
+  if(word.size()==i)
+  {
+    root->isTerminal=true;
+    return;
+  }
+
+  TrieNode*child;
+  char ch=word[i];
+  if(root->childrens.find(ch)!=root->childrens.end())
+  {
+    child=root->childrens[ch];
+  }
+  else
+  {
+    child=new TrieNode(ch);
+    root->childrens[ch]=child;
+  }
+  insertWord(child,word,i+1);
+}
+
+void searchWord( TrieNode*root,string &querie,int &i,vector<bool>&ans)
+{
+  if(querie.size()==i && root->isTerminal)
+  {
+    ans.push_back(true);
+    return;
+  }
+
+  if(querie.size()==i && !root->isTerminal)
+  {
+    ans.push_back(false);
+    return;
+  }
+  char ch=querie[i];
+  if(root->childrens.find(ch)==root->childrens.end() && isupper(ch))
+  {
+    ans.push_back(false);
+    return;
+  }
+  
+
+  if(root->childrens.find(ch)!=root->childrens.end())
+  {
+    i++;
+    searchWord(root->childrens[ch],querie,i,ans);
+  }
+  else if(islower(ch))
+  {
+    i++;
+    searchWord(root,querie,i,ans);
+  }
+ 
+}
+
+class Trie {
+public:
+
+    TrieNode*root;
+    Trie() {
+        root=new TrieNode('-');
+    }
+    
+    void insert(string word) {
+        int i=0;
+        insertWord(root,word,i);
+    }
+    
+    void search(vector<string>& queries,vector<bool>&ans) {
+    
+         for(auto &querie:queries)
+         {
+            int i=0;
+            searchWord(root,querie,i,ans);
+           
+         }
+    }
+    
+};
+
+class Solution {
+public:
+    vector<bool> camelMatch(vector<string>& queries, string pattern) {
+        Trie trie;
+
+       trie.insert(pattern);
+
+        vector<bool>ans;
+        trie.search(queries,ans);
+        return ans;
+    }
+};
