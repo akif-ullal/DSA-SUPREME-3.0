@@ -1,0 +1,145 @@
+class TrieNode{
+  public:
+  char data;
+  bool isTerminal;
+  int index;
+  unordered_map<char,TrieNode*>childrens;
+
+  TrieNode(char val)
+  {
+    this->data=val;
+    isTerminal=false;
+    index=-1;
+  }
+};
+
+void insertWord(TrieNode*root,string &word,int i,int wordIndex)
+{
+  if(word.size()==i)
+  {
+    root->isTerminal=true;
+    root->index=wordIndex;
+    return;
+  }
+
+  TrieNode*child;
+  char ch=word[i];
+  if(root->childrens.find(ch)!=root->childrens.end())
+  {
+    child=root->childrens[ch];
+  }
+  else
+  {
+    child=new TrieNode(ch);
+    root->childrens[ch]=child;
+  }
+  insertWord(child,word,i+1,wordIndex);
+}
+
+bool checkItsPalindrome(string &word,int s ,int e)
+{
+
+    while(s<e)
+    {
+        if(word[s]==word[e])
+        {
+            s++;
+            e--;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+void makePlaindrome(TrieNode*root,vector<vector<int>>&ans,string &s,int &wordIndex)
+{
+    if(root->index!=-1 && root->index != wordIndex)
+    {
+        if(checkItsPalindrome(s,0,s.size()-1))
+        {
+            ans.push_back({wordIndex,root->index});
+        }
+        
+    }
+    for(auto& [ch, node] : root->childrens)
+    {
+        s.push_back(ch);
+        makePlaindrome(node, ans, s, wordIndex);
+        s.pop_back();
+    }
+}
+void searchWord(TrieNode*root,string &word,vector<vector<int>>&ans,int &wordIndex)
+{
+    TrieNode*curr=root;
+    
+   for(int i=0;i<word.size();i++)
+   {
+    char ch=word[i];
+
+    if(curr->index!=-1 && wordIndex!=curr->index)
+    {
+        if(checkItsPalindrome(word,i,word.size()-1))
+        {
+            ans.push_back({wordIndex,curr->index});
+        }
+    }
+    if(curr->childrens.find(ch)!=curr->childrens.end())
+    {
+        curr=curr->childrens[ch];
+    }
+    else
+    {
+        return;
+    }
+   }
+
+    string s="";
+    makePlaindrome(curr,ans,s,wordIndex);
+}
+
+class Trie {
+public:
+
+    TrieNode*root;
+    Trie() {
+        root=new TrieNode('-');
+    }
+    
+    void insert(string &word,int wordIndex) {
+        int i=0;
+        insertWord(root,word,i,wordIndex);
+    }
+    
+    void search(string &word,vector<vector<int>>&ans,int &wordIndex) {
+        
+        searchWord(root,word,ans,wordIndex);
+        
+    }
+};
+
+class Solution {
+public:
+    vector<vector<int>> palindromePairs(vector<string>& words) {
+        Trie trie;
+        int wordIndex=0;
+         
+        for(int i = 0; i < words.size(); i++){
+            auto reverseword = words[i];
+            reverse(reverseword.begin(), reverseword.end());
+            trie.insert(reverseword, i);
+        }
+
+        
+        vector<vector<int>>ans;
+        for(int i = 0; i < words.size(); i++)
+        {
+            trie.search(words[i],ans,i);
+        }
+
+        return ans;
+    }
+};
