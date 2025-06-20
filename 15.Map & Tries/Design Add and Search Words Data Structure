@@ -1,0 +1,116 @@
+class TrieNode{
+  public:
+  int data;
+  bool isTerminal;
+  unordered_map<char,TrieNode*>childrens;
+
+  TrieNode(char val)
+  {
+    this->data=val;
+    isTerminal=false;
+  }
+};
+
+void insertWord(TrieNode*root,string &word,int i)
+{
+  if(word.size()==i)
+  {
+    root->isTerminal=true;
+    return;
+  }
+
+  TrieNode*child;
+  char ch=word[i];
+  if(root->childrens.find(ch)!=root->childrens.end())
+  {
+    child=root->childrens[ch];
+  }
+  else
+  {
+    child=new TrieNode(ch);
+    root->childrens[ch]=child;
+  }
+  insertWord(child,word,i+1);
+}
+
+bool searchWord(TrieNode*root,string &word,int i)
+{
+  if(word.size()==i)
+  return root->isTerminal;
+
+  TrieNode* child;
+  char ch=word[i];
+  
+  if(ch=='.')
+  {
+    for(auto&[ch,node]:root->childrens)
+    {
+        if(searchWord(node, word, i+1))
+        {
+
+         return true;
+
+        }
+
+     }
+  }
+  else
+  {
+  if(root->childrens.find(ch)!=root->childrens.end())
+  {
+    child=root->childrens[ch];
+  }
+  else{
+    return false;
+  }
+
+  return searchWord(child,word,i+1);
+  
+  }
+  return false;
+}
+
+class Trie {
+public:
+
+    TrieNode*root;
+    Trie() {
+        root=new TrieNode('-');
+    }
+    
+    void insert(string word) {
+        int i=0;
+        insertWord(root,word,i);
+    }
+    
+    bool search(string word) {
+        int i=0;
+        bool ans=searchWord(root,word,i);
+        return ans;
+    }
+    
+};
+
+class WordDictionary {
+public:
+    Trie trie;
+    WordDictionary() {
+        
+    }
+    
+    void addWord(string word) {
+        trie.insert(word);
+    }
+    
+    bool search(string word) {
+        bool ans=trie.search(word);
+        return ans;
+    }
+};
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary* obj = new WordDictionary();
+ * obj->addWord(word);
+ * bool param_2 = obj->search(word);
+ */
