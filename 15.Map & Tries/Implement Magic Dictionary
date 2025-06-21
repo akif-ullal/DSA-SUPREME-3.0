@@ -1,0 +1,113 @@
+
+class TrieNode{
+  public:
+  char data;
+  bool isTerminal;
+  unordered_map<char,TrieNode*>childrens;
+
+  TrieNode(char val)
+  {
+    this->data=val;
+    isTerminal=false;
+  }
+};
+
+void insertWord(TrieNode*root,string &word,int i)
+{
+  if(word.size()==i)
+  {
+    root->isTerminal=true;
+    return;
+  }
+
+  TrieNode*child;
+  char ch=word[i];
+  if(root->childrens.find(ch)!=root->childrens.end())
+  {
+    child=root->childrens[ch];
+  }
+  else
+  {
+    child=new TrieNode(ch);
+    root->childrens[ch]=child;
+  }
+  insertWord(child,word,i+1);
+}
+
+bool searchWord(TrieNode*root,string &word,int i,bool changeFinder)
+{
+  if(word.size()==i && root->isTerminal && changeFinder)
+  {
+    return true;
+  }
+ 
+  char ch=word[i];
+  if(root->childrens.find(ch)!=root->childrens.end())
+  {
+   if(searchWord(root->childrens[ch], word, i+1, changeFinder))
+    {
+        return true;
+    } 
+   }
+  
+
+  if(!changeFinder)
+  {
+    for(auto &[childChar,childNode]:root->childrens)
+    {
+         if(ch!=childChar && searchWord(childNode, word, i + 1, true)) {
+            return true;
+        }
+    }
+  }
+
+ return false;
+}
+
+class Trie {
+public:
+
+    TrieNode*root;
+    Trie() {
+        root=new TrieNode('-');
+    }
+    
+    void insert(string word) {
+        int i=0;
+        insertWord(root,word,i);
+    }
+    
+    bool search(string word) {
+        int i=0;
+        bool changefinder=false;
+        
+        bool ans=searchWord(root,word,i,changefinder);
+        return ans;
+    }
+    
+};
+class MagicDictionary {
+public:
+    Trie trie;
+    MagicDictionary() {
+        
+    }
+    
+    void buildDict(vector<string> dictionary) {
+        for(auto &word:dictionary)
+        {
+            trie.insert(word);
+        }
+    }
+    
+    bool search(string searchWord) {
+        return trie.search(searchWord);
+    }
+};
+
+/**
+ * Your MagicDictionary object will be instantiated and called as such:
+ * MagicDictionary* obj = new MagicDictionary();
+ * obj->buildDict(dictionary);
+ * bool param_2 = obj->search(searchWord);
+ */
