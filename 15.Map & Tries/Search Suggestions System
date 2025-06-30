@@ -1,0 +1,127 @@
+class TrieNode{
+  public:
+  int data;
+  bool isTerminal;
+  string wordStore;
+  unordered_map<char,TrieNode*>childrens;
+
+  TrieNode(char val)
+  {
+    this->data=val;
+    isTerminal=false;
+    wordStore="";
+  }
+};
+
+void insertWord(TrieNode*root,string &word,int i)
+{
+  if(word.size()==i)
+  {
+    root->isTerminal=true;
+    root->wordStore=word;
+    return;
+  }
+
+  TrieNode*child;
+  char ch=word[i];
+  if(root->childrens.find(ch)!=root->childrens.end())
+  {
+    child=root->childrens[ch];
+  }
+  else
+  {
+    child=new TrieNode(ch);
+    root->childrens[ch]=child;
+  }
+  insertWord(child,word,i+1);
+}
+
+TrieNode* searchWord(TrieNode*root,string&word,int i)
+{
+    if(word.size()==i)
+    {
+        return root;
+    }
+    char ch=word[i];
+    if(root->childrens.find(ch)!=root->childrens.end())
+    {
+        return searchWord(root->childrens[ch],word,i+1);
+    }
+    
+    return NULL;
+    
+  
+}
+
+
+class Trie {
+public:
+
+    TrieNode*root;
+    Trie() {
+        root=new TrieNode('-');
+    }
+    
+    void insert(string word) {
+        int i=0;
+        insertWord(root,word,i);
+    }
+    
+    TrieNode* search(string &word) {
+        int i=0;
+        TrieNode* HeadOfsuggestions=searchWord(root,word,i);
+        return HeadOfsuggestions;
+
+    }
+    
+    
+};
+
+void makeSuffix(TrieNode*root,vector<string>&ans)
+{
+    if(root->isTerminal)
+    {
+        ans.push_back(root->wordStore);
+    }
+
+    for(auto &[chilhCh,childNode]:root->childrens)
+    {
+        makeSuffix(childNode,ans);
+    }
+}
+class Solution {
+public:
+    vector<vector<string>> suggestedProducts(vector<string>& products, string searchWord) {
+        Trie trie;
+
+        for(auto &product:products)
+        {
+            trie.insert(product);
+        }
+        
+        vector<vector<string>>finalAns;
+        vector<string>ans;
+
+        string prefix;
+
+        for(auto &ch:searchWord)
+        {
+            prefix+=ch;
+            vector<string>ans;
+            TrieNode*headOfSuffix=trie.search(prefix);
+            if(headOfSuffix)
+            {
+                makeSuffix(headOfSuffix,ans);
+            }
+            sort(ans.begin(),ans.end());
+
+            if(ans.size() > 3)
+            {
+                ans.resize(3);
+            }
+            finalAns.push_back(ans);
+        }
+
+        return finalAns;
+    }
+};
