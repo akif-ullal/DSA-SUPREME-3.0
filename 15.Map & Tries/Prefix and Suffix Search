@@ -1,0 +1,101 @@
+class TrieNode{
+    public:
+    int index;
+    char data;
+    unordered_map<char,TrieNode*>childrens;
+    TrieNode(char val)
+    {
+        index=-1;
+        this->data=val;
+    }
+};
+
+void insertWord(TrieNode*root,string &word,int i,int ind)
+{
+  if(word.size()==ind)
+  {
+    return;
+  }
+
+  TrieNode*child;
+  char ch=word[ind];
+  
+  if(root->childrens.find(ch)!=root->childrens.end())
+  {
+    child=root->childrens[ch];
+  }
+  else
+  {
+    child=new TrieNode(ch);
+    root->childrens[ch]=child;
+  }
+  child->index=i;
+  insertWord(child,word,i,ind+1);
+}
+
+int searchWord(TrieNode*root,string &word)
+{
+    TrieNode* node=root;
+    for(auto ch:word)
+    {
+        if(node->childrens.find(ch)==node->childrens.end())
+        {
+            return -1;
+        }
+        node=node->childrens[ch];
+    }
+    return node->index;
+}
+class Trie{
+    public:
+    TrieNode*root;
+    Trie()
+    {
+        root=new TrieNode('-');
+    }
+
+    void insert(string &word,int i)
+    {
+        
+        for(int j=0;j<=word.size();j++)
+        {
+            int ind=0;
+            string key = word.substr(j)+'#'+word;
+            insertWord(root,key,i,ind);
+        }
+    }
+
+    int search(string &pref,string &suff)
+    {
+        string findWord = suff+'#'+pref;
+        int ind=0;
+        int ans = searchWord(root,findWord);
+        return ans;
+    }
+
+};
+
+class WordFilter {
+public:
+Trie trie;
+    WordFilter(vector<string>& words) {
+        for(int i=0;i<words.size();i++)
+        {
+            string &word=words[i];
+
+            trie.insert(word,i);
+
+        }
+    }
+    
+    int f(string pref, string suff) {
+        int ans=trie.search(pref,suff);
+        return ans;
+    }
+};
+
+/**
+ * Your WordFilter object will be instantiated and called as such:
+ * WordFilter* obj = new WordFilter(words);
+ * int param_1 = obj->f(pref,suff);
+ */
