@@ -1,0 +1,74 @@
+class Solution {
+public:
+
+    int recursionAns(vector<int>&nums,int i)
+    {
+        if(i>=nums.size())
+        {
+            return 0;
+        }
+        int include=nums[i]+recursionAns(nums,i+2);
+        int exclude=0+recursionAns(nums,i+1);
+        int finalAns=max(include,exclude);
+        return finalAns;
+    }
+
+    int topDownAppr(vector<int>&nums,int i,vector<int>&dp)
+    {
+        if(i>=nums.size())
+        {
+            return 0;
+        }
+        if(dp[i]!=-1)
+        {
+            return dp[i];
+        }
+        int include=nums[i]+topDownAppr(nums,i+2,dp);
+        int exclude=0+topDownAppr(nums,i+1,dp);
+        dp[i]=max(include,exclude);
+        return dp[i];
+    }
+
+    int bottomUp(vector<int>&nums,int i,vector<int>&dp)
+    {
+        int n=nums.size();
+        dp[n]=0;
+
+        for(int i=nums.size()-1;i>=0;i--)
+        {
+            int include=nums[i]+dp[i+2];
+            int exclude=0+dp[i+1];
+            dp[i]=max(include,exclude);
+        }
+        return dp[0];
+        
+    }
+
+   int spaceOptimal(vector<int>&nums,int curr,int prev)
+    {
+        int n=nums.size();
+
+        for(int i=nums.size()-1;i>=0;i--)
+        {
+            int include=nums[i]+curr;
+            int exclude=0+prev;
+            int ans=max(include,exclude);
+            curr=prev;
+            prev=ans;
+        }
+        return prev;
+        
+    }
+    int rob(vector<int>& nums) {
+        //return recursionAns(nums,0);
+        // int n=nums.size();
+        // vector<int>dp(n+2,0);
+        // int i=0;
+
+        //return topDownAppr(nums,i,dp);
+
+        int curr=0;
+        int next=0;
+        return spaceOptimal(nums,curr,next);
+    }
+};
