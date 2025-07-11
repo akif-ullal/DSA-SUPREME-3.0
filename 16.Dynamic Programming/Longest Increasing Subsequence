@@ -1,0 +1,74 @@
+class Solution {
+public:
+
+    int recursionAns(vector<int>&nums,int prev,int curr)
+    {
+        if(curr>=nums.size())
+        return 0;
+
+        int inc=0;
+
+        if(prev == -1 || nums[curr]>nums[prev])
+        {
+            inc=1+recursionAns(nums,curr,curr+1);
+        }
+        int exc=recursionAns(nums,prev,curr+1);
+        int ans=max(inc,exc);
+        return ans;
+    }
+
+    int topDownAppr(vector<int>&nums,int prev,int curr,vector<vector<int>>&dp)
+    {
+        if(curr>=nums.size())
+        return 0;
+
+        if(dp[curr][prev+1]!=-1)
+        return  dp[curr][prev+1];
+
+        int inc=0;
+
+        if(prev == -1 || nums[curr]>nums[prev])
+        {
+            inc=1+topDownAppr(nums,curr,curr+1,dp);
+        }
+        int exc=topDownAppr(nums,prev,curr+1,dp);
+        dp[prev+1][curr]=max(inc,exc);
+        return dp[prev+1][curr];
+    }
+
+    int bottomUpAppr(vector<int>&nums)
+    {
+        int n=nums.size();
+        vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+       
+
+        for(int curr=n-1;curr>=0;curr--)
+        {
+            for(int prev=curr-1;prev>=-1;prev--)
+            {
+                int inc=0;
+
+                if(prev == -1 || nums[curr]>nums[prev])
+                {
+                    inc=1+dp[curr+1][curr+1];
+                }
+                int exc=dp[prev+1][curr+1];
+                dp[prev+1][curr]=max(inc,exc);
+            }
+        }
+
+        return dp[0][0];
+    }
+    int lengthOfLIS(vector<int>& nums) {
+        // int ans=recursionAns(nums,-1,0);
+        // return ans;
+
+        int n=nums.size();
+        int curr=0;
+        int prev=-1;
+        vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
+        int ans=topDownAppr(nums,prev,curr,dp);
+        //int ans=bottomUpAppr(nums);
+        return ans;
+    }
+};
