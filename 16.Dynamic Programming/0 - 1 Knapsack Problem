@@ -1,0 +1,175 @@
+class Solution {
+  public:
+  
+    int solveUsingRecursion(int W, vector<int> &val, vector<int> &wt,int i)
+    {
+        if(i==0)
+        {
+            if(W>=wt[i])
+            {
+                return val[0];
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        
+        int incl=0;
+        
+        if(W>=wt[i])
+        {
+            incl=val[i]+solveUsingRecursion(W-wt[i],val,wt,i-1);
+        }
+        int excl=0+solveUsingRecursion(W,val,wt,i-1);
+        int finalAns=max(incl,excl);
+        return finalAns;
+    }
+    
+    int solveUsingMem(int W, vector<int> &val, vector<int> &wt,int i, vector<vector<int>>&dp)
+    {
+        if(i==0)
+        {
+            if(W>=wt[i])
+            {
+                return val[0];
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        
+        if( dp[W][i]!=-1)
+        {
+            return  dp[W][i];
+        }
+        
+        int incl=0;
+        
+        if(W>=wt[i])
+        {
+            incl=val[i]+solveUsingMem(W-wt[i],val,wt,i-1,dp);
+        }
+        int excl=0+solveUsingMem(W,val,wt,i-1,dp);
+        dp[W][i]=max(incl,excl);
+        return  dp[W][i];
+    }
+   
+   int solveUsingTab(int W, vector<int> &val, vector<int> &wt)
+   {
+       int n=val.size();
+       vector<vector<int>>dp(W+1,vector<int>(n,0));
+       
+       for(int w=wt[0];w<=W;w++)
+       {
+           if(W>=wt[0])
+            {
+                dp[w][0]= val[0];
+            }
+            else
+            {
+                dp[w][0]= 0;
+            }
+       }
+       
+       for(int weight=0;weight<=W;weight++)
+       {
+        for(int index=1;index<n;index++)
+        {
+            int incl=0;
+            
+            if(weight>=wt[index])
+            {
+                incl=val[index]+dp[weight-wt[index]][index-1];
+            }
+            int excl=0+dp[weight][index-1];
+            dp[weight][index]=max(incl,excl);
+        }
+       }
+       return dp[W][n-1];
+   }
+   
+    int solveUsingTabSO(int W, vector<int> &val, vector<int> &wt)
+      {
+       int n=val.size();
+       //vector<vector<int>>dp(W+1,vector<int>(n,0));
+       vector<int>curr(W+1,0);
+       vector<int>prev(W+1,0);
+       for(int w=wt[0];w<=W;w++)
+       {
+           if(W>=wt[0])
+            {
+                prev[w]= val[0];
+            }
+            else
+            {
+                prev[w]= 0;
+            }
+       }
+       
+      for(int index=1;index<n;index++)
+      {
+       for(int weight=0;weight<=W;weight++)
+       {
+            int incl=0;
+            
+            if(weight>=wt[index])
+            {
+                incl=val[index]+prev[weight-wt[index]];
+            }
+            int excl=0+prev[weight];
+            curr[weight]=max(incl,excl);
+        }
+        prev=curr;
+       }
+       return prev[W];
+   }
+   
+   
+   int solveUsingTabSO2(int W, vector<int> &val, vector<int> &wt)
+      {
+       int n=val.size();
+       //vector<vector<int>>dp(W+1,vector<int>(n,0));
+       vector<int>curr(W+1,0);
+       //vector<int>prev(W+1,0);
+       for(int w=wt[0];w<=W;w++)
+       {
+           if(W>=wt[0])
+            {
+                curr[w]= val[0];
+            }
+            else
+            {
+                curr[w]= 0;
+            }
+       }
+       
+      for(int index=1;index<n;index++)
+      {
+       for(int weight=W;weight>=0;weight--)
+       {
+            int incl=0;
+            
+            if(weight>=wt[index])
+            {
+                incl=val[index]+curr[weight-wt[index]];
+            }
+            int excl=0+curr[weight];
+            curr[weight]=max(incl,excl);
+        }
+        
+       }
+       return curr[W];
+   }
+    int knapsack(int W, vector<int> &val, vector<int> &wt) {
+        // code here
+        int n=val.size();
+        int i=n-1;
+        //return solveUsingRecursion(W,val,wt,n);
+        // vector<vector<int>>dp(W+1,vector<int>(n,-1));
+        // return solveUsingMem(W,val,wt,i,dp);
+        
+        return solveUsingTabSO2(W,val,wt);
+    }
+};          
