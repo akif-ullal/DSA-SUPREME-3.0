@@ -1,0 +1,163 @@
+class Solution {
+public:
+
+    bool solveUsingRecursion(vector<int>& nums,int mid,int i)
+    {
+        if(nums.size()<=i)
+        {
+            return false;
+        }
+
+        if(mid==0)
+        {
+            return true;
+        }
+
+        bool incl=false;
+        if(nums[i]<=mid)
+        {
+           incl=solveUsingRecursion(nums,mid-nums[i],i+1);
+        }
+
+        bool excl=solveUsingRecursion(nums,mid,i+1);
+        return incl||excl;
+        
+    }
+
+    bool solveUsingMem(vector<int>& nums,int mid,int i,vector<vector<int>>&dp)
+    {
+        if(nums.size()<=i)
+        {
+            return false;
+        }
+
+        if(mid==0)
+        {
+            return true;
+        }
+
+        if(dp[mid][i]!=-1)
+        {
+            return dp[mid][i];
+        }
+        bool incl=false;
+        if(nums[i]<=mid)
+        {
+           incl=solveUsingMem(nums,mid-nums[i],i+1,dp);
+        }
+
+        bool excl=solveUsingMem(nums,mid,i+1,dp);
+        dp[mid][i]= incl||excl;
+        return dp[mid][i];
+        
+    }
+
+    bool solveUsingTab(vector<int>& nums,int mid)
+    {
+        int n=nums.size();
+        vector<vector<bool>>dp(mid+1,vector<bool>(n+1,false));
+
+        for(int i=0;i<n;i++)
+        {
+            dp[0][i]=true;
+        }
+
+        for(int row=1;row<=mid;row++)
+        {
+            for(int col=n-1;col>=0;col--)
+            {
+            bool incl=false;
+            if(nums[col]<=row)
+            {
+            incl=dp[row-nums[col]][col+1];
+            }
+
+            bool excl=dp[row][col+1];
+            dp[row][col]= incl||excl;
+            }
+        }
+        return dp[mid][0];
+
+    }
+
+    bool solveUsingTabSO(vector<int>& nums,int mid)
+    {
+        int n=nums.size();
+        //vector<vector<bool>>dp(mid+1,vector<bool>(n+1,false));
+        vector<int>next(mid+1,false);
+        vector<int>curr(mid+1,false);
+
+        for(int i=0;i<n;i++)
+        {
+            next[0]=true;
+        }
+
+        for(int col=n-1;col>=0;col--)
+        {
+        for(int row=1;row<=mid;row++)
+            {
+            bool incl=false;
+            if(nums[col]<=row)
+            {
+            incl=next[row-nums[col]];
+            }
+
+            bool excl=next[row];
+            curr[row]= incl||excl;
+            }
+            next=curr;
+
+        }
+        return next[mid];
+
+    }
+
+    bool solveUsingTabSO2(vector<int>& nums,int mid)
+    {
+        int n=nums.size();
+        //vector<vector<bool>>dp(mid+1,vector<bool>(n+1,false));
+        //vector<int>next(mid+1,false);
+        vector<int>curr(mid+1,false);
+
+        for(int i=0;i<n;i++)
+        {
+            curr[0]=true;
+        }
+        
+        for(int col=n-1;col>=0;col--)
+        {
+        for(int row=mid;row>=0;row--)
+            {
+            bool incl=false;
+            if(nums[col]<=row)
+            {
+            incl=curr[row-nums[col]];
+            }
+
+            bool excl=curr[row];
+            curr[row]= incl||excl;
+            }
+
+        }
+        return curr[mid];
+
+    }
+    bool canPartition(vector<int>& nums) {
+        int sum=accumulate(nums.begin(),nums.end(),0);
+
+        if(sum&1)
+        return false;
+
+        int mid=sum/2;
+        int i=0;
+       
+        // bool ans=solveUsingRecursion(nums,mid,i);
+        // return ans;
+        // int n=nums.size();
+        // vector<vector<int>>dp(mid+1,vector<int>(n+1,-1));
+        // bool ans=solveUsingMem(nums,mid,i,dp);
+        bool ans=solveUsingTabSO2(nums,mid);
+        return ans;
+
+    }
+};
