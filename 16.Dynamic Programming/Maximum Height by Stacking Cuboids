@@ -1,0 +1,131 @@
+class Solution {
+public:
+
+    bool isSafe(vector<int>&c1,vector<int>&c2)
+    {
+        if(c1[0]<=c2[0] && c1[1]<=c2[1] && c1[2]<=c2[2])
+        {
+            return true;
+        }
+        return false;
+    }
+    int solveUsingRec(vector<vector<int>>& cuboids,int curr,int prev)
+    {
+        if(cuboids.size()<=curr)
+        return 0;
+
+        int incl=0;
+        if(prev==-1 || isSafe(cuboids[prev],cuboids[curr]))
+        {
+            incl=cuboids[curr][2]+solveUsingRec(cuboids,curr+1,curr);
+        }
+        int excl=0+solveUsingRec(cuboids,curr+1,prev);
+        int ans=max(incl,excl);
+
+        return ans;
+    }
+
+    int solveUsingMem(vector<vector<int>>& cuboids,int curr,int prev,vector<vector<int>>&dp)
+    {
+        if(cuboids.size()<=curr)
+        return 0;
+
+        if(dp[curr][prev+1]!=-1)
+        {
+            return dp[curr][prev+1];
+        }
+        int incl=0;
+        if(prev==-1 || isSafe(cuboids[prev],cuboids[curr]))
+        {
+            incl=cuboids[curr][2]+solveUsingMem(cuboids,curr+1,curr,dp);
+        }
+        int excl=0+solveUsingMem(cuboids,curr+1,prev,dp);
+        int ans=max(incl,excl);
+        dp[curr][prev+1]=ans;
+        return dp[curr][prev+1];
+    }
+
+    int solveUsingTab(vector<vector<int>>& cuboids)
+    {
+        vector<vector<int>>dp(cuboids.size()+1,vector<int>(cuboids.size()+1,0));
+
+        for(int curr=cuboids.size()-1;curr>=0;curr--)
+        {
+            for(int prev=curr-1;prev>=-1;prev--)
+            {
+                int incl=0;
+                if(prev==-1 || isSafe(cuboids[prev],cuboids[curr]))
+                {
+                    incl=cuboids[curr][2]+dp[curr+1][curr+1];
+                }
+                int excl=0+dp[curr+1][prev+1];
+                int ans=max(incl,excl);
+                dp[curr][prev+1]=ans;
+            }
+        }
+        return dp[0][0];
+    }
+
+    int solveUsingTabSO(vector<vector<int>>& cuboids)
+    {
+        //vector<vector<int>>dp(cuboids.size()+1,vector<int>(cuboids.size()+1,0));
+
+        vector<int>currRow(cuboids.size()+1,0);
+        vector<int>prevRow(cuboids.size()+1,0);
+        for(int curr=cuboids.size()-1;curr>=0;curr--)
+        {
+            for(int prev=curr-1;prev>=-1;prev--)
+            {
+                int incl=0;
+                if(prev==-1 || isSafe(cuboids[prev],cuboids[curr]))
+                {
+                    incl=cuboids[curr][2]+prevRow[curr+1];
+                }
+                int excl=0+prevRow[prev+1];
+                int ans=max(incl,excl);
+                currRow[prev+1]=ans;
+            }
+            prevRow=currRow;
+        }
+        return prevRow[0];
+    }
+
+    int solveUsingTabSO2(vector<vector<int>>& cuboids)
+    {
+        //vector<vector<int>>dp(cuboids.size()+1,vector<int>(cuboids.size()+1,0));
+
+        vector<int>currRow(cuboids.size()+1,0);
+        //vector<int>prevRow(cuboids.size()+1,0);
+        for(int curr=cuboids.size()-1;curr>=0;curr--)
+        {
+            for(int prev=-1;prev<=curr-1;prev++)
+            {
+                int incl=0;
+                if(prev==-1 || isSafe(cuboids[prev],cuboids[curr]))
+                {
+                    incl=cuboids[curr][2]+currRow[curr+1];
+                }
+                int excl=0+currRow[prev+1];
+                int ans=max(incl,excl);
+                currRow[prev+1]=ans;
+            }
+    
+        }
+        return currRow[0];
+    }
+    int maxHeight(vector<vector<int>>& cuboids) {
+
+        for(auto &cuboid:cuboids)
+        {
+            sort(cuboid.begin(),cuboid.end());
+        }
+
+        sort(cuboids.begin(),cuboids.end());
+        int prev=-1;
+        int curr=0;
+
+        vector<vector<int>>dp(cuboids.size()+1,vector<int>(cuboids.size(),-1));
+        int ans=solveUsingTabSO2(cuboids);
+        return ans;
+    }
+};
