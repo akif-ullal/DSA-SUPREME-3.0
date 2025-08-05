@@ -1,0 +1,135 @@
+class Solution {
+public:
+
+    bool solveRec(string &s,string &p,int i,int j)
+    {
+        if(i==s.size() && j==p.size())
+        return true;
+
+        if(j>=p.size())
+        return false;
+
+        
+        bool currMatch = (i<s.size()) && (s[i]==p[j] || p[j]=='.');
+        bool ans;
+        if(j+1<p.size() && p[j+1]=='*')
+        {
+            ans=solveRec(s,p,i,j+2) || (currMatch && solveRec(s,p,i+1,j));
+        }
+        else if((i<s.size()) && (s[i]==p[j] || p[j]=='.'))
+        {
+            ans=solveRec(s,p,i+1,j+1);
+        }
+        else
+        {
+            ans=false;
+        }
+        return ans;
+
+    }
+    bool solveMem(string &s,string &p,int i,int j,vector<vector<int>>&dp)
+    {
+        if(i==s.size() && j==p.size())
+        return true;
+
+        if(j>=p.size())
+        return false;
+
+        if(dp[i][j]!=-1)
+        return dp[i][j];
+
+        bool currMatch = (i<s.size()) && (s[i]==p[j] || p[j]=='.');
+        bool ans;
+        if(j+1<p.size() && p[j+1]=='*')
+        {
+            ans=solveMem(s,p,i,j+2,dp) || (currMatch && solveMem(s,p,i+1,j,dp));
+        }
+        else if((i<s.size()) && (s[i]==p[j] || p[j]=='.'))
+        {
+            ans=solveMem(s,p,i+1,j+1,dp);
+        }
+        else
+        {
+            ans=false;
+        }
+        dp[i][j]=ans;
+        return dp[i][j];
+
+    }
+
+    bool solveTab(string &s,string &p)
+    {
+        int m=s.size();
+        int n=p.size();
+        vector<vector<int>>dp(m+1,vector<int>(n+1,0));
+        dp[m][n]=1;
+
+        for(int i=m;i>=0;i--)
+        {
+            for(int j=n-1;j>=0;j--)
+            {
+                bool currMatch = (i<s.size()) && (s[i]==p[j] || p[j]=='.');
+                bool ans;
+                if(j+1<p.size() && p[j+1]=='*')
+                {
+                    ans=dp[i][j+2] || (currMatch && dp[i+1][j]);
+                }
+                else if(currMatch)
+                {
+                    ans=dp[i+1][j+1];
+                }
+                else
+                {
+                    ans=false;
+                }
+                dp[i][j]=ans;
+            }
+        }
+        return dp[0][0];
+
+    }
+
+    bool solveTabSO(string &s,string &p)
+    {
+        int m=s.size();
+        int n=p.size();
+        //vector<vector<int>>dp(m+1,vector<int>(n+1,0));
+        vector<int>curr(n+1,0);
+        vector<int>next(n+1,0);
+        next[n]=1;
+
+        for(int i=m;i>=0;i--)
+        {
+            curr[n]=(i==m);
+            for(int j=n-1;j>=0;j--)
+            {
+                bool currMatch = (i<s.size()) && (s[i]==p[j] || p[j]=='.');
+                bool ans;
+                if(j+1<p.size() && p[j+1]=='*')
+                {
+                    ans=curr[j+2] || (currMatch && next[j]);
+                }
+                else if(currMatch)
+                {
+                    ans=next[j+1];
+                }
+                else
+                {
+                    ans=false;
+                }
+                curr[j]=ans;
+            }
+            next=curr;
+        }
+        return next[0];
+
+    }
+    bool isMatch(string s, string p) {
+        int m=s.size();
+        int n=p.size();
+        //vector<vector<int>>dp(m+1,vector<int>(n+1,-1));
+        bool ans=solveTabSO(s,p);
+        return ans;
+        
+    }
+};
