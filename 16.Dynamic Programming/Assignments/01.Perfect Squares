@@ -1,0 +1,73 @@
+class Solution {
+public:
+
+    int solveRec(int n)
+    {
+        if(n==0)
+        return 1;
+
+        if(n < 0)
+        {
+            return 0;
+        }
+
+        int finalAns=INT_MAX;
+        for(int i=1;i<=sqrt(n);i++)
+        {
+            int perfectSqu=i*i;
+            int ans=1+solveRec(n-perfectSqu);
+            finalAns=min(finalAns,ans);
+        }
+        return finalAns;
+    }
+
+    int solveMem(int n,vector<int>&dp)
+    {
+        if(n==0)
+        return 1;
+
+        if(n < 0)
+        {
+            return 0;
+        }
+
+        if(dp[n]!=-1)
+        {
+            return dp[n];
+        }
+
+        int finalAns=INT_MAX;
+        for(int i=1;i<=sqrt(n);i++)
+        {
+            int perfectSqu=i*i;
+            int ans=1+solveMem(n-perfectSqu,dp);
+            finalAns=min(finalAns,ans);
+        }
+        dp[n] = finalAns;
+        return dp[n];
+    }
+
+    int solveTab(int n)
+    {
+        vector<int>dp(n+1,0);
+        dp[0]=1;
+
+        for(int j=1;j<=n;j++)
+        {
+            int finalAns=INT_MAX;
+            for(int i=1;i<=sqrt(j);i++)
+            {
+                int perfectSqu=i*i;
+                int ans=1+dp[j-perfectSqu];
+                finalAns=min(finalAns,ans);
+            }
+            dp[j] = finalAns;
+        }
+        return dp[n];
+    }
+    int numSquares(int n) {
+        vector<int>dp(n+1,-1);
+        int ans=solveTab(n);
+        return ans-1;
+    }
+};
