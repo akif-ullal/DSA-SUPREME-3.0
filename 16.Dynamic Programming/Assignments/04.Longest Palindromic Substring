@@ -1,0 +1,74 @@
+class Solution {
+public:
+
+    bool solveRec(string&str,int i,int j)
+    {
+        if(i>j)
+        {
+            return 1;
+        }
+        bool ans;
+        if(str[i]==str[j])
+        {
+           ans=solveRec(str,i+1,j-1); 
+        }
+        else
+        {
+            ans = 0;
+        }
+        return ans;
+    }
+
+    bool solveMem(string&str,int i,int j,vector<vector<int>>&dp)
+    {
+        if(i>j)
+        {
+            return 1;
+        }
+
+        if(dp[i][j]!=-1)
+        {
+            return dp[i][j];
+        }
+
+        bool ans;
+        if(str[i]==str[j])
+        {
+           ans=solveMem(str,i+1,j-1,dp); 
+        }
+        else
+        {
+            ans = 0;
+        }
+        dp[i][j]=ans;
+        return dp[i][j];
+    }
+    string longestPalindrome(string s) {
+        int n=s.size();
+        int start=0;
+        int end=0;
+        int finalAns=INT_MIN;
+        vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
+        for(int i=0;i<n;i++)
+        {
+            for(int j=i;j<n;j++)
+            {
+                bool ans=solveMem(s,i,j,dp);
+
+                if(ans)
+                {
+                    int len=j-i+1;
+
+                    if(len > finalAns)
+                    {
+                        start=i;
+                        end=j;
+                        finalAns=len;
+                    }
+                }
+                
+            }
+        }
+        return s.substr(start,end-start+1);
+    }
+};
