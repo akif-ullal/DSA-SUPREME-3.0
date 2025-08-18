@@ -1,0 +1,82 @@
+class Solution {
+public:
+
+    bool solveRec(string&s,unordered_map<string,bool>&mapp,int start)
+    {
+        if(start==s.size())
+        return true;
+
+        string word="";
+        bool flag=false;
+        for(int i=start;i<s.size();i++)
+        {
+            word+=s[i];
+
+            if(mapp.find(word)!=mapp.end())
+            {
+                flag=flag||solveRec(s,mapp,i+1);
+            }
+        }
+        return flag;
+    }
+
+    bool solveMem(string&s,unordered_map<string,bool>&mapp,int start,vector<int>&dp)
+    {
+        if(start==s.size())
+        return true;
+
+        if(dp[start]!=-1)
+        return dp[start];
+
+        string word="";
+        bool flag=false;
+        for(int i=start;i<s.size();i++)
+        {
+            word+=s[i];
+
+            if(mapp.find(word)!=mapp.end())
+            {
+                flag=flag||solveMem(s,mapp,i+1,dp);
+            }
+        }
+        dp[start]=flag;
+        return dp[start];
+    }
+
+    bool solveTab(string&s,unordered_map<string,bool>&mapp)
+    {
+        int n=s.size();
+        vector<int>dp(n+1,0);
+        dp[n]=1;
+
+        for(int start=n-1;start>=0;start--)
+        {
+            string word="";
+            bool flag=false;
+            for(int i=start;i<s.size();i++)
+            {
+                word+=s[i];
+
+                if(mapp.find(word)!=mapp.end())
+                {
+                    flag=flag||dp[i+1];
+                }
+            }
+            dp[start]=flag;
+        }
+        return dp[0];
+    }
+    bool wordBreak(string s, vector<string>& wordDict) {
+        unordered_map<string,bool>mapp;
+
+        for(int i=0;i<wordDict.size();i++)
+        {
+            string &str=wordDict[i];
+            mapp[str]=true;
+        }
+        int n=s.size();
+        vector<int>dp(n+1,-1);
+        bool ans=solveTab(s,mapp);
+        return ans;
+    }
+};
