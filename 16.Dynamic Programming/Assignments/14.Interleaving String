@@ -1,6 +1,6 @@
 class Solution {
 public:
-
+//space complexity is o(n1*n2*n3)
     bool solveRec(string &s1, string &s2, string &s3,int i,int j,int k)
     {
         if(i==s1.size() && j==s2.size() && k==s3.size())
@@ -96,3 +96,63 @@ public:
         return ans;
     }
 };
+
+//space can further optimiezed into o(n1*n2)
+bool solveRec(int i, int j, string &s1, string &s2, string &s3, vector<vector<int>> &dp) {
+    int k = i + j; // index in s3
+
+    // base case: if we've used up all of s3
+    if (k == s3.size()) {
+        return (i == s1.size() && j == s2.size());
+    }
+
+    if (dp[i][j] != -1) return dp[i][j]; // already solved
+
+    bool ans = false;
+
+    // Option 1: take from s1 if it matches s3
+    if (i < s1.size() && s1[i] == s3[k]) {
+        ans = ans || solveRec(i + 1, j, s1, s2, s3, dp);
+    }
+
+    // Option 2: take from s2 if it matches s3
+    if (j < s2.size() && s2[j] == s3[k]) {
+        ans = ans || solveRec(i, j + 1, s1, s2, s3, dp);
+    }
+
+    return dp[i][j] = ans;
+}
+
+bool isInterleave(string s1, string s2, string s3) {
+    if (s1.size() + s2.size() != s3.size()) return false;
+    vector<vector<int>> dp(s1.size() + 1, vector<int>(s2.size() + 1, -1));
+    return solveRec(0, 0, s1, s2, s3, dp);
+}
+
+space optimized into o(n2)
+bool isInterleaveSO(string s1, string s2, string s3) {
+    int n1 = s1.size(), n2 = s2.size(), n3 = s3.size();
+    if (n1 + n2 != n3) return false;
+
+    vector<bool> dp(n2 + 1, false);
+    dp[n2] = true; // base case
+
+    for (int i = n1; i >= 0; i--) {
+        for (int j = n2; j >= 0; j--) {
+            if (i == n1 && j == n2) continue;
+            int k = i + j;
+            bool flag = false;
+
+            if (i < n1 && s1[i] == s3[k]) {
+                flag = flag || dp[j];      // dp[j] is "next row, same col"
+            }
+            if (j < n2 && s2[j] == s3[k]) {
+                flag = flag || dp[j + 1];  // dp[j+1] is "same row, next col"
+            }
+            dp[j] = flag;
+        }
+    }
+    return dp[0];
+}
+
+
