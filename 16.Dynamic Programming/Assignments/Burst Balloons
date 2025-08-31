@@ -1,0 +1,72 @@
+class Solution {
+public:
+
+    int solveRec(vector<int>& nums,int s,int e)
+    {
+        if(s>e)
+        return 0;
+
+        int coins=INT_MIN;
+
+        for(int i=s;i<=e;i++)
+        {
+            coins=max(coins,nums[s-1]*nums[i]*nums[e+1]
+            + solveRec(nums,s,i-1)
+            + solveRec(nums,i+1,e));
+        }
+        return coins;
+    }
+
+    int solveMem(vector<int>& nums,int s,int e,vector<vector<int>>&dp)
+    {
+        if(s>e)
+        return 0;
+
+        if(dp[s][e]!=-1)
+        return dp[s][e];
+
+        int coins=INT_MIN;
+
+        for(int i=s;i<=e;i++)
+        {
+            coins=max(coins,nums[s-1]*nums[i]*nums[e+1]
+            + solveMem(nums,s,i-1,dp)
+            + solveMem(nums,i+1,e,dp));
+        }
+        return dp[s][e] = coins;
+    }
+
+    int solveTab(vector<int>& nums)
+    {
+        int n=nums.size();
+        vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+        
+        for(int s=n-2;s>=1;s--)
+        {
+            for(int e=s;e<=n-2;e++)
+            {
+                int coins=INT_MIN;
+
+                for(int i=s;i<=e;i++)
+                {
+                    coins=max(coins,nums[s-1]*nums[i]*nums[e+1]
+                    + dp[s][i-1]
+                    + dp[i+1][e]);
+                }
+                dp[s][e] = coins;
+            }
+        }
+        return dp[1][n-2];
+        
+    }
+
+    int maxCoins(vector<int>& nums) {
+        nums.insert(nums.begin(),1);
+        nums.insert(nums.end(),1);
+        int n=nums.size();
+        vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
+        //int ans = solveTab(nums,1,nums.size()-2,dp);
+        int ans=solveTab(nums);
+        return ans;
+    }
+};
