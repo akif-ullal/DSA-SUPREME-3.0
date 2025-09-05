@@ -1,0 +1,110 @@
+class Solution {
+public:
+
+    int solveRec(vector<vector<int>>&env,int prev,int curr)
+    {
+        if(curr == env.size())
+        {
+            return 0;
+        }
+
+        int incl=0;
+        
+        if(prev==-1 || env[prev][0] < env[curr][0] && env[prev][1] < env[curr][1])
+        {
+            incl=1+solveRec(env,curr,curr+1);
+        }
+
+        int excl=solveRec(env,prev,curr+1);
+        int ans=max(incl,excl);
+        return ans;
+
+    }
+
+    int solveMem(vector<vector<int>>&env,int prev,int curr,vector<vector<int>>&dp)
+    {
+        if(curr == env.size())
+        {
+            return 0;
+        }
+
+        if(dp[prev+1][curr]!=-1)
+        {
+            return dp[prev+1][curr];
+        }
+
+        int incl=0;
+        
+        if(prev==-1 || env[prev][0] < env[curr][0] && env[prev][1] < env[curr][1])
+        {
+            incl=1+solveMem(env,curr,curr+1,dp);
+        }
+
+        int excl=solveMem(env,prev,curr+1,dp);
+        int ans=max(incl,excl);
+        return dp[prev+1][curr]=ans;
+
+    }
+
+    int solveTab(vector<vector<int>>&env)
+    {
+        int n=env.size();
+        vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+
+        for(int curr=n-1;curr>=0;curr--)
+        {
+            for(int prev=curr-1;prev>=-1;prev--)
+            {
+                int incl=0;
+                if(prev==-1 || env[prev][0] < env[curr][0] && env[prev][1] < env[curr][1])
+                {
+                    incl=1+dp[curr+1][curr+1];
+                }
+
+                int excl=dp[prev+1][curr+1];
+                int ans=max(incl,excl);
+                dp[prev+1][curr]=ans;
+            }
+        }
+        return dp[0][0];
+    }
+
+    static bool cmp(vector<int>&a,vector<int>&b)
+    {
+        if(a[0]==b[0])
+        return a[1]>b[1];
+
+        return a[0]<b[0];
+    }
+
+    int LISOptimal(vector<vector<int>>& nums) {
+
+    sort(nums.begin(),nums.end(),cmp);
+    vector<int>ans;
+
+    ans.push_back(nums[0][1]);
+
+    for(int i=1;i<nums.size();i++)
+    {
+        if(nums[i][1]>ans.back())
+        {
+            ans.push_back(nums[i][1]);
+        }
+        else
+        {
+            auto it=lower_bound(ans.begin(),ans.end(),nums[i][1]);
+            int index=it-ans.begin();
+            ans[index]=nums[i][1];
+        }
+    }
+    return ans.size();
+}
+
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        // sort(envelopes.begin(),envelopes.end());
+        // int n=envelopes.size();
+        // vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
+        int ans = LISOptimal(envelopes);
+        return ans;
+    }
+};
