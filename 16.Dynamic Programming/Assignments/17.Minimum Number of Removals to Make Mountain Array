@@ -1,0 +1,45 @@
+class Solution {
+public:
+
+        vector<int> lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        vector<int>ans;
+        vector<int>storeCurrLIS;
+        ans.push_back(nums[0]);
+        storeCurrLIS.push_back(ans.size());
+
+        for(int i=1;i<nums.size();i++)
+        {
+            if(nums[i]>ans.back())
+            {
+                ans.push_back(nums[i]);
+                storeCurrLIS.push_back(ans.size());
+            }
+            else
+            {
+                auto it=lower_bound(ans.begin(),ans.end(),nums[i]);
+                int index=it-ans.begin();
+                ans[index]=nums[i];
+                storeCurrLIS.push_back(index+1);
+            }
+        }
+        return storeCurrLIS;
+    }
+    int minimumMountainRemovals(vector<int>& nums) {
+        vector<int>LToRLIS=lengthOfLIS(nums);
+        reverse(nums.begin(),nums.end());
+        vector<int>RToLIS=lengthOfLIS(nums);
+        int ans=INT_MIN;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(LToRLIS[i]==1 || RToLIS[nums.size()-i-1]==1)
+            continue;
+
+            ans=max(ans,LToRLIS[i]+RToLIS[nums.size()-i-1]-1);
+        }
+        int finalAns=nums.size()-ans;
+
+        return finalAns;
+        
+    }
+};
