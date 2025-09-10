@@ -1,0 +1,116 @@
+class Solution {
+public:
+
+    int solveRec(vector<int>& prices,int i,int buy)
+    {
+        if(i>=prices.size())
+        return 0;
+
+        int profit=0;
+        if(buy)
+        {
+            int profitBuyingTime = -prices[i]+solveRec(prices,i+1,0);
+            int BuyingSkippd = solveRec(prices,i+1,1);
+            profit=max(profitBuyingTime,BuyingSkippd);
+        }
+        else
+        {
+            int profitSellingTime = prices[i]+solveRec(prices,i+2,1);
+            int SellingSkipped = solveRec(prices,i+1,0);
+            profit=max(profitSellingTime,SellingSkipped);
+        }
+        return profit;
+    }
+
+    int solveMem(vector<int>& prices,int i,int buy,vector<vector<int>>&dp)
+    {
+        if(i>=prices.size())
+        return 0;
+
+        if(dp[i][buy]!=-1)
+        return dp[i][buy];
+
+        int profit=0;
+        if(buy)
+        {
+            int profitBuyingTime = -prices[i]+solveMem(prices,i+1,0,dp);
+            int BuyingSkippd = solveMem(prices,i+1,1,dp);
+            profit=max(profitBuyingTime,BuyingSkippd);
+        }
+        else
+        {
+            int profitSellingTime = prices[i]+solveMem(prices,i+2,1,dp);
+            int SellingSkipped = solveMem(prices,i+1,0,dp);
+            profit=max(profitSellingTime,SellingSkipped);
+        }
+        return dp[i][buy]=profit;
+    }
+
+    int solveTab(vector<int>& prices)
+    {
+        int n=prices.size();
+        vector<vector<int>>dp(prices.size()+2,vector<int>(2,0));
+
+        for(int i=n-1;i>=0;i--)
+        {
+            int profit=0;
+            for(int buy=0;buy<2;buy++)
+            {
+                if(buy)
+                {
+                    int profitBuyingTime = -prices[i]+dp[i+1][0];
+                    int BuyingSkippd = dp[i+1][1];
+                    profit=max(profitBuyingTime,BuyingSkippd);
+                }
+                else
+                {
+                    int profitSellingTime = prices[i]+dp[i+2][1];
+                    int SellingSkipped = dp[i+1][0];
+                    profit=max(profitSellingTime,SellingSkipped);
+                }
+                 dp[i][buy]=profit;
+            }
+        }
+        return dp[0][1];
+    }
+
+    int solveTabSO(vector<int>& prices)
+    {
+        int n=prices.size();
+        //vector<vector<int>>dp(prices.size()+2,vector<int>(2,0));
+        vector<int>curr(2,0);
+        vector<int>next1(2,0);
+        vector<int>next2(2,0);
+
+        for(int i=n-1;i>=0;i--)
+        {
+            int profit=0;
+            for(int buy=0;buy<2;buy++)
+            {
+                if(buy)
+                {
+                    int profitBuyingTime = -prices[i]+next1[0];
+                    int BuyingSkippd = next1[1];
+                    profit=max(profitBuyingTime,BuyingSkippd);
+                }
+                else
+                {
+                    int profitSellingTime = prices[i]+next2[1];
+                    int SellingSkipped = next1[0];
+                    profit=max(profitSellingTime,SellingSkipped);
+                }
+                 curr[buy]=profit;
+            }
+            next2=next1;
+            next1=curr;
+        }
+        return next1[1];
+    }
+    
+    int maxProfit(vector<int>& prices) {
+        vector<vector<int>>dp(prices.size()+1,vector<int>(2,-1));
+        //int ans=solveMem(prices,0,true,dp);
+        int ans=solveTabSO(prices);
+        return ans;
+    }
+};
