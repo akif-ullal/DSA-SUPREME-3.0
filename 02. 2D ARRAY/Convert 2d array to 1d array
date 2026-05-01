@@ -1,0 +1,29 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<vector<int>> matrix = {
+        {1, 2, 3},
+        {4, 5, 6}
+    };
+
+    int rows = matrix.size();
+    int c = matrix[0].size();
+
+    vector<int> arr(rows * c);
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < c; j++) {
+            int k = c * i + j;  // formula
+            arr[k] = matrix[i][j];
+        }
+    }
+
+    // print 1D array
+    for (int x : arr) {
+        cout << x << " ";
+    }
+
+    return 0;
+}
