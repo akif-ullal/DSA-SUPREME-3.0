@@ -1,0 +1,29 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<int> arr = {1, 2, 3, 4, 5, 6};
+    int c = 3; // number of columns
+    int n = arr.size();
+
+    int rows = n / c;
+
+    vector<vector<int>> matrix(rows, vector<int>(c));
+
+    for (int k = 0; k < n; k++) {
+        int i = k / c;  // row
+        int j = k % c;  // column
+        matrix[i][j] = arr[k];
+    }
+
+    // print matrix
+    for (auto row : matrix) {
+        for (int val : row) {
+            cout << val << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
