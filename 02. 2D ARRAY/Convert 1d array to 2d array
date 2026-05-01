@@ -27,3 +27,33 @@ int main() {
 
     return 0;
 }
+
+//if odd array case
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<int> arr = {1, 2, 3, 4, 5};
+    int c = 3;
+    int n = arr.size();
+
+    int rows = (n + c - 1) / c;
+
+    vector<vector<int>> matrix(rows, vector<int>(c, -1)); // fill with -1
+
+    for (int k = 0; k < n; k++) {
+        int i = k / c;
+        int j = k % c;
+        matrix[i][j] = arr[k];
+    }
+
+    for (auto row : matrix) {
+        for (int val : row) {
+            cout << val << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
