@@ -1,0 +1,120 @@
+#include <iostream>
+#include <unordered_map>
+#include<vector>
+#include<queue>
+using namespace std;
+
+class Graph{
+  public: 
+    unordered_map<int,vector<int>>adjList;
+
+    void buildAdjList(int u,int v,bool direction)
+    {
+      if(direction==0)
+      {
+        adjList[u].push_back(v);
+        adjList[v].push_back(u);
+      }
+      else
+      {
+        adjList[u].push_back(v);
+      }
+    }
+
+    void bfsTraversal(int src)
+    {
+        unordered_map<int,bool>visted;
+        queue<int>q;
+        q.push(src);
+        visted[src]=true;
+
+        while(!q.empty())
+        {
+            int front = q.front();
+            cout<<front<<",";
+            q.pop();
+            vector<int>temp = adjList[front];
+
+            for(auto j:temp)
+            {
+                if(!visted[j])
+                {
+                    q.push(j);
+                    visted[j]=true;
+                }
+            }
+            
+        }
+    }
+
+    void dfsTraversal(int src,unordered_map<int,bool>&visted)
+    {
+        cout<<src<<",";
+
+        visted[src]=true;
+
+        for(auto j:adjList[src])
+        {
+            if(!visted[j])
+            {
+               dfsTraversal(j,visted); 
+            }
+        }
+
+    }
+
+    void printAdjList(int n)
+    {
+      for(int i=0;i<n;i++)
+      {
+        cout<< i <<":"<<" "<<"{";
+        vector<int>temp=adjList[i];
+        for(auto j:temp)
+        {
+          cout<<j<<",";
+
+        }
+        cout<<"}"<<endl;
+
+      }
+    }
+};
+
+int main() {
+
+  Graph g;
+//   g.buildAdjList(0,3,1);
+//   g.buildAdjList(0,5,1);
+//   g.buildAdjList(0,2,1);
+//   g.buildAdjList(2,5,1);
+//   g.buildAdjList(3,5,1);
+//   g.buildAdjList(4,1,1);
+//   g.buildAdjList(5,4,1);
+//   g.buildAdjList(5,6,1);
+//   g.buildAdjList(6,1,1);
+
+  g.buildAdjList(0,1,1);
+  g.buildAdjList(0,2,1);
+  g.buildAdjList(1,5,1);
+  g.buildAdjList(2,3,1);
+  g.buildAdjList(3,4,1);
+  g.buildAdjList(4,6,1);
+  g.buildAdjList(4,8,1);
+  g.buildAdjList(5,4,1);
+  g.buildAdjList(8,7,1);
+
+  int n=9;
+  g.printAdjList(n);
+
+  int src=0;
+//   g.bfsTraversal(src);
+
+
+
+  unordered_map<int,bool>visted;
+  g.dfsTraversal(src,visted);
+
+
+  
+  return 0;
+}
