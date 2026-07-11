@@ -1,0 +1,82 @@
+class Solution {
+  public:
+  
+  void buildAdjListHelper(unordered_map<int,vector<int>>&adjList,vector<vector<int>>& edges)
+    {
+        for (int i = 0; i < edges.size(); i++)
+        {
+            int u = edges[i][0];
+            int v = edges[i][1];
+        
+            adjList[u].push_back(v);
+            adjList[v].push_back(u);
+        }
+    }
+    
+    bool checkCyclePresent(int src,unordered_map<int,bool>&visted
+    ,unordered_map<int,int>&parent,unordered_map<int,vector<int>>&adjList)
+    {
+        visted[src]=true;
+        parent[src]=-1;
+        queue<int>q;
+        
+        q.push(src);
+        
+        while(!q.empty())
+        {
+            int front = q.front();
+            q.pop();
+            
+            for(auto j : adjList[front])
+            {
+                if(!visted[j])
+                {
+                    visted[j]=true;
+                    parent[j]=front;
+                    q.push(j);
+                }else if(visted[j]==true && parent[front]!=j)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+  
+    bool isCycle(int V, vector<vector<int>>& edges) {
+        // Code here
+        unordered_map<int,vector<int>>adjList;
+        int n=V;
+        
+        buildAdjListHelper(adjList,edges);
+        
+        // for(int i=0;i<n;i++)
+        // {
+        //     cout<<i<<":"<<" "<<"{";
+        //     for(auto j:adjList[i])
+        //     {
+                
+        //         cout<<j<<",";
+                
+        //     }
+        //     cout<<"}"<<endl;
+        // }
+        
+        bool ans=false;
+        
+        unordered_map<int,bool>visted;
+        unordered_map<int,int>parent;
+        for(int src=0;src<n;src++)
+        {
+            if(!visted[src])
+            {
+                if(checkCyclePresent(src,visted,parent,adjList))
+                {
+                    ans=true;
+                    break;
+                }
+            }
+        }
+        return ans;
+    }
+};
