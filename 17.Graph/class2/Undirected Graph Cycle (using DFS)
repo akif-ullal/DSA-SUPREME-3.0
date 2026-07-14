@@ -1,0 +1,65 @@
+class Solution {
+  public:
+  
+    void buildAdjListHelper(unordered_map<int,vector<int>>&adjList,vector<vector<int>>& edges)
+    {
+        for (int i = 0; i < edges.size(); i++)
+        {
+            int u = edges[i][0];
+            int v = edges[i][1];
+        
+            adjList[u].push_back(v);
+            adjList[v].push_back(u);
+        }
+    }
+    
+    bool checkCyclePresentUsingDFS(int src,unordered_map<int,bool>&visted,
+    unordered_map<int,vector<int>>&adjList,int parent)
+    {
+        visted[src]=true;
+        
+        for(auto nbr : adjList[src])
+        {
+            if(!visted[nbr])
+            {
+                visted[nbr]=true;
+                bool ans = checkCyclePresentUsingDFS(nbr,visted,adjList,src);
+                if(ans)
+                {
+                    return true;
+                }
+            }
+            else if(visted[nbr]==true && parent!=nbr)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    bool isCycle(int V, vector<vector<int>>& edges) {
+        // Code here
+        unordered_map<int,vector<int>>adjList;
+        buildAdjListHelper(adjList,edges);
+        int parent=-1;
+        unordered_map<int,bool>visted;
+        
+        int n=V;
+        
+        bool ans = false;
+        
+        for(int src=0;src < n;src++)
+        {
+            if(!visted[src])
+            {
+                ans = checkCyclePresentUsingDFS(src,visted,adjList,parent);
+                if(ans==true)
+                {
+                    break;
+                }
+            }
+        }
+        
+        return ans;
+    }
+};
