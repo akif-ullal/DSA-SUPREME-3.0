@@ -1,0 +1,96 @@
+class Solution {
+public:
+
+    void checkIsland(vector<vector<bool>> &visited,vector<vector<char>>& grid,int i,int j,int m,int n)
+    {
+        visited[i][j]=true;
+        queue<pair<int,int>>q;
+
+        q.push({i,j});
+
+        while(!q.empty())
+        {
+            auto front = q.front();
+            q.pop();
+
+            int row = front.first;
+            int col = front.second;
+
+            pair<int,int> leftCheck = {row,col-1};
+            pair<int,int> rightCheck = {row,col+1};
+            pair<int,int> upCheck = {row-1,col};
+            pair<int,int> downCheck = {row+1,col};
+
+            if(leftCheck.second >= 0)
+            {
+                int LR = leftCheck.first;
+                int LC = leftCheck.second;
+                if(!visited[LR][LC] && grid[LR][LC]=='1')
+                {
+                    q.push({LR,LC});
+                    visited[LR][LC]=true;
+                }
+
+            }
+
+
+            if(rightCheck.second < n)
+            {
+                int RR = rightCheck.first;
+                int RC = rightCheck.second;
+                if(!visited[RR][RC] && grid[RR][RC]=='1')
+                {
+                    q.push({RR,RC});
+                    visited[RR][RC]=true;
+                }
+            }
+
+            if(upCheck.first >= 0)
+            {
+                int UR = upCheck.first;
+                int UC = upCheck.second;
+                if(!visited[UR][UC] && grid[UR][UC]=='1')
+                {
+                    q.push({UR,UC});
+                    visited[UR][UC]=true;
+                }
+
+            }
+
+                
+            if(downCheck.first < m)
+            {
+                int DR = downCheck.first;
+                int DC = downCheck.second;
+                if(!visited[DR][DC] && grid[DR][DC]=='1')
+                {
+                    q.push({DR,DC});
+                    visited[DR][DC]=true;
+                }
+            }
+                
+
+        }
+        
+    }
+    int numIslands(vector<vector<char>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        int countIslands=0;
+
+        vector<vector<bool>> visited(m, vector<bool>(n, false));
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(!visited[i][j] && grid[i][j]=='1')
+                {
+                    checkIsland(visited,grid,i,j,m,n);
+                    countIslands++;
+
+                }
+            }
+        }
+        return countIslands;
+    }
+};
