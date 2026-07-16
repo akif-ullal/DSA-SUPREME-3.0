@@ -1,0 +1,66 @@
+class Solution {
+  public:
+  
+  
+    void buildAdjListHelper(unordered_map<int,vector<int>>&adjList,vector<vector<int>>& edges)
+    {
+        for (int i = 0; i < edges.size(); i++)
+        {
+            int u = edges[i][0];
+            int v = edges[i][1];
+        
+            adjList[u].push_back(v);
+        }
+    }
+    
+    void topoSortUsingBFS(unordered_map<int,vector<int>>&adjList,vector<int>&ans,
+    int n)
+    {
+        unordered_map<int,int>indegreeList;
+        queue<int>q;
+        
+        for(int src=0;src<n;src++)
+        {
+            for(auto nbr : adjList[src])
+            {
+                indegreeList[nbr]++;
+            }
+        }
+        
+        for(int i=0;i<n;i++)
+        {
+            if(indegreeList[i]==0)
+            {
+                q.push(i);
+            }
+        }
+        
+        while(!q.empty())
+        {
+            auto front = q.front();
+            ans.push_back(front);
+            q.pop();
+            
+            for(auto nbr : adjList[front])
+            {
+                indegreeList[nbr]--;
+                if(indegreeList[nbr]==0)
+                {
+                    q.push(nbr);
+                }
+            }
+            
+        }
+    }
+    
+    vector<int> topoSort(int V, vector<vector<int>>& edges) {
+        
+        unordered_map<int,vector<int>>adjList;
+        buildAdjListHelper(adjList,edges);
+        
+        vector<int>ans;
+        int n=V;
+        topoSortUsingBFS(adjList,ans,n);
+        return ans;
+    }
+};
